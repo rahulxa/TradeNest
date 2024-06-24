@@ -4,7 +4,7 @@ function Stats() {
   return (
     <div className='container p-5'>
       <div className='row'>
-        <div className='col-6'>
+        <div className='col-6 p-5'>
           <h2>Trust with confidence</h2>
           <h5 className='mt-5'>Customer-first always</h5>
           <p className='mb-0 text-muted'>That's why 1.5+ crore customers trust Zerodha with</p>
@@ -26,8 +26,16 @@ function Stats() {
           <p className='mb-0 text-muted'>facilitate transactions, but actively help you do better </p>
           <p className='text-muted'>with your money. </p>
         </div>
-        <div className='col-6'>
-          <img src='Media/Images/ecosystem.png' style={{ width: '100%', height: 'auto' }} alt='Ecosystem'/>
+        <div className='col-6 '>
+          <img src='Media/Images/ecosystem.png' style={{ width: '100%', height: 'auto', marginTop:'40px' }} alt='Ecosystem' />
+          <div className='mt-3 offset-3'>
+            <a href='#' className='me-4' style={{ color: 'blue', textDecoration: 'none' }}>
+              Explore our products <i className="fa-solid fa-arrow-right-long"></i>
+            </a>
+            <a href='#' style={{ color: 'blue', textDecoration: 'none' }}>
+              Try Kite demo <i className="fa-solid fa-arrow-right-long"></i>
+            </a>
+          </div>
         </div>
       </div>
     </div >

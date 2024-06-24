@@ -3,7 +3,7 @@ import React from 'react'
 function Awards() {
     return (
         <div className='container p-5'>
-            <div className='row'>
+            <div className='row p-5'>
                 <div className='col-6'>
                     <img src="Media/Images/largest-broker.svg" style={{ width: '80%', height: 'auto' }} alt="Largest Broker" />
                 </div>
