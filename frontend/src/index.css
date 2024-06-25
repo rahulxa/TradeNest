@@ -15,3 +15,7 @@ code {
 body {
   font-family: 'Inter', sans-serif;
 }
+
+.nav-link{
+  margin-left: 35px;
+}
