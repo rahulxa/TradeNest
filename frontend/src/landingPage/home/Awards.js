@@ -8,7 +8,7 @@ function Awards() {
                     <img src="Media/Images/largest-broker.svg" style={{ width: '80%', height: 'auto' }} alt="Largest Broker" />
                 </div>
                 <div className='col-6 fs-6 mt-3'>
-                    <h2 className='fw-semibold '>Largest stock broker in Canada</h2>
+                    <h2 style={{ fontWeight: 500 }}>Largest stock broker in Canada</h2>
                     <p className='mt-4 text-muted'>1.5+ Crore Tradenest clients contribute to over 15% of all retail order volumes in India daily by trading and investing in: </p>
                     <div className='row mt-4 text-muted'>
                         <div className='col-6 '>

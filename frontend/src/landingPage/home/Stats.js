@@ -27,7 +27,7 @@ function Stats() {
           <p className='text-muted'>with your money. </p>
         </div>
         <div className='col-6 '>
-          <img src='Media/Images/ecosystem.png' style={{ width: '100%', height: 'auto', marginTop:'40px' }} alt='Ecosystem' />
+          <img src='Media/Images/ecosystem.png' style={{ width: '100%', height: 'auto', marginTop: '40px' }} alt='Ecosystem' />
           <div className='mt-3 offset-3'>
             <a href='#' className='me-4' style={{ color: 'blue', textDecoration: 'none' }}>
               Explore our products <i className="fa-solid fa-arrow-right-long"></i>

@@ -1,8 +1,17 @@
 import React from 'react'
+import HeroProduct from "./HeroProduct"
+import LeftSection from "./LeftSection"
+import RightSection from "./RightSection"
+import Universe from "./Universe"
 
 function ProductPage() {
   return (
-    <div>ProductPage</div>
+    <>
+      <HeroProduct />
+      <LeftSection />
+      <RightSection />
+      <Universe />
+    </>
   )
 }
 
