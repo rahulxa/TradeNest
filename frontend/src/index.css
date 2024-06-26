@@ -16,6 +16,49 @@ body {
   font-family: 'Inter', sans-serif;
 }
 
-.nav-link{
+.nav-link {
   margin-left: 35px;
+}
+
+
+#supportHero {
+  background-color: rgb(56, 126, 209);
+  color: white;
+}
+
+#supportHero a {
+  color: white;
+}
+
+#supportWrapper {
+  display: flex;
+  justify-content: space-between;
+  margin: 0 150px;
+}
+
+#supportHero input {
+  padding: 20px 50px;
+  width: 100%;
+  font-size: 20px;
+  border-radius: 10px;
+  border: none;
+}
+
+.link-container {
+  display: flex;
+  /* Use flexbox to control spacing */
+}
+
+.link-container a {
+  margin-right: 15px;
+  font-size: larger;
+  text-decoration: none;
+  border-bottom: 2px solid;
+  /* Adjust as needed for horizontal spacing */
+}
+
+
+.feature-list {
+  text-decoration: none;
+  border-bottom: 2px solid;
 }
