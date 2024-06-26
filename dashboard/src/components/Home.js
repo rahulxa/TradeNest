@@ -6,7 +6,7 @@ function Home() {
     return (
         <>
             <TopBar />
-            {/* <Dashboard /> */}
+            <Dashboard />
         </>
     )
 }
