@@ -633,6 +633,8 @@ hr {
   color: rgb(146, 146, 146);
 }
 
+
+
 /* sudo selectors */
 .index:hover {
   cursor: pointer;
@@ -727,7 +729,19 @@ hr {
   height: 100%;
   align-items: center;
   justify-content: flex-end;
-  display: none;
+  display: flex;
+  /* Ensure flexbox layout */
+  gap: 10px;
+  /* Adjust the spacing between buttons */
+  padding-right: 8px;
+  /* Ensure some padding to the right */
+}
+
+.actions span {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  /* Add spacing between buttons */
 }
 
 .actions span button {
@@ -735,7 +749,6 @@ hr {
   height: 30px;
   border-radius: 4px;
   text-align: center;
-  margin-right: 8px;
   cursor: pointer;
 }
 
@@ -756,8 +769,11 @@ hr {
 }
 
 .action {
-  background-color: #fff;
+  background-color: #ffffff;
   border: 0.7px solid #9b9b9b;
+  display: flex;
+  align-items: center; /* Center the icon vertically */
+  justify-content: center; /* Center the icon horizontally */
 }
 
 .icon {
@@ -795,6 +811,22 @@ hr {
   color: rgb(223, 73, 73);
 }
 
+.item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.itemInfo {
+  display: flex;
+  align-items: center;
+}
+
+.percent {
+  margin-right: 5px;
+  /* Adjust as needed */
+}
+
 .down {
   color: rgb(223, 73, 73);
 }
@@ -802,6 +834,7 @@ hr {
 .up {
   color: rgb(103, 201, 136);
 }
+
 
 .settings {
   transform: scale(0.8);
@@ -846,4 +879,6 @@ hr {
 
 .action:hover {
   background-color: rgb(212, 212, 212);
+  /* margin-top: 5px; */
+
 }
