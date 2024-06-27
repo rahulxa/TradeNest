@@ -14,13 +14,13 @@ const PositionsSchema = new Schema({
         required: true
     },
     avg: {
-        type: Number,
+        type: Number, 
         required: true
     },
     price: {
         type: Number,
         required: true
-    },
+    }, 
     net: {
         type: String,
         required: true

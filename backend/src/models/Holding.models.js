@@ -23,8 +23,10 @@ const holdingsSchema = new Schema({
     },
     day: {
         type: String,
-        required: true
     },
+    isLoss: {
+        type: String
+    }
 }, { timestamps: true })
 
 
