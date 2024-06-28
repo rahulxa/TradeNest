@@ -768,6 +768,11 @@ hr {
   border: 0.7px solid #ff5722;
 }
 
+
+.dayClass{
+  font-size: small;
+}
+
 .action {
   background-color: #ffffff;
   border: 0.7px solid #9b9b9b;
