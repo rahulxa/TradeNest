@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import axios from "axios"
+import { VerticalChart } from './VerticalChart';
 
 function Holdings() {
 
@@ -13,6 +14,19 @@ function Holdings() {
       })
   }, []);
 
+
+  const labels = allHoldings.map((subArray) => subArray["name"])
+
+  const data = {
+    labels,
+    datasets: [
+      {
+        label: 'Stock Price',
+        data: allHoldings.map((stock) => stock.price),
+        backgroundColor: 'rgba(75, 192, 192, 0.5)',
+      }
+    ]
+  }
 
   return (
     <>
@@ -72,6 +86,7 @@ function Holdings() {
           <p>P&L</p>
         </div>
       </div>
+      <VerticalChart data={data} />
     </>
   )
 }
