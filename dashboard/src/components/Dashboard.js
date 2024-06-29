@@ -16,7 +16,7 @@ function Dashboard() {
     return (
         <div className="dashboard-container">
             {/* <GeneralContextProvider> */}
-                <WatchList />
+            <WatchList />
             {/* </GeneralContextProvider> */}
             <div className="content">
                 <Routes>
@@ -28,7 +28,7 @@ function Dashboard() {
                     <Route path="/apps" element={<Apps />} />
                 </Routes>
             </div>
-        </div> 
+        </div>
     )
 }
 

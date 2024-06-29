@@ -21,12 +21,13 @@ function Menu() {
   return (
     <div className="menu-container">
       <img src="logo.png" style={{ width: "35px" }} />
+      <p style={{marginLeft :"-550px"}}>Zerodha</p>
       <div className="menus">
         <ul>
           <li>
             <Link
               style={{ textDecoration: "none" }}
-              to="/"
+              to="/" 
               onClick={() => handleMenuClick(0)}
             >
               <p className={selectedOption === 0 ? activeMenuClass : menuClass}>
