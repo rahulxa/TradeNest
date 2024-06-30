@@ -1,9 +1,8 @@
-import { User } from "../models/user.model";
-import mongoose from "mongoose";
-import { asyncHandler } from "../utils/asyncHandler";
+import { User } from "../models/user.model.js";
+import { asyncHandler } from "../utils/asyncHandler.js";
 import Jwt from "jsonwebtoken"
-import { ApiError } from "../utils/apiError"
-import { ApiResponse } from "../utils/apiResponse"
+import { ApiError } from "../utils/apiError.js"
+import { ApiResponse } from "../utils/apiResponse.js"
 
 const generateAccessAndRefreshTokens = async (userid) => {
     try {
@@ -128,7 +127,7 @@ const getNewAccessToken = asyncHandler(async (req, res) => {
 
     try {
         //veryfing and decoding the recevied token
-        const verifyToken = jwt.verify(incomingRefreshToken, process.env.REFRESH_TOKEN_SECRET);
+        const verifyToken = Jwt.verify(incomingRefreshToken, process.env.REFRESH_TOKEN_SECRET);
 
         //finding the user with the same id
         const user = await User.findById(verifyToken?._id).select("-password");
