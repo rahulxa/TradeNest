@@ -4,10 +4,26 @@ import {
 } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import { useForm } from 'react-hook-form'
+import axios from "axios"
+
 
 function Signup() {
   const [showPassword, setShowPassword] = useState(false);
   const [signup, setSignup] = useState(false);
+  const { register, handleSubmit } = useForm();
+  const [error, setError] = useState("");
+
+  const singupUser = async (formData) => {
+    setError("")
+    try {
+      const response = await axios.post("http://localhost:3002/api/v1/users/signup", formData)
+      const accessToken = response.data.accessToken;
+      // document.cookie = 
+    } catch (error) {
+
+    }
+  }
 
   const handleClickShowPassword = () => setShowPassword(!showPassword);
 
@@ -19,9 +35,9 @@ function Signup() {
     setSignup(false);
   };
 
-  const loginUser = () => {
-    window.location.href = 'http://localhost:3001';
-  };
+  // const loginUser = () => {
+  //   window.location.href = 'http://localhost:3001';
+  // };
 
   return (
     <div className='container p-5 mb-5' style={{ marginTop: "130px" }}>

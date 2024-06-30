@@ -101,7 +101,7 @@ const loginUser = asyncHandler(async (req, res) => {
 
 
 const logoutUser = asyncHandler(async (req, res) => {
-    console.log("User logging out: ", req.user._id); // Debugging
+    // console.log("User logging out: ", req.user._id); // Debugging
     await User.findByIdAndUpdate(
         req.user._id, //find the user by this id
         { $unset: { refreshToken: 1 } }, //and remove this field

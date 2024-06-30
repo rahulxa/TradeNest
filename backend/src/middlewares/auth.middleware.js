@@ -5,19 +5,18 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 
 export const verifyJWT = asyncHandler(async (req, res, next) => {
     try {
-        console.log("cookies", req.cookies);
+        // console.log("cookies", req.cookies);
         const token = req.cookies?.accessToken || req.header("Authorization")?.replace("Bearer ", "");
-        console.log("Token retrieved: ", token); // Debugging
 
         if (!token) {
             throw new ApiError(400, "Unauthorized request");
         }
 
         const decodedToken = Jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
-        console.log("Decoded Token: ", decodedToken); // Debugging
+        // console.log("Decoded Token: ", decodedToken); // Debugging
 
         const user = await User.findById(decodedToken?._id).select("-password -refreshToken");
-        console.log("User found: ", user); // Debugging
+        // console.log("User found: ", user); // Debugging
 
         if (!user) {
             throw new ApiError(400, "Invalid access Token");
