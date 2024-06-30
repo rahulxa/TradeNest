@@ -23,10 +23,13 @@ const generateAccessAndRefreshTokens = async (userid) => {
 const signupUser = asyncHandler(async (req, res) => {
     const { username, email, password } = req.body;
 
+    console.log("username:", username, "password:", password, "email:", email)
+
     //validation for all fields
     if ([, email, password, username].some((feild) => { return feild?.trim() == "" })) {
         throw new ApiError(400, "All feilds are required")
     }
+
     //checking existing user
     const existingUser = await User.findOne({
         $or: [{ username }, { email }]
@@ -98,6 +101,7 @@ const loginUser = asyncHandler(async (req, res) => {
 
 
 const logoutUser = asyncHandler(async (req, res) => {
+    console.log("User logging out: ", req.user._id); // Debugging
     await User.findByIdAndUpdate(
         req.user._id, //find the user by this id
         { $unset: { refreshToken: 1 } }, //and remove this field
