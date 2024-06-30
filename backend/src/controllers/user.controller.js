@@ -161,11 +161,17 @@ const getNewAccessToken = asyncHandler(async (req, res) => {
     }
 });
 
-
+const getCurrentUser = asyncHandler(async (req, res) => {
+    const loggedInUser = req.user;
+    return res
+        .status(200)
+        .json(new ApiResponse(200, { loggedInUser }, "Current user fetched successfully"))
+})
 
 export {
     signupUser,
     loginUser,
-    logoutUser, 
-    getNewAccessToken
+    logoutUser,
+    getNewAccessToken,
+    getCurrentUser
 }
