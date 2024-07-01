@@ -86,10 +86,9 @@ const loginUser = asyncHandler(async (req, res) => {
 
     return res
         .status(200)
-        .json(new ApiResponse(200, loggedInUser, " User created successfully"))
         .cookie("accessToken", accessToken, options)
         .cookie("refreshToken", refreshToken, options)
-
+        .json(new ApiResponse(200, { ...loggedInUser.toObject(), accessToken }, "User logged in successfully"))
 })
 
 

@@ -8,6 +8,7 @@ import { useForm } from 'react-hook-form';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { login } from '../../store/authSlice';
+import CryptoJS from 'crypto-js';
 
 axios.defaults.withCredentials = true;
 
@@ -38,15 +39,21 @@ function Signup() {
   const loginUser = async (formData) => {
     try {
       const response = await axios.post('http://localhost:3002/api/v1/users/login', formData);
-      console.log("response:", response.data)
       if (response.data.statusCode === 200) {
-        const userData = response.data.data; // Assign the user data object
-        localStorage.setItem('userData', JSON.stringify(userData));
-        console.log("local storage:", localStorage.getItem('userData'))
+        const userData = response.data.data;
+        const accessToken = userData.accessToken;
+        console.log("original access token frontend:", accessToken);
+
+        //encryption
+        const secretKey = process.env.REACT_APP_SECRET_KEY;
+        const encryptedToken = CryptoJS.AES.encrypt(accessToken, secretKey).toString();
+        console.log("encypted access token frontend:", encryptedToken)
 
         setMessage('');
+        setUserDetails("")
         dispatch(login({ userData: response.data }));
-        window.location.href = 'http://localhost:3001';
+        window.location.href = `http://localhost:3001/?token=${encodeURIComponent(encryptedToken)}`;
+        reset();
       }
     } catch (error) {
       setMessage(error.response.data.message); // Display frontend error message
