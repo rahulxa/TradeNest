@@ -22,7 +22,7 @@ function Signup() {
   const registerUser = async (formData) => {
     try {
       const response = await axios.post('http://localhost:3002/api/v1/users/create-account', formData);
-      console.log("response:", response)
+      // console.log("response:", response)
       if (response.data.statusCode === 200) {
         setMessage('Account created Successfully! Please Login to continue');
         setUserDetails(formData);
@@ -38,7 +38,12 @@ function Signup() {
   const loginUser = async (formData) => {
     try {
       const response = await axios.post('http://localhost:3002/api/v1/users/login', formData);
+      console.log("response:", response.data)
       if (response.data.statusCode === 200) {
+        const userData = response.data.data; // Assign the user data object
+        localStorage.setItem('userData', JSON.stringify(userData));
+        console.log("local storage:", localStorage.getItem('userData'))
+
         setMessage('');
         dispatch(login({ userData: response.data }));
         window.location.href = 'http://localhost:3001';
@@ -47,6 +52,7 @@ function Signup() {
       setMessage(error.response.data.message); // Display frontend error message
     }
   };
+
 
   const handleClickShowPassword = () => setShowPassword(!showPassword);
 
