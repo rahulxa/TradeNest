@@ -9,6 +9,8 @@ import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { login } from '../../store/authSlice';
 
+axios.defaults.withCredentials = true;
+
 function Signup() {
   const dispatch = useDispatch();
   const [showPassword, setShowPassword] = useState(false);
@@ -20,27 +22,29 @@ function Signup() {
   const registerUser = async (formData) => {
     try {
       const response = await axios.post('http://localhost:3002/api/v1/users/create-account', formData);
-      if (response) {
-        setMessage('Account created Successfully, Please Login to continue');
+      console.log("response:", response)
+      if (response.data.statusCode === 200) {
+        setMessage('Account created Successfully! Please Login to continue');
         setUserDetails(formData);
         reset(); // reset the form fields
         setSignup(false); // Switch to login form
       }
     } catch (error) {
-      setMessage(error.message);
+      // console.log(error.response.data.message)
+      setMessage(error.response.data.message); // Display backend error message
     }
   };
 
   const loginUser = async (formData) => {
     try {
       const response = await axios.post('http://localhost:3002/api/v1/users/login', formData);
-      if (response) {
+      if (response.data.statusCode === 200) {
         setMessage('');
         dispatch(login({ userData: response.data }));
         window.location.href = 'http://localhost:3001';
       }
     } catch (error) {
-      setMessage(error.message);
+      setMessage(error.message); // Display frontend error message
     }
   };
 
@@ -126,7 +130,7 @@ function Signup() {
                     </Button>
                     <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', mt: 2 }}>
                       <Typography variant='body2' style={{ textDecoration: 'underline', opacity: 0.7 }}>
-                        {message ? message : 'Already have an account?'}
+                        Already have an account?
                       </Typography>
                       <Button
                         type='button'
@@ -165,6 +169,13 @@ function Signup() {
                   <Typography component='h1' variant='h5'>
                     Login
                   </Typography>
+                  <Typography
+                    variant='body1'
+                    color='success' // Setting the color to green for success
+                    style={{ fontSize: '0.875rem', marginTop: '8px' }} // Adjusting font size and margin
+                  >
+                    {message ? message : ""}
+                  </Typography>
                   <Box component='form' noValidate sx={{ mt: 1 }} onSubmit={handleSubmit(loginUser)}>
                     <TextField
                       margin='normal'
@@ -175,6 +186,7 @@ function Signup() {
                       name='username'
                       autoComplete='username'
                       autoFocus
+                      defaultValue={userDetails.username || ''}
                       {...register('username', { required: true })}
                     />
                     <TextField
@@ -198,6 +210,7 @@ function Signup() {
                           </InputAdornment>
                         ),
                       }}
+                      defaultValue={userDetails.password || ''}
                       {...register('password', { required: true })}
                     />
                     <Button

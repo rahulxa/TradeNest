@@ -11,10 +11,14 @@ import userRouter from "./routes/user.routes.js";
 const app = express()
 
 
-app.use(cors({
-    origin: process.env.CORS_ORIGIN,
-    credentials: true
-}));
+
+const corsOptions = {
+    origin: ['http://localhost:3000', 'http://localhost:3001'], // Replace with your allowed origins
+    credentials: true, // Allow credentials (cookies)
+};
+
+app.use(cors(corsOptions));
+
 app.use(express.json());
 app.use(bodyParser.json());
 app.use(cookieParser()); //cookies for storing access and refresh tokens

@@ -11,22 +11,26 @@ import SupportPage from "./landingPage/support/SupportPage"
 import Navbar from './landingPage/Navbar';
 import Footer from './landingPage/Footer';
 import NotFound from './landingPage/NotFound';
+import { Provider } from 'react-redux';
+import store from './store/store';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <BrowserRouter>
-    <Navbar />
-    <Routes>
-      <Route path='/' element={<HomePage />} />
-      <Route path='signup' element={<Signup />} />
-      <Route path='about' element={<AboutPage />} />
-      <Route path='products' element={<ProductPage />} />
-      <Route path='pricing' element={<PricingPage />} />
-      <Route path='support' element={<SupportPage />} />
-      <Route path='*' element={<NotFound />} />
-    </Routes>
-    <Footer />
-  </BrowserRouter>
+  <Provider store={store}>
+    <BrowserRouter>
+      <Navbar />
+      <Routes>
+        <Route path='/' element={<HomePage />} />
+        <Route path='signup' element={<Signup />} />
+        <Route path='about' element={<AboutPage />} />
+        <Route path='products' element={<ProductPage />} />
+        <Route path='pricing' element={<PricingPage />} />
+        <Route path='support' element={<SupportPage />} />
+        <Route path='*' element={<NotFound />} />
+      </Routes>
+      <Footer />
+    </BrowserRouter>
+  </Provider>
 );
 
 
