@@ -12,7 +12,7 @@ function Home() {
 
         if (encryptedToken) {
             // Decrypt the token
-            const secretKey = process.env.REACT_APP_SECRET_KEY; // This should match the key used for encryption
+            const secretKey = process.env.REACT_APP_SECRET_KEY; // 
             const bytes = CryptoJS.AES.decrypt(encryptedToken, secretKey);
             const originalToken = bytes.toString(CryptoJS.enc.Utf8);
             console.log("original access token dashboard:", originalToken);
