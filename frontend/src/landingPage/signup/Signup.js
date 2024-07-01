@@ -44,7 +44,7 @@ function Signup() {
         window.location.href = 'http://localhost:3001';
       }
     } catch (error) {
-      setMessage(error.message); // Display frontend error message
+      setMessage(error.response.data.message); // Display frontend error message
     }
   };
 
