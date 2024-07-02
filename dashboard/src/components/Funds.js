@@ -1,25 +1,10 @@
-import React, { useEffect } from 'react'
-import { Link } from "react-router-dom"
-import axios from "axios"
-import Cookies from 'universal-cookie';
-import CryptoJS from 'crypto-js';
-import { useLocation } from 'react-router-dom';
+import React from 'react'
+
+import { useSelector } from 'react-redux';
 
 function Funds() {
-    // const location = useLocation();
-    // useEffect(() => {
-    //     const urlParams = new URLSearchParams(window.location.search);
-    //     const encryptedToken = urlParams.get('token');
-    //     console.log("hello", encryptedToken)
-
-    //     if (encryptedToken) {
-    //         // Decrypt the token
-    //         const secretKey = process.env.REACT_APP_SECRET_KEY; // This should match the key used for encryption
-    //         const bytes = CryptoJS.AES.decrypt(encryptedToken, secretKey);
-    //         const originalToken = bytes.toString(CryptoJS.enc.Utf8);
-    //         console.log("original dashboard token:", originalToken);
-    //     }
-    // }, [location])
+    // const data = useSelector((state) => state.auth.userData);
+    // console.log("this is userdata:", data.username)
 
     return (
         <>
