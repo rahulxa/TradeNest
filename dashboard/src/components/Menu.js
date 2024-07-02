@@ -1,8 +1,13 @@
 import React, { useState } from 'react'
 import { Link } from "react-router-dom"
 import Logout from './Logout';
+import { useSelector } from 'react-redux';
 
 function Menu() {
+
+  const userData = useSelector((state) => state.auth.userData);
+  const username = userData ? userData.username : '';
+  const initials = username.split(' ')[0];
 
   const [selectedOption, setSelectedOption] = useState(0);
   const [isProfileDropDownOpen, setIsProfileDropDownOpen] = useState(false)
@@ -97,8 +102,8 @@ function Menu() {
         </ul>
         <hr />
         <div className={`profile ${isProfileDropDownOpen === true ? activeMenuClass : menuClass}`} onClick={handleProfileClick}>
-          <div className="avatar">ZU</div>
-          <p className="username">USERID</p>
+          <div className="avatar">{initials}</div>
+          <p className="username">{username}</p>
         </div>
       </div>
     </div >

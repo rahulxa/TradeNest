@@ -1,10 +1,13 @@
-import React, { useEffect } from 'react'
+import React from 'react'
+import { useSelector } from 'react-redux';
 
 function Summary() {
+  const userData = useSelector((state) => state.auth.userData);
+
   return (
     <>
       <div className="username">
-        <h6>Hi, User!</h6>
+        <h6>Hi, {userData?.username} </h6>
         <hr className="divider" />
       </div>
 

@@ -3,7 +3,7 @@ import TopBar from "./TopBar"
 import Dashboard from "./Dashboard"
 import CryptoJS from 'crypto-js'
 import axios from 'axios'
-import {login} from "../store/authSlice"
+import { login } from "../store/authSlice"
 import { useDispatch } from 'react-redux'
 
 
@@ -17,10 +17,12 @@ function Home() {
                     Authorization: `Bearer ${token}`,
                 },
             });
+            console.log("this is response:", response)
+
             if (response) {
                 const userData = response.data.data.loggedInUser;
                 dispatch(login({ userData: userData, status: true }));
-                // console.log(data);
+                console.log("data dispatched:");
             }
 
             // console.log("this is the userdata:", userData)
@@ -32,7 +34,7 @@ function Home() {
     useEffect(() => {
         const urlParams = new URLSearchParams(window.location.search);
         const encryptedToken = urlParams.get('token');
-        // console.log("encrypted access token dashboard:", encryptedToken);
+        console.log("encrypted access token dashboard:", encryptedToken);
 
         if (encryptedToken) {
             // Decrypt the token
