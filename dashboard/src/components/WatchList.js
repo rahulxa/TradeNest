@@ -3,6 +3,7 @@ import { watchlist } from '../data/data'
 import { Tooltip, Grow } from "@mui/material"
 import { BarChartOutlined, KeyboardArrowDown, KeyboardArrowUp, Label, MoreHoriz } from "@mui/icons-material"
 import { DoughnoutChart } from './DoughnoutChart'
+import BuyActionWindow from './BuyActionWindow'
 
 function WatchList() {
   const labels = watchlist.map((subArray) => subArray["name"])
@@ -60,14 +61,14 @@ export default WatchList
 
 
 function WatchListItem({ stock, index }) {
-  const [showWatchListActions, setShowWatchlistActions] = useState(false)
+  const [showWatchListActions, setShowWatchlistActions] = useState(false);
 
   const mouseHover = (e) => {
-    setShowWatchlistActions(true)
-  }
+    setShowWatchlistActions(true);
+  };
   const mouseLeave = (e) => {
-    setShowWatchlistActions(false)
-  }
+    setShowWatchlistActions(false);
+  };
 
   return (
     <li onMouseEnter={mouseHover} onMouseLeave={mouseLeave}>
@@ -83,53 +84,72 @@ function WatchListItem({ stock, index }) {
           <span className='price'>{stock.price}</span>
         </div>
       </div>
-      {showWatchListActions && <WatchListActions uid={stock.name} />}
+      {showWatchListActions && <WatchListActions uid={stock.name} stockPrice={stock.price} />}
     </li>
-  )
+  );
 }
 
 
-function WatchListActions({ uid }) {
+
+function WatchListActions({ uid, stockPrice }) {
+  const [buy, setBuy] = useState(false);
+
+  const openBuyActionWindow = () => {
+    setBuy(true);
+  };
+  const closeBuyActionWindow = () => {
+    setBuy(false);
+  };
+
   return (
-    <span className='actions'>
-      <span>
-        <Tooltip
-          title="Buy(B)"
-          placement='top'
-          arrow
-          TransitionComponent={Grow}
-        >
-          <button className='buy'>Buy</button>
-        </Tooltip>
-        <Tooltip
-          title="Sell(S)"
-          placement='top'
-          arrow
-          TransitionComponent={Grow}
-        >
-          <button className='sell'>Sell</button>
-        </Tooltip>
-        <Tooltip
-          title="Analytics(A)"
-          placement='top'
-          arrow
-          TransitionComponent={Grow}
-        >
-          <button className='action' >
-            <BarChartOutlined className='icon' />
-          </button>
-        </Tooltip>
-        <Tooltip
-          title="More"
-          placement='top'
-          arrow
-          TransitionComponent={Grow}
-        >
-          <button className='action' >
-            <MoreHoriz className='icon' />
-          </button>
-        </Tooltip>
-      </span>
-    </span>
-  )
+    <>
+      {buy && (
+        <div className='container'>
+          <BuyActionWindow stockName={uid} stockPrice={stockPrice} onClose={closeBuyActionWindow} />
+        </div>
+      )}
+      {!buy && (
+        <span className='actions'>
+          <span>
+            <Tooltip
+              title="Buy(B)"
+              placement='top'
+              arrow
+              TransitionComponent={Grow}
+            >
+              <button className='buy' onClick={openBuyActionWindow}>Buy</button>
+            </Tooltip>
+            <Tooltip
+              title="Sell(S)"
+              placement='top'
+              arrow
+              TransitionComponent={Grow}
+            >
+              <button className='sell'>Sell</button>
+            </Tooltip>
+            <Tooltip
+              title="Analytics(A)"
+              placement='top'
+              arrow
+              TransitionComponent={Grow}
+            >
+              <button className='action'>
+                <BarChartOutlined className='icon' />
+              </button>
+            </Tooltip>
+            <Tooltip
+              title="More"
+              placement='top'
+              arrow
+              TransitionComponent={Grow}
+            >
+              <button className='action'>
+                <MoreHoriz className='icon' />
+              </button>
+            </Tooltip>
+          </span>
+        </span>
+      )}
+    </>
+  );
 }

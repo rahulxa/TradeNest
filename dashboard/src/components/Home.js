@@ -29,7 +29,7 @@ function Home() {
                 // console.log("data dispatched:");
             }
 
-            // console.log("this is the userdata:", userData);
+            // console.log(" userdata:", userData);
         } catch (error) {
             console.error('Error fetching user data:', error);
         }

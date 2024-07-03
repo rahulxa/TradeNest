@@ -26,7 +26,11 @@ const holdingsSchema = new Schema({
     },
     isLoss: {
         type: String
-    }
+    },
+    owner: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Order"
+    }]
 }, { timestamps: true })
 
 

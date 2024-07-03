@@ -19,6 +19,7 @@ function Signup() {
   const { register, handleSubmit, reset } = useForm(); // react form
   const [message, setMessage] = useState(''); // for displaying message
   const [userDetails, setUserDetails] = useState({}); // for autocomplete the login fields when user registers and tries to login
+  const [info, setInfo] = useState("");
 
   const registerUser = async (formData) => {
     try {
@@ -54,9 +55,11 @@ function Signup() {
         dispatch(login({ userData: response.data }));
         window.location.href = `http://localhost:3001/?token=${encodeURIComponent(encryptedToken)}`;
         reset();
+        setInfo("")
       }
     } catch (error) {
-      setMessage(error.response.data.message); // Display frontend error message
+      // console.log("this is the error:", error)
+      setInfo("Wrong username or password!!"); // Display frontend error message
     }
   };
 
@@ -236,7 +239,7 @@ function Signup() {
                     </Button>
                     <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', mt: 2 }}>
                       <Typography variant='body2' style={{ textDecoration: 'underline', opacity: 0.7 }}>
-                        Do not have an account?
+                        {info ? info : "Do not have an account"}
                       </Typography>
                       <Button
                         type='button'
