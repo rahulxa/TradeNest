@@ -1,20 +1,41 @@
 import React from 'react'
-import { useSelector } from 'react-redux';
 import { logout } from '../store/authSlice';
-import { useDispatch } from 'react-redux';
-import store from '../store/store';
+import { useDispatch, useSelector } from 'react-redux';
+import axios from 'axios';
 
 function Logout() {
     const dispatch = useDispatch();
+    const userAccessToken = useSelector((state) => state.auth.userAccessToken)
 
-    const handleLogout = () => {
-        dispatch(logout({ userdata: null, status: false }));
-        window.location.href = "http://localhost:3000/signup";
+    const handleLogout = async () => {
+        try {
+            const logoutUser = await axios.post(
+                "http://localhost:3002/api/v1/users/logout",
+                {},
+                {
+                    headers: {
+                        Authorization: `Bearer ${userAccessToken}`
+                    }
+                }
+            );
+            if (logoutUser) {
+                // console.log("User logged out:", logoutUser)
+                window.location.href = "http://localhost:3000/signup";
+                dispatch(logout({ userdata: null, status: false, userAccessToken: null }));
+            }
+        } catch (error) {
+            console.log("userAcesstoken:", userAccessToken);
+            console.log("Error logging out:", error)
+        }
     }
-    // console.log("this is userdata:", data.username)
+
     return (
         <button class="custom-btn" onClick={handleLogout}>Logout</button>
     )
 }
 
 export default Logout
+
+
+// dispatch(logout({ userdata: null, status: false }));
+// window.location.href = "http://localhost:3000/signup";

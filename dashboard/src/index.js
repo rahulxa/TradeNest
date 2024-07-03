@@ -5,6 +5,7 @@ import "./index.css";
 import Home from "./components/Home";
 import { Provider } from 'react-redux';
 import store from './store/store';
+import ErrorPage from "./components/ErrorPage";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -13,6 +14,7 @@ root.render(
       <BrowserRouter>
         <Routes>
           <Route path="/*" element={<Home />} />
+          <Route path="/error" element={<ErrorPage />} />
         </Routes>
       </BrowserRouter>
     </Provider>
