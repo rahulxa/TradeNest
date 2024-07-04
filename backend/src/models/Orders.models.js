@@ -1,11 +1,11 @@
 import mongoose, { Schema } from "mongoose";
 
 const orderSchema = new Schema({
-    name: {
+    stockName: {
         type: String,
         required: true
     },
-    qty: {
+    qty: { 
         type: Number,
         required: true
     },
@@ -16,8 +16,12 @@ const orderSchema = new Schema({
     mode: {
         type: String,
         required: true
+    },
+    owner: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User"
     }
 })
 
 
-export const Orders = mongoose.model("Order", orderSchema)
+export const Order = mongoose.model("Order", orderSchema)
