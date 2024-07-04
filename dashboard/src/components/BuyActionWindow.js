@@ -30,8 +30,11 @@ function BuyActionWindow({ stockName, onClose, stockPrice }) {
                 stockName: stockName,
                 qty: formData.qty,
                 price: formData.price,
-                mode: buy
+                mode: "buy"
             };
+            console.log("order data:", orderData)
+            console.log("access token:", accessToken)
+
             const response = await axios.post("http://localhost:3002/api/v1/orders/place-order", orderData,
                 {
                     headers: {
@@ -40,10 +43,11 @@ function BuyActionWindow({ stockName, onClose, stockPrice }) {
                 }
             )
             if (response) {
-                setOrderSuccesMessage("Order placed successfully");
+                setOrderSuccesMessage("Order placed successfully!!");
+                console.log("this is the order placed:", response);
             }
         } catch (error) {
-            console.log("Error placing your order:", error);
+            console.log("Error placing your order:", error.message);
         }
     }
 
@@ -61,9 +65,9 @@ function BuyActionWindow({ stockName, onClose, stockPrice }) {
                                     id="qty"
                                     name='qty'
                                     value={stockQuantity}
-                                    placeholder='Stock quantity'
-                                    onChange={(e) => handleStockQuantityChange(e)}
+                                    // placeholder='Stock quantity'
                                     {...register("qty", { required: true })}
+                                    onChange={(e) => handleStockQuantityChange(e)}
                                     className="form-control"
                                 />
                             </div>
@@ -73,10 +77,10 @@ function BuyActionWindow({ stockName, onClose, stockPrice }) {
                                     type="number"
                                     id="price"
                                     name="price"
-                                    defaultValue={stockPrice}
+                                    // defaultValue={stockPrice}
                                     value={newStockPrice}
-                                    onChange={(e) => handleNewStockPrice(e)}
                                     {...register("price", { required: true })}
+                                    onChange={(e) => handleNewStockPrice(e)}
                                     className="form-control"
                                 />
                             </div>
@@ -93,9 +97,9 @@ function BuyActionWindow({ stockName, onClose, stockPrice }) {
                 </form>
             ) : (
                 <div className="modal-overlay">
-                    <div className="modal-content p-4 bg-light rounded shadow-sm max-w-md mx-auto">
-                        <h5 style={{ color: "darkblue", textAlign: "center", textDecoration: "underline" }}>{orderSuccessMessage}</h5>
-                        <div className="d-flex justify-content-between">
+                    <div className="modal-content p-5 bg-light rounded shadow-lg max-w-lg mx-auto text-center">
+                        <h5 className="modal-title">{orderSuccessMessage}</h5>
+                        <div className="d-flex justify-content-center mt-4">
                             <button className="btn btn-secondary" onClick={handlePopupClose}>Close</button>
                         </div>
                     </div>

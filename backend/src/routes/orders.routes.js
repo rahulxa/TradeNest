@@ -9,4 +9,4 @@ orderRouter.route("/place-order").post(verifyJWT, placeOrder);
 orderRouter.route("/get-orders").get(verifyJWT, getUserOrders)
 
 
-export default orderRouter
+export default orderRouter;

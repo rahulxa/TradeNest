@@ -25,6 +25,6 @@ app.use(cookieParser()); //cookies for storing access and refresh tokens
 app.use("/api/v1/allHoldings", holdingsRouter);
 app.use("/api/v1/allPositions", positionsRouter);
 app.use("/api/v1/users", userRouter);
-app.use("api/v1/orders", orderRouter);
+app.use("/api/v1/orders", orderRouter);
 
 export { app }
