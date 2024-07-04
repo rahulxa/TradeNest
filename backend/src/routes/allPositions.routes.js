@@ -5,4 +5,4 @@ const positionsRouter = Router();
 
 positionsRouter.get("/", allPositions)
 
-export { positionsRouter }
+export default positionsRouter 

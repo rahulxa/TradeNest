@@ -5,4 +5,4 @@ const holdingsRouter = Router();
 
 holdingsRouter.get("/", allHoldings)
 
-export { holdingsRouter }
+export default holdingsRouter 
