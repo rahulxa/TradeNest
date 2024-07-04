@@ -1,9 +1,9 @@
-import { asyncHandler } from "../utils/asyncHandler";
-import { Order } from "../models/Orders.models";
-import { ApiError } from "../utils/apiError";
-import { ApiResponse } from "../utils/apiResponse";
+import { asyncHandler } from "../utils/asyncHandler.js";
+import { Order } from "../models/Orders.models.js";
+import { ApiError } from "../utils/apiError.js";
+import { ApiResponse } from "../utils/apiResponse.js";
 import mongoose, { isValidObjectId } from "mongoose";
-import { User } from "../models/user.model";
+import { User } from "../models/user.model.js";
 
 const placeOrder = asyncHandler(async (req, res) => {
     const { stockName, qty, price, mode } = req.body;

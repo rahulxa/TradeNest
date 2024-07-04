@@ -16,11 +16,13 @@ function Home() {
     const fetchUserData = async (token) => {
         try {
             console.log("oringal token:", token)
-            const response = await axios.get('http://localhost:3002/api/v1/users/current-user', {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            });
+            const response = await axios.get('http://localhost:3002/api/v1/users/current-user',
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
             // console.log("this is response:", response);
 
             if (response) {
