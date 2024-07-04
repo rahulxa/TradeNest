@@ -6,7 +6,6 @@ import { verifyJWT } from "../middlewares/auth.middleware.js";
 const orderRouter = Router();
 
 orderRouter.route("/place-order").post(verifyJWT, placeOrder);
-orderRouter.route("/get-orders").get(verifyJWT, getUserOrders)
-
+orderRouter.route("/get-orders/:userId").get(verifyJWT, getUserOrders);
 
 export default orderRouter;

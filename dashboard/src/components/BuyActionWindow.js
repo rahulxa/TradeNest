@@ -32,8 +32,8 @@ function BuyActionWindow({ stockName, onClose, stockPrice }) {
                 price: formData.price,
                 mode: "buy"
             };
-            console.log("order data:", orderData)
-            console.log("access token:", accessToken)
+            // console.log("order data:", orderData)
+            // console.log("access token:", accessToken)
 
             const response = await axios.post("http://localhost:3002/api/v1/orders/place-order", orderData,
                 {
