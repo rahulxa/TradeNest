@@ -1,13 +1,17 @@
 import React, { useEffect, useState } from 'react'
 import axios from "axios"
 import { VerticalChart } from './VerticalChart';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { setHoldings } from '../store/dataSlice';
 
 function Holdings() {
+  const dispatch = useDispatch();
+  const getAllStoreHoldings = useSelector((state) => state.data.holdings);
   const userId = useSelector((state) => state.auth.userData._id);
   const accessToken = useSelector((state) => state.auth.userAccessToken);
+  const [finalHoldings, setFinalHoldings] = useState([]);
 
-  const finalHoldings = [
+  const initialHoldings = [
     {
       stockName: "RELIANCE",
       qty: 1,
@@ -43,9 +47,8 @@ function Holdings() {
       dayChange: "-0.24%",
       isLoss: true,
     },
+    // holding
   ];
-
-  // const [allHoldings, setAllHoldings] = useState([]);
 
   useEffect(() => {
     const fetchUserHoldings = async () => {
@@ -56,14 +59,27 @@ function Holdings() {
           }
         })
         if (response) {
-          console.log(response.data.data.holdings)
+          const holdings = response.data.data.holdings
+          dispatch(setHoldings({ holdings: holdings }));
+          // console.log()
         }
       } catch (error) {
         console.error("Error fetching orders:", error.message);
       }
     }
     fetchUserHoldings();
-  }, [userId, accessToken]);
+  }, [userId, accessToken, dispatch]);
+
+  useEffect(() => {
+    console.log("all store holdings:", getAllStoreHoldings)
+    if (getAllStoreHoldings.length > 0) {
+      setFinalHoldings([...initialHoldings, ...getAllStoreHoldings])
+      console.log("final holdings:", finalHoldings)
+    } else {
+      setFinalHoldings(initialHoldings)
+    }
+  }, [getAllStoreHoldings])
+
 
 
   const labels = finalHoldings.map((subArray) => subArray["stockName"])
@@ -103,10 +119,11 @@ function Holdings() {
               const minPercentage = 0.8; // 80%
               const maxPercentage = 1.2; // 120%
               const randomPercentage = Math.random() * (maxPercentage - minPercentage) + minPercentage;
-              const currValue = stock.price * stock.qty;
-              const avgCost = stock.price * randomPercentage;
+              const stockPrice = stock.price / stock.qty
+              const currValue = stockPrice * stock.qty;
+              const avgCost = stockPrice * randomPercentage;
               const profitLoss = currValue - (avgCost * stock.qty)
-              const netChange = (((stock.price - avgCost) / avgCost) * 100).toFixed(2)
+              const netChange = (((stockPrice - avgCost) / avgCost) * 100).toFixed(2)
               const profClass = profitLoss >= 0 ? "profit" : "loss"
               const dayClass = stock.isLoss === true ? "loss" : "profit"
 
@@ -119,7 +136,7 @@ function Holdings() {
                   <td>{stock.stockName}</td>
                   <td>{stock.qty}</td>
                   <td>{avgCost.toFixed(2)}</td>
-                  <td>{stock.price.toFixed(2)}</td>
+                  <td>{stockPrice.toFixed(2)}</td>
                   <td>{currValue.toFixed(2)}</td>
                   <td className={profClass}>{profitLoss.toFixed(2)}</td>
                   <td className={profClass}>{netChange}%</td>

@@ -9,7 +9,8 @@ function BuyActionWindow({ stockName, onClose, stockPrice, dayChange }) {
     const [stockQuantity, setStockQuantity] = useState(null);
     const [newStockPrice, setNewStockPrice] = useState(null);
     const { register, handleSubmit, reset } = useForm(); // react form
-    const [orderSuccessMessage, setOrderSuccesMessage] = useState("")
+    const [orderSuccessMessage, setOrderSuccesMessage] = useState("");
+    const [priceMessage, setPriceMessage] = useState("")
 
     const handleStockQuantityChange = (e) => {
         setStockQuantity(e.target.value);
@@ -27,6 +28,13 @@ function BuyActionWindow({ stockName, onClose, stockPrice, dayChange }) {
     const placeOrder = async (formData) => {
         try {
             //placing order
+            if (formData.price < (stockPrice * formData.qty)) {
+                setPriceMessage("Stock price cannot be less than the LTP!! Please check the price and quantity");
+                return
+            } else if (formData.qty <= 0 || formData.qty === undefined) {
+                setPriceMessage("Quantity cannot be zero!!");
+                return
+            }
             const orderData = {
                 stockName: stockName,
                 qty: formData.qty,
@@ -80,6 +88,7 @@ function BuyActionWindow({ stockName, onClose, stockPrice, dayChange }) {
                     <div className="modal-overlay">
                         <div className="modal-content p-4 bg-light rounded shadow-sm max-w-md mx-auto">
                             <h5 style={{ color: "darkblue", textAlign: "center", textDecoration: "underline" }}>{stockName}</h5>
+                            {priceMessage && <p style={{ color: "darkblue", textAlign: "center" }}>{priceMessage}</p>}
                             <div className="mb-3">
                                 <label htmlFor="quantity" className="form-label">Qty.</label>
                                 <input
