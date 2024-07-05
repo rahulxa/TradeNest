@@ -84,14 +84,14 @@ function WatchListItem({ stock, index }) {
           <span className='price'>{stock.price}</span>
         </div>
       </div>
-      {showWatchListActions && <WatchListActions uid={stock.name} stockPrice={stock.price} />}
+      {showWatchListActions && <WatchListActions uid={stock.name} stockPrice={stock.price} dayChange={stock.percent} />}
     </li>
   );
 }
 
 
 
-function WatchListActions({ uid, stockPrice }) {
+function WatchListActions({ uid, stockPrice, dayChange }) {
   const [buy, setBuy] = useState(false);
 
   const openBuyActionWindow = () => {
@@ -105,7 +105,7 @@ function WatchListActions({ uid, stockPrice }) {
     <>
       {buy && (
         <div className='container'>
-          <BuyActionWindow stockName={uid} stockPrice={stockPrice} onClose={closeBuyActionWindow} />
+          <BuyActionWindow stockName={uid} stockPrice={stockPrice} dayChange={dayChange} onClose={closeBuyActionWindow} />
         </div>
       )}
       {!buy && (

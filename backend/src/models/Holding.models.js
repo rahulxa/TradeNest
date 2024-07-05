@@ -9,16 +9,8 @@ const holdingsSchema = new Schema({
         type: Number,
         required: true
     },
-    avgCost: {
-        type: Number,
-        required: true
-    },
     price: {
         type: Number,
-        required: true
-    },
-    netChange: {
-        type: String,
         required: true
     },
     dayChange: {

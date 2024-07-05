@@ -4,137 +4,63 @@ import { VerticalChart } from './VerticalChart';
 
 function Holdings() {
 
-  const dummyHoldings = [
+  const finalHoldings = [
     {
-      name: "BHARTIARTL",
-      qty: 2,
-      avg: 538.05,
-      price: 541.15,
-      net: "+0.58%",
-      day: "+2.99%",
-    },
-    {
-      name: "HDFCBANK",
-      qty: 2,
-      avg: 1383.4,
-      price: 1522.35,
-      net: "+10.04%",
-      day: "+0.11%",
-    },
-    {
-      name: "HINDUNILVR",
+      stockName: "RELIANCE",
       qty: 1,
-      avg: 2335.85,
-      price: 2417.4,
-      net: "+3.49%",
-      day: "+0.21%",
-    },
-    {
-      name: "INFY",
-      qty: 1,
-      avg: 1350.5,
-      price: 1555.45,
-      net: "+15.18%",
-      day: "-1.60%",
-      isLoss: true,
-    },
-    {
-      name: "ITC",
-      qty: 5,
-      avg: 202.0,
-      price: 207.9,
-      net: "+2.92%",
-      day: "+0.80%",
-    },
-    {
-      name: "KPITTECH",
-      qty: 5,
-      avg: 250.3,
-      price: 266.45,
-      net: "+6.45%",
-      day: "+3.54%",
-    },
-    {
-      name: "M&M",
-      qty: 2,
-      avg: 809.9,
-      price: 779.8,
-      net: "-3.72%",
-      day: "-0.01%",
-      isLoss: true,
-    },
-    {
-      name: "RELIANCE",
-      qty: 1,
-      avg: 2193.7,
       price: 2112.4,
-      net: "-3.71%",
-      day: "+1.44%",
+      dayChange: "+1.44%",
+      isLoss: false,
     },
     {
-      name: "SBIN",
-      qty: 4,
-      avg: 324.35,
-      price: 430.2,
-      net: "+32.63%",
-      day: "-0.34%",
-      isLoss: true,
-    },
-    {
-      name: "SGBMAY29",
+      stockName: "BHARTIARTL",
       qty: 2,
-      avg: 4727.0,
-      price: 4719.0,
-      net: "-0.17%",
-      day: "+0.15%",
+      price: 541.15,
+      dayChange: "+2.99%",
+      isLoss: false,
     },
     {
-      name: "TATAPOWER",
+      stockName: "HDFCBANK",
+      qty: 2,
+      price: 1522.35,
+      dayChange: "+0.11%",
+      isLoss: false,
+    },
+    {
+      stockName: "ITC",
       qty: 5,
-      avg: 104.2,
+      price: 207.9,
+      dayChange: "+0.80%",
+      isLoss: false,
+    },
+    {
+      stockName: "TATAPOWER",
+      qty: 5,
       price: 124.15,
-      net: "+19.15%",
-      day: "-0.24%",
+      dayChange: "-0.24%",
       isLoss: true,
-    },
-    {
-      name: "TCS",
-      qty: 1,
-      avg: 3041.7,
-      price: 3194.8,
-      net: "+5.03%",
-      day: "-0.25%",
-      isLoss: true,
-    },
-    {
-      name: "WIPRO",
-      qty: 4,
-      avg: 489.3,
-      price: 577.75,
-      net: "+18.08%",
-      day: "+0.32%",
     },
   ];
 
-  const [allHoldings, setAllHoldings] = useState([]);
+  // const [allHoldings, setAllHoldings] = useState([]);
 
-  useEffect(() => {
-    axios.get("http://localhost:3002/api/v1/allHoldings")
-      .then((res) => {
-        setAllHoldings(res.data)
-        console.log("data:", res.data);
-      })
-  }, []);
+  // useEffect(() => {
+  //   axios.get("http://localhost:3002/api/v1/allHoldings")
+  //     .then((res) => {
+  //       setAllHoldings(res.data)
+  //       console.log("data:", res.data);
+  //     })
+  // }, []);
 
 
-  const labels = allHoldings.map((subArray) => subArray["name"])
+  const labels = finalHoldings.map((subArray) => subArray["stockName"])
 
   const data = {
     labels,
     datasets: [
       {
         label: 'Stock Price',
-        data: allHoldings.map((stock) => stock.price),
+        data: finalHoldings.map((stock) => stock.price),
         backgroundColor: 'rgba(75, 192, 192, 0.5)',
       }
     ]
@@ -142,7 +68,7 @@ function Holdings() {
 
   return (
     <>
-      <h3 className='title'>Holdings ({allHoldings.length})</h3>
+      <h3 className='title'>Holdings ({finalHoldings.length})</h3>
       <div className='order-table'>
         <table>
           <thead>
@@ -159,33 +85,29 @@ function Holdings() {
           </thead>
           <tbody>
             {/*  */}
-            <tr>
-              <td>airtel</td>
-              <td>3</td>
-              <td>4343</td>
-              <td>343</td>
-              <td>334</td>
-              <td >4.5</td>
-              <td >4.4</td>
-              <td >5.4</td>
-            </tr>
             {/*  */}
-            {allHoldings.map((stock, index) => {
+            {finalHoldings.map((stock, index) => {
               const currValue = stock.price * stock.qty;
-              const isProfit = currValue - stock.avg * stock.qty >= 0.0;
-              const profClass = isProfit ? "profit" : "loss";
-              const dayClass = stock.isLoss ? "loss" : "profit"
+              const avgCost = currValue / stock.qty;
+              const profitLoss = (currValue * stock.qty) - (avgCost * stock.qty)
+              const netChange = ((stock.price - avgCost) / avgCost) * 100
+              const profClass = profitLoss >= 0 ? "profit" : "loss"
+              const dayClass = stock.isLoss === true ? "loss" : "profit"
+
+              // const isProfit = currValue - stock.avg * stock.qty >= 0.0;
+              // const profClass = isProfit ? "profit" : "loss";
+              // const dayClass = stock.isLoss === true ? "loss" : "profit"
 
               return (
                 <tr key={index}>
-                  <td>{stock.name}</td>
+                  <td>{stock.stockName}</td>
                   <td>{stock.qty}</td>
-                  <td>{stock.avg.toFixed(2)}</td>
+                  <td>{avgCost.toFixed(2)}</td>
                   <td>{stock.price.toFixed(2)}</td>
                   <td>{currValue.toFixed(2)}</td>
-                  <td className={profClass}>{(currValue - (stock.avg * stock.qty)).toFixed(2)}</td>
-                  <td className={profClass}>{stock.net}</td>
-                  <td className={dayClass}>{stock.day}</td>
+                  <td className={profClass}>{profitLoss.toFixed(2)}</td>
+                  <td className={profClass}>{netChange}</td>
+                  <td className={dayClass}>{stock.dayChange}</td>
                 </tr>
               )
             })}

@@ -7,34 +7,52 @@ import { ApiResponse } from "../utils/apiResponse.js";
 
 
 const createUserHoldings = asyncHandler(async (req, res) => {
-    const { stockName, qty, avgCost, price, netChange, dayChange, isLoss } = req.body;
-    const userId = req.params?._id //apply jwt 
+    const { stockName, qty, price, dayChange, isLoss } = req.body;
+    const userId = req.params?._id //apply jwt
 
-    if ([stockName, qty, avgCost, price, netChange, dayChange, isLoss].some((feild) => { return feild?.trim() == "" })) {
-        throw new ApiError(400, "All feilds are required")
+    // if (!stockName || !qty || !price || typeof qty !== 'number' || typeof price !== 'number') {
+    //     throw new ApiError(400, "Stock name, quantity, and price are required and must be numeric.");
+    // }
+
+    try {
+        const holdings = await Holdings.findOne({ owner: userId, stockName: stockName });
+
+        if (holdings) {
+            const updatedHoldings = await Holdings.findOneAndUpdate(
+                { owner: userId, stockName: stockName },
+                { $inc: { qty: qty } },
+                { new: true } // Return the updated document
+            );
+            return res
+                .status(200)
+                .json({ message: "Stock quantity updated", data: updatedHoldings });
+        } else {
+            const holdings = await Holdings.create({
+                stockName,
+                qty,
+                price,
+                dayChange,
+                isLoss,
+                owner: userId
+            });
+
+            const createdHoldings = await Holdings.findById(holdings._id);
+
+            if (!createdHoldings) {
+                throw new ApiError(500, "Something went wrong while creating the holdings")
+            }
+
+            return res
+                .status(200)
+                .json(new ApiResponse(200, createdHoldings, "Holdings created successfully"))
+        }
+    } catch (error) {
+        console.error("Error creating/updating holdings:", error);
+        return res
+            .status(500)
+            .json(new ApiError(200, "Internal server errro"));
     }
-
-    const holdings = await Holdings.create({
-        stockName,
-        qty,
-        avgCost,
-        price,
-        netChange,
-        dayChange,
-        isLoss,
-        owner: userId
-    });
-
-    const createdHoldings = await Holdings.findById(holdings._id);
-
-    if (!createdHoldings) {
-        throw new ApiError(500, "Something went wrong while creating the holdings")
-    }
-
-    return res
-        .status(200)
-        .json(new ApiResponse(200, createdHoldings, "Holdings created successfully"))
-})
+});
 
 
 const getUserHoldings = asyncHandler(async (req, res) => {

@@ -4,7 +4,7 @@ import axios from "axios"
 import { useSelector } from 'react-redux';
 
 
-function BuyActionWindow({ stockName, onClose, stockPrice }) {
+function BuyActionWindow({ stockName, onClose, stockPrice, dayChange }) {
     const accessToken = useSelector((state) => state.auth.userAccessToken)
     const [stockQuantity, setStockQuantity] = useState(null);
     const [newStockPrice, setNewStockPrice] = useState(null);
@@ -26,26 +26,48 @@ function BuyActionWindow({ stockName, onClose, stockPrice }) {
 
     const placeOrder = async (formData) => {
         try {
+            //placing order
             const orderData = {
                 stockName: stockName,
                 qty: formData.qty,
-                price: formData.price,
+                price: formData.price, //this is lTP for holdings
                 mode: "buy"
             };
-            // console.log("order data:", orderData)
-            // console.log("access token:", accessToken)
-
-            const response = await axios.post("http://localhost:3002/api/v1/orders/place-order", orderData,
+            const orderResponse = await axios.post("http://localhost:3002/api/v1/orders/place-order", orderData,
                 {
                     headers: {
                         Authorization: `Bearer ${accessToken}`
                     }
                 }
             )
-            if (response) {
+            if (orderResponse) {
                 setOrderSuccesMessage("Order placed successfully!!");
-                console.log("this is the order placed:", response);
+                //creating holdings
+                const holdingsData = {
+                    stockName: stockName,
+                    qty: formData.qty,
+                    price: formData.price,
+                    dayChange: dayChange,
+                    isLoss: dayChange < 0 ? true : false
+                }
+                console.log("this is holdings data:", holdingsData)
+                try {
+                    const holdingsResponse = await axios.post("http://localhost:3002/api/v1/holdings/create-holdings", holdingsData,
+                        {
+                            headers: {
+                                Authorization: `Bearer ${accessToken}`
+                            }
+                        }
+                    )
+                    if (holdingsResponse) {
+                        console.log("this is the holding response:", holdingsResponse.data.data);
+                        console.log("Holdings created successfully")
+                    }
+                } catch (error) {
+                    console.log("Error creating holdings:", error.message);
+                }
             }
+
         } catch (error) {
             console.log("Error placing your order:", error.message);
         }
