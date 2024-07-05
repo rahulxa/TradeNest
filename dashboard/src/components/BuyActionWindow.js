@@ -50,6 +50,7 @@ function BuyActionWindow({ stockName, onClose, stockPrice, dayChange }) {
             )
             if (orderResponse) {
                 setOrderSuccesMessage("Order placed successfully!!");
+                setPriceMessage("")
                 //creating holdings
                 const holdingsData = {
                     stockName: stockName,

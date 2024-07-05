@@ -239,7 +239,7 @@ function Signup() {
                     </Button>
                     <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', mt: 2 }}>
                       <Typography variant='body2' style={{ textDecoration: 'underline', opacity: 0.7 }}>
-                        {info ? info : "Do not have an account"}
+                        {info ? info : "Do not have an account?"}
                       </Typography>
                       <Button
                         type='button'
