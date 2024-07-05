@@ -16,7 +16,7 @@ function Orders() {
             Authorization: `Bearer ${accessToken}`
           }
         });
-        console.log("this is response:", response)
+        // console.log("this is response:", response)
         if (response) {
           setOrders(response.data.data.orders)
         }
@@ -27,7 +27,7 @@ function Orders() {
     fetchOrders();
   }, [userId, accessToken]);
 
-
+  
   return (
     <>
       {orders.length > 0 ? (

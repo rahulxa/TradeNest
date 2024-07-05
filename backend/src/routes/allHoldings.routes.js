@@ -1,8 +1,10 @@
 import { Router } from "express";
-import { allHoldings } from "../controllers/holdings.controller.js";
+import { getUserHoldings, createUserHoldings } from "../controllers/holdings.controller.js";
+import { verifyJWT } from "../middlewares/auth.middleware.js";
 
 const holdingsRouter = Router();
 
-holdingsRouter.get("/", allHoldings)
+holdingsRouter.route("/create-holdings").post(verifyJWT, createUserHoldings);
+holdingsRouter.route("get-holdings/:userId").get(verifyJWT, getUserHoldings)
 
-export default holdingsRouter 
+export default holdingsRouter;

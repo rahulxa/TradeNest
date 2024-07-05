@@ -1,7 +1,7 @@
 import mongoose, { Schema } from "mongoose";
 
 const holdingsSchema = new Schema({
-    name: {
+    stockName: {
         type: String,
         required: true
     },
@@ -9,7 +9,7 @@ const holdingsSchema = new Schema({
         type: Number,
         required: true
     },
-    avg: {
+    avgCost: {
         type: Number,
         required: true
     },
@@ -17,20 +17,22 @@ const holdingsSchema = new Schema({
         type: Number,
         required: true
     },
-    net: {
+    netChange: {
         type: String,
         required: true
     },
-    day: {
+    dayChange: {
         type: String,
+        required: true
     },
     isLoss: {
-        type: String
+        type: Boolean,
+        required: true
     },
-    owner: [{
+    owner: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Order"
-    }]
+        ref: "User"
+    }
 }, { timestamps: true })
 
 

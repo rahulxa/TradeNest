@@ -22,7 +22,7 @@ app.use(bodyParser.json());
 app.use(cookieParser()); //cookies for storing access and refresh tokens
 
 //routes
-app.use("/api/v1/allHoldings", holdingsRouter);
+app.use("/api/v1/holdings", holdingsRouter);
 app.use("/api/v1/allPositions", positionsRouter);
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/orders", orderRouter);

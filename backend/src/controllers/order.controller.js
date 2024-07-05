@@ -8,7 +8,7 @@ import { User } from "../models/user.model.js";
 const placeOrder = asyncHandler(async (req, res) => {
     const { stockName, qty, price, mode } = req.body;
     const userId = req.user?._id; //apply jwt middleware
-    console.log("userid", userId);
+    // console.log("userid", userId);
     if ([stockName, qty, price, mode].some((feild) => { return feild?.trim() == "" })) {
         throw new ApiError(400, "All feilds are required")
     }
