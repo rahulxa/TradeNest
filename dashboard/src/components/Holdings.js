@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import axios from "axios"
 import { VerticalChart } from './VerticalChart';
+import { useSelector } from 'react-redux';
 
 function Holdings() {
+  const userId = useSelector((state) => state.auth.userData._id);
+  const accessToken = useSelector((state) => state.auth.userAccessToken);
 
   const finalHoldings = [
     {
@@ -44,13 +47,23 @@ function Holdings() {
 
   // const [allHoldings, setAllHoldings] = useState([]);
 
-  // useEffect(() => {
-  //   axios.get("http://localhost:3002/api/v1/allHoldings")
-  //     .then((res) => {
-  //       setAllHoldings(res.data)
-  //       console.log("data:", res.data);
-  //     })
-  // }, []);
+  useEffect(() => {
+    const fetchUserHoldings = async () => {
+      try {
+        const response = await axios.get(`http://localhost:3002/api/v1/holdings/get-holdings/${userId}`, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`
+          }
+        })
+        if (response) {
+          console.log(response.data.data.holdings)
+        }
+      } catch (error) {
+        console.error("Error fetching orders:", error.message);
+      }
+    }
+    fetchUserHoldings();
+  }, [userId, accessToken]);
 
 
   const labels = finalHoldings.map((subArray) => subArray["stockName"])
@@ -87,15 +100,18 @@ function Holdings() {
             {/*  */}
             {/*  */}
             {finalHoldings.map((stock, index) => {
+              const minPercentage = 0.8; // 80%
+              const maxPercentage = 1.2; // 120%
+              const randomPercentage = Math.random() * (maxPercentage - minPercentage) + minPercentage;
               const currValue = stock.price * stock.qty;
-              const avgCost = currValue / stock.qty;
-              const profitLoss = (currValue * stock.qty) - (avgCost * stock.qty)
-              const netChange = ((stock.price - avgCost) / avgCost) * 100
+              const avgCost = stock.price * randomPercentage;
+              const profitLoss = currValue - (avgCost * stock.qty)
+              const netChange = (((stock.price - avgCost) / avgCost) * 100).toFixed(2)
               const profClass = profitLoss >= 0 ? "profit" : "loss"
               const dayClass = stock.isLoss === true ? "loss" : "profit"
 
               // const isProfit = currValue - stock.avg * stock.qty >= 0.0;
-              // const profClass = isProfit ? "profit" : "loss";
+              // const profClass = isProfit ? "profit" : "loss";  
               // const dayClass = stock.isLoss === true ? "loss" : "profit"
 
               return (
@@ -106,7 +122,7 @@ function Holdings() {
                   <td>{stock.price.toFixed(2)}</td>
                   <td>{currValue.toFixed(2)}</td>
                   <td className={profClass}>{profitLoss.toFixed(2)}</td>
-                  <td className={profClass}>{netChange}</td>
+                  <td className={profClass}>{netChange}%</td>
                   <td className={dayClass}>{stock.dayChange}</td>
                 </tr>
               )

@@ -30,7 +30,7 @@ function Logout() {
     }
 
     return (
-        <button class="custom-btn" onClick={handleLogout}>Logout</button>
+        <button className="custom-btn" onClick={handleLogout}>Logout</button>
     )
 }
 

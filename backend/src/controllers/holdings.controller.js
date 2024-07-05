@@ -8,7 +8,7 @@ import { ApiResponse } from "../utils/apiResponse.js";
 
 const createUserHoldings = asyncHandler(async (req, res) => {
     const { stockName, qty, price, dayChange, isLoss } = req.body;
-    const userId = req.params?._id //apply jwt
+    const userId = req.params?._id || req.user?._id//apply jwt
 
     // if (!stockName || !qty || !price || typeof qty !== 'number' || typeof price !== 'number') {
     //     throw new ApiError(400, "Stock name, quantity, and price are required and must be numeric.");

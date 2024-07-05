@@ -48,7 +48,7 @@ function BuyActionWindow({ stockName, onClose, stockPrice, dayChange }) {
                     qty: formData.qty,
                     price: formData.price,
                     dayChange: dayChange,
-                    isLoss: dayChange < 0 ? true : false
+                    isLoss: dayChange < 0 ? true : false,
                 }
                 console.log("this is holdings data:", holdingsData)
                 try {
