@@ -2,7 +2,11 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
     orders: [],
-    holdings: []
+    holdings: [],
+    finalProfitLoss: null,
+    finalProfitLossPercentage: null,
+    finalCurrentValue: null,
+    finalInvestment: null
 }
 
 const dataSlice = createSlice({
@@ -14,11 +18,17 @@ const dataSlice = createSlice({
         },
         setHoldings: (state, action) => {
             state.holdings = action.payload.holdings
+        },
+        setFinalData: (state, action) => {
+            Object.assign(state, action.payload)
         }
     }
 });
 
-
-export const { setOrders, setHoldings } = dataSlice.actions;
+export const {
+    setOrders,
+    setHoldings,
+    setFinalData
+} = dataSlice.actions;
 
 export const dataReducer = dataSlice.reducer;

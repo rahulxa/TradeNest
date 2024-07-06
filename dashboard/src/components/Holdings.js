@@ -1,21 +1,23 @@
-import React, { useEffect, useState } from 'react'
-import axios from "axios"
+import React, { useEffect, useState, useCallback } from 'react';
+import axios from "axios";
 import { VerticalChart } from './VerticalChart';
 import { useSelector, useDispatch } from 'react-redux';
-import { setHoldings } from '../store/dataSlice';
+import { setFinalData, setHoldings } from '../store/dataSlice';
+import { debounce } from 'lodash';
 
 function Holdings() {
   const dispatch = useDispatch();
   const getAllStoreHoldings = useSelector((state) => state.data.holdings);
-  const userId = useSelector((state) => state.auth.userData?._id); // Optional chaining to avoid errors
+  const userId = useSelector((state) => state.auth.userData?._id);
   const accessToken = useSelector((state) => state.auth.userAccessToken);
   const [finalHoldings, setFinalHoldings] = useState([]);
-  const [totalInvestment, setTotalInvestment] = useState(0)
-  const [totalCurrentValue, setTotalCurrentValue] = useState(0)
-  const [profitLoss, setProfitLoss] = useState(0)
-  const [profitLosspercentage, setProfitLossPercentage] = useState()
+  const [totalInvestment, setTotalInvestment] = useState(0);
+  const [totalCurrentValue, setTotalCurrentValue] = useState(0);
+  const [profitLoss, setProfitLoss] = useState(0);
+  const [profitLosspercentage, setProfitLossPercentage] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
 
-  
+
   const initialHoldings = [
     {
       stockName: "RELIANCE",
@@ -55,34 +57,38 @@ function Holdings() {
     // Add more initial holdings as needed
   ];
 
-  useEffect(() => {
-    if (userId && accessToken) { // Ensure userId and accessToken are available
-      const fetchUserHoldings = async () => {
-        try {
-          const response = await axios.get(`http://localhost:3002/api/v1/holdings/get-holdings/${userId}`, {
-            headers: {
-              Authorization: `Bearer ${accessToken}`
-            }
-          })
-          if (response) {
-            const holdings = response.data.data.holdings
-            dispatch(setHoldings({ holdings: holdings }));
+  const fetchUserHoldings = useCallback(async () => {
+    if (userId && accessToken) {
+      setIsLoading(true);
+      try {
+        const response = await axios.get(`http://localhost:3002/api/v1/holdings/get-holdings/${userId}`, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`
           }
-        } catch (error) {
-          console.error("Error fetching orders:", error.message);
+        });
+        if (response) {
+          const holdings = response.data.data.holdings;
+          dispatch(setHoldings({ holdings: holdings }));
         }
+      } catch (error) {
+        console.error("Error fetching holdings:", error.message);
+      } finally {
+        setIsLoading(false);
       }
-      fetchUserHoldings();
     }
   }, [userId, accessToken, dispatch]);
 
   useEffect(() => {
+    fetchUserHoldings();
+  }, [fetchUserHoldings]);
+
+  useEffect(() => {
     if (getAllStoreHoldings.length > 0) {
-      setFinalHoldings([...initialHoldings, ...getAllStoreHoldings])
+      setFinalHoldings([...initialHoldings, ...getAllStoreHoldings]);
     } else {
-      setFinalHoldings(initialHoldings)
+      setFinalHoldings(initialHoldings);
     }
-  }, [getAllStoreHoldings])
+  }, [getAllStoreHoldings]);
 
   useEffect(() => {
     let totalInvestment = 0;
@@ -90,8 +96,8 @@ function Holdings() {
 
     finalHoldings.forEach(stock => {
       const currValue = stock.price * stock.qty;
-      const minPercentage = 0.8; // 80%
-      const maxPercentage = 1.2; // 120%
+      const minPercentage = 0.8;
+      const maxPercentage = 1.2;
       const randomPercentage = Math.random() * (maxPercentage - minPercentage) + minPercentage;
       const avgCost = stock.price * randomPercentage;
       const investment = avgCost * stock.qty;
@@ -100,16 +106,35 @@ function Holdings() {
       totalCurrentValue += currValue;
     });
 
-    const profitLoss = totalCurrentValue - totalInvestment
-    const percentage = (profitLoss / totalInvestment * 100).toFixed(2)
+    const profitLoss = totalCurrentValue - totalInvestment;
+    const percentage = ((profitLoss / totalInvestment) * 100).toFixed(2);
 
-    setProfitLoss(profitLoss)
+    setProfitLoss(profitLoss);
     setTotalInvestment(totalInvestment.toFixed(2));
     setTotalCurrentValue(totalCurrentValue.toFixed(2));
     setProfitLossPercentage(percentage);
-  }, [finalHoldings]);
 
-  const labels = finalHoldings.map((subArray) => subArray["stockName"])
+    dispatch(setFinalData({
+      finalProfitLoss: profitLoss,
+      finalProfitLossPercentage: percentage,
+      finalCurrentValue: totalCurrentValue,
+      finalInvestment: totalInvestment
+    }));
+
+  }, [finalHoldings, dispatch]);
+
+  const debouncedRefresh = useCallback(
+    debounce(() => {
+      fetchUserHoldings();
+    }, 300),
+    [fetchUserHoldings]
+  );
+
+  const handleRefreshClick = () => {
+    debouncedRefresh();
+  };
+
+  const labels = finalHoldings.map((subArray) => subArray["stockName"]);
 
   const data = {
     labels,
@@ -120,11 +145,20 @@ function Holdings() {
         backgroundColor: 'rgba(75, 192, 192, 0.5)',
       }
     ]
-  }
+  };
 
   return (
     <>
-      <h3 className='title'>Holdings ({finalHoldings.length})</h3>
+      <div className="d-flex justify-content-between align-items-center mb-5 text-muted">
+        <h3 className="mb-0">Holdings ({finalHoldings.length})</h3>
+        <button
+          className="custom-btn-refresh"
+          onClick={handleRefreshClick}
+          disabled={isLoading}
+        >
+          {isLoading ? 'Refreshing...' : 'Refresh'}
+        </button>
+      </div>
       <div className='order-table'>
         <table>
           <thead>
@@ -141,16 +175,16 @@ function Holdings() {
           </thead>
           <tbody>
             {finalHoldings.map((stock, index) => {
-              const minPercentage = 0.8; // 80%
-              const maxPercentage = 1.2; // 120%
+              const minPercentage = 0.8;
+              const maxPercentage = 1.2;
               const randomPercentage = Math.random() * (maxPercentage - minPercentage) + minPercentage;
-              const stockPrice = stock.price / stock.qty
+              const stockPrice = stock.price / stock.qty;
               const currValue = stockPrice * stock.qty;
               const avgCost = stockPrice * randomPercentage;
-              const profitLoss = currValue - (avgCost * stock.qty)
-              const netChange = (((stockPrice - avgCost) / avgCost) * 100).toFixed(2)
-              const profClass = profitLoss >= 0 ? "profit" : "loss"
-              const dayClass = stock.isLoss === true ? "loss" : "profit"
+              const profitLoss = currValue - (avgCost * stock.qty);
+              const netChange = (((stockPrice - avgCost) / avgCost) * 100).toFixed(2);
+              const profClass = profitLoss >= 0 ? "profit" : "loss";
+              const dayClass = stock.isLoss === true ? "loss" : "profit";
 
               return (
                 <tr key={index}>
@@ -163,32 +197,30 @@ function Holdings() {
                   <td className={profClass}>{netChange}%</td>
                   <td className={dayClass}>{stock.dayChange}</td>
                 </tr>
-              )
+              );
             })}
           </tbody>
         </table>
       </div>
       <div className="row">
         <div className="col">
-          <h5>
-            {totalInvestment}
-          </h5>
+          <h5>{totalInvestment}</h5>
           <p>Total Investment</p>
         </div>
         <div className="col">
-          <h5>
-            {totalCurrentValue}
-          </h5>
+          <h5>{totalCurrentValue}</h5>
           <p>Current value</p>
         </div>
         <div className="col">
-          <h5 className={profitLoss > 0 ? "text-success" : "text-danger"}>{profitLoss.toFixed(2)} ({profitLosspercentage}%)</h5>
+          <h5 style={{ color: profitLoss > 0 ? "#4CAF50" : "red" }}>
+            {profitLoss.toFixed(2)} ({profitLosspercentage}%)
+          </h5>
           <p>P&L</p>
         </div>
       </div>
       <VerticalChart data={data} />
     </>
-  )
+  );
 }
 
 export default Holdings;
