@@ -15,41 +15,43 @@ function Home() {
 
     const fetchUserData = async (token) => {
         try {
-            console.log("oringal token:", token)
-            const response = await axios.get('http://localhost:3002/api/v1/users/current-user',
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                }
-            );
-            // console.log("this is response:", response);
-
+            const response = await axios.get('http://localhost:3002/api/v1/users/current-user', {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
             if (response) {
                 const userData = response.data.data.loggedInUser;
                 dispatch(login({ userData: userData, status: true, userAccessToken: token }));
-                // console.log("data dispatched:");
+                localStorage.setItem('token', token); // Store token in local storage
+                setLoading(false);
+            } else {
+                setLoading(false);
             }
-
-            // console.log(" userdata:", userData);
         } catch (error) {
             console.error('Error fetching user data:', error);
+            setLoading(false);
         }
     };
 
     useEffect(() => {
         const urlParams = new URLSearchParams(window.location.search);
-        const encryptedToken = urlParams.get('token');
-        console.log("encrypted access token dashboard:", encryptedToken);
+        let encryptedToken = urlParams.get('token');
+
+        if (!encryptedToken) {
+            encryptedToken = localStorage.getItem('token'); // Retrieve token from local storage
+        }
 
         if (encryptedToken) {
-            // Decrypt the token
-            const secretKey = process.env.REACT_APP_SECRET_KEY;
-            const bytes = CryptoJS.AES.decrypt(encryptedToken, secretKey);
-            const originalAccessToken = bytes.toString(CryptoJS.enc.Utf8);
-            fetchUserData(originalAccessToken).then(() => {
+            try {
+                const secretKey = process.env.REACT_APP_SECRET_KEY;
+                const bytes = CryptoJS.AES.decrypt(encryptedToken, secretKey);
+                const originalAccessToken = bytes.toString(CryptoJS.enc.Utf8);
+                fetchUserData(originalAccessToken);
+            } catch (error) {
+                console.error("Error decrypting token:", error);
                 setLoading(false);
-            });
+            }
         } else {
             setLoading(false);
         }

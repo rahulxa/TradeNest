@@ -3,7 +3,7 @@ import axios from 'axios'
 import { useSelector } from 'react-redux'
 
 function Orders() {
-  const userId = useSelector((state) => state.auth.userData._id);
+  const userId = useSelector((state) => state.auth.userData?._id);
   const accessToken = useSelector((state) => state.auth.userAccessToken)
 
   const [orders, setOrders] = useState([]);

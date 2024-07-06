@@ -7,10 +7,15 @@ import { setHoldings } from '../store/dataSlice';
 function Holdings() {
   const dispatch = useDispatch();
   const getAllStoreHoldings = useSelector((state) => state.data.holdings);
-  const userId = useSelector((state) => state.auth.userData._id);
+  const userId = useSelector((state) => state.auth.userData?._id); // Optional chaining to avoid errors
   const accessToken = useSelector((state) => state.auth.userAccessToken);
   const [finalHoldings, setFinalHoldings] = useState([]);
+  const [totalInvestment, setTotalInvestment] = useState(0)
+  const [totalCurrentValue, setTotalCurrentValue] = useState(0)
+  const [profitLoss, setProfitLoss] = useState(0)
+  const [profitLosspercentage, setProfitLossPercentage] = useState()
 
+  
   const initialHoldings = [
     {
       stockName: "RELIANCE",
@@ -47,40 +52,62 @@ function Holdings() {
       dayChange: "-0.24%",
       isLoss: true,
     },
-    // holding
+    // Add more initial holdings as needed
   ];
 
   useEffect(() => {
-    const fetchUserHoldings = async () => {
-      try {
-        const response = await axios.get(`http://localhost:3002/api/v1/holdings/get-holdings/${userId}`, {
-          headers: {
-            Authorization: `Bearer ${accessToken}`
+    if (userId && accessToken) { // Ensure userId and accessToken are available
+      const fetchUserHoldings = async () => {
+        try {
+          const response = await axios.get(`http://localhost:3002/api/v1/holdings/get-holdings/${userId}`, {
+            headers: {
+              Authorization: `Bearer ${accessToken}`
+            }
+          })
+          if (response) {
+            const holdings = response.data.data.holdings
+            dispatch(setHoldings({ holdings: holdings }));
           }
-        })
-        if (response) {
-          const holdings = response.data.data.holdings
-          dispatch(setHoldings({ holdings: holdings }));
-          // console.log()
+        } catch (error) {
+          console.error("Error fetching orders:", error.message);
         }
-      } catch (error) {
-        console.error("Error fetching orders:", error.message);
       }
+      fetchUserHoldings();
     }
-    fetchUserHoldings();
   }, [userId, accessToken, dispatch]);
 
   useEffect(() => {
-    console.log("all store holdings:", getAllStoreHoldings)
     if (getAllStoreHoldings.length > 0) {
       setFinalHoldings([...initialHoldings, ...getAllStoreHoldings])
-      console.log("final holdings:", finalHoldings)
     } else {
       setFinalHoldings(initialHoldings)
     }
   }, [getAllStoreHoldings])
 
+  useEffect(() => {
+    let totalInvestment = 0;
+    let totalCurrentValue = 0;
 
+    finalHoldings.forEach(stock => {
+      const currValue = stock.price * stock.qty;
+      const minPercentage = 0.8; // 80%
+      const maxPercentage = 1.2; // 120%
+      const randomPercentage = Math.random() * (maxPercentage - minPercentage) + minPercentage;
+      const avgCost = stock.price * randomPercentage;
+      const investment = avgCost * stock.qty;
+
+      totalInvestment += investment;
+      totalCurrentValue += currValue;
+    });
+
+    const profitLoss = totalCurrentValue - totalInvestment
+    const percentage = (profitLoss / totalInvestment * 100).toFixed(2)
+
+    setProfitLoss(profitLoss)
+    setTotalInvestment(totalInvestment.toFixed(2));
+    setTotalCurrentValue(totalCurrentValue.toFixed(2));
+    setProfitLossPercentage(percentage);
+  }, [finalHoldings]);
 
   const labels = finalHoldings.map((subArray) => subArray["stockName"])
 
@@ -113,8 +140,6 @@ function Holdings() {
             </tr>
           </thead>
           <tbody>
-            {/*  */}
-            {/*  */}
             {finalHoldings.map((stock, index) => {
               const minPercentage = 0.8; // 80%
               const maxPercentage = 1.2; // 120%
@@ -126,10 +151,6 @@ function Holdings() {
               const netChange = (((stockPrice - avgCost) / avgCost) * 100).toFixed(2)
               const profClass = profitLoss >= 0 ? "profit" : "loss"
               const dayClass = stock.isLoss === true ? "loss" : "profit"
-
-              // const isProfit = currValue - stock.avg * stock.qty >= 0.0;
-              // const profClass = isProfit ? "profit" : "loss";  
-              // const dayClass = stock.isLoss === true ? "loss" : "profit"
 
               return (
                 <tr key={index}>
@@ -150,18 +171,18 @@ function Holdings() {
       <div className="row">
         <div className="col">
           <h5>
-            29,875.<span>55</span>{" "}
+            {totalInvestment}
           </h5>
-          <p>Total investment</p>
+          <p>Total Investment</p>
         </div>
         <div className="col">
           <h5>
-            31,428.<span>95</span>{" "}
+            {totalCurrentValue}
           </h5>
           <p>Current value</p>
         </div>
         <div className="col">
-          <h5>1,553.40 (+5.20%)</h5>
+          <h5 className={profitLoss > 0 ? "text-success" : "text-danger"}>{profitLoss.toFixed(2)} ({profitLosspercentage}%)</h5>
           <p>P&L</p>
         </div>
       </div>
@@ -170,4 +191,4 @@ function Holdings() {
   )
 }
 
-export default Holdings
+export default Holdings;
