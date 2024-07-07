@@ -98,7 +98,7 @@ const updateUserHoldings = asyncHandler(async (req, res) => {
         throw new ApiError(404, "Holding not found");
     }
 
-    if (qty === 0) {
+    if (qty === holding.qty) {
         const deletedHolding = await Holdings.findByIdAndDelete(holding._id);
         if (!deletedHolding) {
             throw new ApiError(500, "Something went wrong while deleting the stock");
