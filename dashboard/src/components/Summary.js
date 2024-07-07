@@ -3,6 +3,14 @@ import { useSelector } from 'react-redux';
 
 function Summary() {
   const userData = useSelector((state) => state.auth.userData);
+  const { finalProfitLoss, finalProfitLossPercentage, finalCurrentValue, finalInvestment, totalHoldings } =
+    useSelector(state => ({
+      finalProfitLoss: state.data.finalProfitLoss,
+      finalProfitLossPercentage: state.data.finalProfitLossPercentage,
+      finalCurrentValue: state.data.finalCurrentValue,
+      finalInvestment: state.data.finalInvestment,
+      totalHoldings: state.data.totalHoldings,
+    }));
 
   return (
     <>
@@ -37,13 +45,13 @@ function Summary() {
 
       <div className="section">
         <span>
-          <p>Holdings (13)</p>
+          <p>Holdings ({totalHoldings ? totalHoldings : (13)})</p>
         </span>
 
         <div className="data">
           <div className="first">
-            <h3 className="profit">
-              1.55k <small>+5.20%</small>{" "}
+            <h3 className={finalProfitLoss > 0 ? "profit" : "loss"}>
+              {finalProfitLoss ? finalProfitLoss.toFixed(2) : "6.55k"} <small>{finalProfitLossPercentage ? finalProfitLossPercentage : "+5.20%"}%</small>{" "}
             </h3>
             <p>P&L</p>
           </div>
@@ -51,10 +59,10 @@ function Summary() {
 
           <div className="second">
             <p>
-              Current Value <span>31.43k</span>{" "}
+              Current Value <span>{finalCurrentValue ? finalCurrentValue.toFixed(2) : "31.43k"}</span>{" "}
             </p>
             <p>
-              Investment <span>29.88k</span>{" "}
+              Investment <span>{finalInvestment ? finalInvestment.toFixed(2) : "29.88k"}</span>{" "}
             </p>
           </div>
         </div>

@@ -73,6 +73,54 @@ const getUserHoldings = asyncHandler(async (req, res) => {
     return res
         .status(200)
         .json(new ApiResponse(200, { holdings }, "Holdings fetched successfully"));
-})
+});
 
-export { getUserHoldings, createUserHoldings }
+
+const updateUserHoldings = asyncHandler(async (req, res) => {
+    const { stockName, qty } = req.body;
+    const { userId } = req.params;
+
+    if (!stockName || qty === undefined) {
+        throw new ApiError(400, "Stockname and qty are required fields");
+    }
+
+    if (!isValidObjectId(userId)) {
+        throw new ApiError(400, "Invalid user id");
+    }
+
+    const user = await User.findById(userId);
+    if (!user) {
+        throw new ApiError(404, "User not found");
+    }
+
+    const holding = await Holdings.findOne({ stockName: stockName, owner: userId });
+    if (!holding) {
+        throw new ApiError(404, "Holding not found");
+    }
+
+    if (qty === 0) {
+        const deletedHolding = await Holdings.findByIdAndDelete(holding._id);
+        if (!deletedHolding) {
+            throw new ApiError(500, "Something went wrong while deleting the stock");
+        }
+
+        return res
+            .status(200)
+            .json(new ApiResponse(200, { deletedHolding }, "Holding deleted successfully"));
+    } else {
+        const updatedHolding = await Holdings.findByIdAndUpdate(
+            holding._id,
+            { $set: { qty: qty } },
+            { new: true }
+        );
+        if (!updatedHolding) {
+            throw new ApiError(500, "Something went wrong while updating the stock");
+        }
+        return res
+            .status(200)
+            .json(new ApiResponse(200, { updatedHolding }, "Holdings updated successfully"));
+    }
+});
+
+
+export { getUserHoldings, createUserHoldings, updateUserHoldings }

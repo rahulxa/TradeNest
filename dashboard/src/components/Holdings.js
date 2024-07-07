@@ -4,6 +4,7 @@ import { VerticalChart } from './VerticalChart';
 import { useSelector, useDispatch } from 'react-redux';
 import { setFinalData, setHoldings } from '../store/dataSlice';
 import { debounce } from 'lodash';
+import SellActionWindow from './SellActionWindow';
 
 function Holdings() {
   const dispatch = useDispatch();
@@ -16,6 +17,9 @@ function Holdings() {
   const [profitLoss, setProfitLoss] = useState(0);
   const [profitLosspercentage, setProfitLossPercentage] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
+  const [hoveredRow, setHoveredRow] = useState(null);
+  const [openSellWindow, setOpenSellWindow] = useState(false);
+  const [sellingStockDetails, setSellingStockDetails] = useState(null);
 
 
   const initialHoldings = [
@@ -63,6 +67,7 @@ function Holdings() {
   ];
 
 
+  //api call to initial holdings
   const fetchUserHoldings = useCallback(async () => {
     if (userId && accessToken) {
       setIsLoading(true);
@@ -84,18 +89,27 @@ function Holdings() {
     }
   }, [userId, accessToken, dispatch]);
 
+
+  //initial call to fetch user holdings
   useEffect(() => {
     fetchUserHoldings();
   }, [fetchUserHoldings]);
 
+
+  //concatinating initial and userholdings
   useEffect(() => {
     if (getAllStoreHoldings.length > 0) {
       setFinalHoldings([...initialHoldings, ...getAllStoreHoldings]);
+      dispatch((setFinalData({
+        totalHoldings: finalHoldings.length
+      })));
     } else {
       setFinalHoldings(initialHoldings);
     }
   }, [getAllStoreHoldings]);
 
+
+  //calculating total values
   useEffect(() => {
     let totalInvestment = 0;
     let totalCurrentValue = 0;
@@ -126,6 +140,8 @@ function Holdings() {
 
   }, [finalHoldings, dispatch]);
 
+
+  //handling refresh button
   const debouncedRefresh = useCallback(
     debounce(() => {
       fetchUserHoldings();
@@ -133,9 +149,22 @@ function Holdings() {
     [fetchUserHoldings]
   );
 
+  //refresh button click
   const handleRefreshClick = () => {
     debouncedRefresh();
   };
+
+
+  //
+  const handleSellclick = (stock) => {
+    setOpenSellWindow(true);
+    setSellingStockDetails(stock);
+  }
+
+  const handleCloseSellWindow = () => {
+    setOpenSellWindow(false);
+  }
+
 
   const labels = finalHoldings.map((subArray) => subArray["stockName"]);
 
@@ -149,6 +178,8 @@ function Holdings() {
       }
     ]
   };
+
+
 
   return (
     <>
@@ -170,6 +201,7 @@ function Holdings() {
               <th>Qty.</th>
               <th>Avg. cost</th>
               <th>LTP</th>
+              <th></th> {/* Empty header for the button column */}
               <th>Cur. val</th>
               <th>P&L</th>
               <th>Net chg.</th>
@@ -187,16 +219,45 @@ function Holdings() {
               const dayClass = stock.isLoss === true ? "loss" : "profit";
 
               return (
-                <tr key={index}>
-                  <td>{stock.stockName}</td>
-                  <td>{stock.qty}</td>
-                  <td>{stock.avgCost.toFixed(2)}</td>
-                  <td>{stockPrice.toFixed(2)}</td>
-                  <td>{currValue.toFixed(2)}</td>
-                  <td className={profClass}>{profitLoss.toFixed(2)}</td>
-                  <td className={profClass}>{netChange}%</td>
-                  <td className={dayClass}>{stock.dayChange}</td>
-                </tr>
+                <React.Fragment key={index}>
+                  {openSellWindow === true ? (
+                    <SellActionWindow stock={sellingStockDetails} onClose={handleCloseSellWindow} />
+                  ) : (
+                    <tr
+                      key={index}
+                      onMouseEnter={() => setHoveredRow(index)}
+                      onMouseLeave={() => setHoveredRow(null)}
+                    >
+                      <td>{stock.stockName}</td>
+                      <td>{stock.qty}</td>
+                      <td>{stock.avgCost.toFixed(2)}</td>
+                      <td>{stockPrice.toFixed(2)}</td>
+                      <td style={{ width: '60px', textAlign: 'center' }}>
+                        {hoveredRow === index && (
+                          <button
+                            onClick={() => handleSellclick(stock)}
+                            className="btn btn-sm btn-primary rounded"
+                            style={{
+                              fontSize: '0.95rem',
+                              padding: '3px 9px',
+                              lineHeight: '1.1',
+                              display: 'inline-block',
+                              verticalAlign: 'middle',
+                              marginLeft: "15px",
+                              borderRadius: '4px'
+                            }}
+                          >
+                            Sell
+                          </button>
+                        )}
+                      </td>
+                      <td>{currValue.toFixed(2)}</td>
+                      <td className={profClass}>{profitLoss.toFixed(2)}</td>
+                      <td className={profClass}>{netChange}%</td>
+                      <td className={dayClass}>{stock.dayChange}</td>
+                    </tr>
+                  )}
+                </React.Fragment>
               );
             })}
           </tbody>

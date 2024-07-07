@@ -6,7 +6,8 @@ const initialState = {
     finalProfitLoss: null,
     finalProfitLossPercentage: null,
     finalCurrentValue: null,
-    finalInvestment: null
+    finalInvestment: null,
+    totalHoldings: null
 }
 
 const dataSlice = createSlice({

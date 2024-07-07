@@ -89,6 +89,7 @@ function BuyActionWindow({ stockName, onClose, stockPrice, dayChange, avgCost })
                     <div className="modal-overlay">
                         <div className="modal-content p-4 bg-light rounded shadow-sm max-w-md mx-auto">
                             <h5 style={{ color: "darkblue", textAlign: "center", textDecoration: "underline" }}>{stockName}</h5>
+                            <h5 style={{ color: "darkblue", textAlign: "center",}} className='mb-2'>LTP - {stockPrice}</h5>
                             {priceMessage && <p style={{ color: "darkblue", textAlign: "center" }}>{priceMessage}</p>}
                             <div className="mb-3">
                                 <label htmlFor="quantity" className="form-label">Qty.</label>
