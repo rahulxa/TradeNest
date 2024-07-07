@@ -4,7 +4,7 @@ import axios from "axios"
 import { useSelector } from 'react-redux';
 
 
-function BuyActionWindow({ stockName, onClose, stockPrice, dayChange }) {
+function BuyActionWindow({ stockName, onClose, stockPrice, dayChange, avgCost }) {
     const accessToken = useSelector((state) => state.auth.userAccessToken)
     const [stockQuantity, setStockQuantity] = useState(null);
     const [newStockPrice, setNewStockPrice] = useState(null);
@@ -56,10 +56,11 @@ function BuyActionWindow({ stockName, onClose, stockPrice, dayChange }) {
                     stockName: stockName,
                     qty: formData.qty,
                     price: formData.price,
+                    avgCost: avgCost,
                     dayChange: dayChange,
                     isLoss: dayChange < 0 ? true : false,
                 }
-                // console.log("this is holdings data:", holdingsData)
+                console.log("this is holdings data:", holdingsData)
                 try {
                     const holdingsResponse = await axios.post("http://localhost:3002/api/v1/holdings/create-holdings", holdingsData,
                         {
@@ -69,7 +70,7 @@ function BuyActionWindow({ stockName, onClose, stockPrice, dayChange }) {
                         }
                     )
                     if (holdingsResponse) {
-                        // console.log("this is the holding response:", holdingsResponse.data.data);
+                        console.log("this is the holding response:", holdingsResponse.data.data);
                         console.log("Holdings created successfully")
                     }
                 } catch (error) {

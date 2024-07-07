@@ -25,6 +25,7 @@ function Holdings() {
       price: 2112.4,
       dayChange: "+1.44%",
       isLoss: false,
+      avgCost: 1900.0,  // Hypothetical average cost
     },
     {
       stockName: "BHARTIARTL",
@@ -32,6 +33,7 @@ function Holdings() {
       price: 541.15,
       dayChange: "+2.99%",
       isLoss: false,
+      avgCost: 500.0,  // Hypothetical average cost
     },
     {
       stockName: "HDFCBANK",
@@ -39,6 +41,7 @@ function Holdings() {
       price: 1522.35,
       dayChange: "+0.11%",
       isLoss: false,
+      avgCost: 1400.0,  // Hypothetical average cost
     },
     {
       stockName: "ITC",
@@ -46,6 +49,7 @@ function Holdings() {
       price: 207.9,
       dayChange: "+0.80%",
       isLoss: false,
+      avgCost: 180.0,  // Hypothetical average cost
     },
     {
       stockName: "TATAPOWER",
@@ -53,9 +57,11 @@ function Holdings() {
       price: 124.15,
       dayChange: "-0.24%",
       isLoss: true,
+      avgCost: 100.0,  // Hypothetical average cost
     },
     // Add more initial holdings as needed
   ];
+
 
   const fetchUserHoldings = useCallback(async () => {
     if (userId && accessToken) {
@@ -96,11 +102,8 @@ function Holdings() {
 
     finalHoldings.forEach(stock => {
       const currValue = stock.price * stock.qty;
-      const minPercentage = 0.8;
-      const maxPercentage = 1.2;
-      const randomPercentage = Math.random() * (maxPercentage - minPercentage) + minPercentage;
-      const avgCost = stock.price * randomPercentage;
-      const investment = avgCost * stock.qty;
+      // const avgCost = stock.price * randomPercentage;
+      const investment = stock.avgCost * stock.qty;
 
       totalInvestment += investment;
       totalCurrentValue += currValue;
@@ -175,14 +178,11 @@ function Holdings() {
           </thead>
           <tbody>
             {finalHoldings.map((stock, index) => {
-              const minPercentage = 0.8;
-              const maxPercentage = 1.2;
-              const randomPercentage = Math.random() * (maxPercentage - minPercentage) + minPercentage;
+
               const stockPrice = stock.price / stock.qty;
               const currValue = stockPrice * stock.qty;
-              const avgCost = stockPrice * randomPercentage;
-              const profitLoss = currValue - (avgCost * stock.qty);
-              const netChange = (((stockPrice - avgCost) / avgCost) * 100).toFixed(2);
+              const profitLoss = currValue - (stock.avgCost * stock.qty);
+              const netChange = (((stockPrice - stock.avgCost) / stock.avgCost) * 100).toFixed(2);
               const profClass = profitLoss >= 0 ? "profit" : "loss";
               const dayClass = stock.isLoss === true ? "loss" : "profit";
 
@@ -190,7 +190,7 @@ function Holdings() {
                 <tr key={index}>
                   <td>{stock.stockName}</td>
                   <td>{stock.qty}</td>
-                  <td>{avgCost.toFixed(2)}</td>
+                  <td>{stock.avgCost.toFixed(2)}</td>
                   <td>{stockPrice.toFixed(2)}</td>
                   <td>{currValue.toFixed(2)}</td>
                   <td className={profClass}>{profitLoss.toFixed(2)}</td>

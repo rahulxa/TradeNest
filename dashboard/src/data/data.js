@@ -4,56 +4,66 @@ export const watchlist = [
         price: 1555.45,
         percent: "-1.60%",
         isDown: true,
+        avgCost: 1400.00,
     },
     {
         name: "ONGC",
         price: 116.8,
         percent: "-0.09%",
         isDown: true,
+        avgCost: 100.00,
     },
     {
         name: "TCS",
         price: 3194.8,
         percent: "-0.25%",
         isDown: true,
+        avgCost: 3000.00,
     },
     {
         name: "KPITTECH",
         price: 266.45,
         percent: "3.54%",
         isDown: false,
+        avgCost: 220.00,
     },
     {
         name: "QUICKHEAL",
         price: 308.55,
         percent: "-0.15%",
         isDown: true,
+        avgCost: 280.00,
     },
     {
         name: "WIPRO",
         price: 577.75,
         percent: "0.32%",
         isDown: false,
+        avgCost: 500.00,
     },
     {
         name: "M&M",
         price: 779.8,
         percent: "-0.01%",
         isDown: true,
+        avgCost: 700.00,
     },
     {
         name: "RELIANCE",
         price: 2112.4,
         percent: "1.44%",
         isDown: false,
+        avgCost: 1800.00,
     },
     {
         name: "HUL",
         price: 512.4,
         percent: "1.04%",
         isDown: false,
+        avgCost: 450.00,
     },
 ];
+
 
 // holdings
 export const holdings = [

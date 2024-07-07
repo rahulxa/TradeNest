@@ -48,10 +48,24 @@ function WatchList() {
         <span className='counts'>{watchlist.length}/50</span>
       </div>
 
-      <ul className='list'>
-        {watchlist.map((stock, index) =>
-          <WatchListItem stock={stock} key={index} />)}
-      </ul>
+      <div className="container mt-2">
+        <div className="row">
+          <div className="col-4">
+            <strong>(Stock Name)</strong>
+          </div>
+          <div className="col-3" style={{ marginLeft: "30px" }}>
+            <strong>(LTP)</strong>
+          </div>
+          <div className="col-2" style={{ marginRight: "15px" }}>
+            <strong>Avg Cost</strong>
+          </div>
+        </div>
+        <ul className='list-group'>
+          {watchlist.map((stock, index) => (
+            <WatchListItem stock={stock} key={index} />
+          ))}
+        </ul>
+      </div>
       <DoughnoutChart data={data} />
     </div>
   )
@@ -60,7 +74,7 @@ function WatchList() {
 export default WatchList
 
 
-function WatchListItem({ stock, index }) {
+function WatchListItem({ stock }) {
   const [showWatchListActions, setShowWatchlistActions] = useState(false);
 
   const mouseHover = (e) => {
@@ -71,27 +85,36 @@ function WatchListItem({ stock, index }) {
   };
 
   return (
-    <li onMouseEnter={mouseHover} onMouseLeave={mouseLeave}>
-      <div className='item'>
-        <p className={stock.isDown ? "down" : "up"}>{stock.name}</p>
-        <div className='itemInfo'>
-          <span className='percent'>{stock.percent}</span>
-          {stock.isDown ? (
-            <KeyboardArrowDown className="icon down" />
-          ) : (
-            <KeyboardArrowUp className="icon up" />
-          )}
+    <li onMouseEnter={mouseHover} onMouseLeave={mouseLeave} className="list-group-item mt-2">
+      <div className="row">
+        <div className="col-4">
+          <span className={stock.isDown ? "text-danger" : "text-success"}>{stock.name}</span>
+        </div>
+        <div className="col-3">
           <span className='price'>{stock.price}</span>
         </div>
+        <div className="col-2">
+          <span className='price'>{stock.avgCost}</span>
+        </div>
       </div>
-      {showWatchListActions && <WatchListActions uid={stock.name} stockPrice={stock.price} dayChange={stock.percent} />}
+      <div className="d-flex align-items-center mt-2">
+        <span className='me-2'>{stock.percent}</span>
+        {stock.isDown ? (
+          <KeyboardArrowDown className="icon text-danger" />
+        ) : (
+          <KeyboardArrowUp className="icon text-success" />
+        )}
+      </div>
+      {showWatchListActions && <WatchListActions uid={stock.name} stockPrice={stock.price} dayChange={stock.percent} avgCost={stock.avgCost} />}
     </li>
   );
 }
 
 
 
-function WatchListActions({ uid, stockPrice, dayChange }) {
+
+
+function WatchListActions({ uid, stockPrice, dayChange, avgCost }) {
   const [buy, setBuy] = useState(false);
 
   const openBuyActionWindow = () => {
@@ -105,7 +128,7 @@ function WatchListActions({ uid, stockPrice, dayChange }) {
     <>
       {buy && (
         <div className='container'>
-          <BuyActionWindow stockName={uid} stockPrice={stockPrice} dayChange={dayChange} onClose={closeBuyActionWindow} />
+          <BuyActionWindow stockName={uid} stockPrice={stockPrice} dayChange={dayChange} onClose={closeBuyActionWindow} avgCost={avgCost} />
         </div>
       )}
       {!buy && (
@@ -119,14 +142,14 @@ function WatchListActions({ uid, stockPrice, dayChange }) {
             >
               <button className='buy' onClick={openBuyActionWindow}>Buy</button>
             </Tooltip>
-            <Tooltip
+            {/* <Tooltip
               title="Sell(S)"
               placement='top'
               arrow
               TransitionComponent={Grow}
             >
               <button className='sell'>Sell</button>
-            </Tooltip>
+            </Tooltip> */}
             <Tooltip
               title="Analytics(A)"
               placement='top'

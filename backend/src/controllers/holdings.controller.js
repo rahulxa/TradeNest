@@ -7,7 +7,7 @@ import { ApiResponse } from "../utils/apiResponse.js";
 
 
 const createUserHoldings = asyncHandler(async (req, res) => {
-    const { stockName, qty, price, dayChange, isLoss } = req.body;
+    const { stockName, qty, price, avgCost, dayChange, isLoss } = req.body;
     const userId = req.params?._id || req.user?._id//apply jwt
 
     // if (!stockName || !qty || !price || typeof qty !== 'number' || typeof price !== 'number') {
@@ -31,6 +31,7 @@ const createUserHoldings = asyncHandler(async (req, res) => {
                 stockName,
                 qty,
                 price,
+                avgCost,
                 dayChange,
                 isLoss,
                 owner: userId
