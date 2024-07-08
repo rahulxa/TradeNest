@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback, useRef } from 'react';
 import axios from "axios";
 import { VerticalChart } from './VerticalChart';
 import { useSelector, useDispatch } from 'react-redux';
@@ -179,12 +179,24 @@ function Holdings() {
     ]
   };
 
+  const graphRef = useRef(null);
+
+  const scrollToGraph = () => {
+    if (graphRef.current) {
+      graphRef.current.scrollIntoView({ behavior: "smooth" })
+    }
+  }
 
 
   return (
     <>
       <div className="d-flex justify-content-between align-items-center mb-5 text-muted">
-        <h3 className="mb-0">Holdings ({finalHoldings.length})</h3>
+        <div className="d-flex align-items-center">
+          <h3 className="mb-0">Holdings ({finalHoldings.length})</h3>
+          <button className="ms-3" title="Analytics" onClick={scrollToGraph}>
+            <i className="fa-solid fa-chart-simple"></i>
+          </button>
+        </div>
         <button
           className="custom-btn-refresh"
           onClick={handleRefreshClick}
@@ -193,6 +205,7 @@ function Holdings() {
           {isLoading ? 'Refreshing...' : 'Refresh'}
         </button>
       </div>
+
       <div className='order-table'>
         <table>
           <thead>
@@ -280,7 +293,9 @@ function Holdings() {
           <p>P&L</p>
         </div>
       </div>
-      <VerticalChart data={data} />
+      <div ref={graphRef}>
+        <VerticalChart data={data} />
+      </div>
     </>
   );
 }

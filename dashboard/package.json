@@ -5,6 +5,7 @@
   "dependencies": {
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
+    "@google/generative-ai": "^0.14.1",
     "@mui/icons-material": "^5.15.20",
     "@mui/material": "^5.15.20",
     "@reduxjs/toolkit": "^2.2.6",
@@ -15,6 +16,7 @@
     "chart.js": "^4.4.3",
     "crypto-js": "^4.2.0",
     "lodash": "^4.17.21",
+    "openai": "^4.52.3",
     "react": "^18.3.1",
     "react-chartjs-2": "^5.2.0",
     "react-dom": "^18.3.1",

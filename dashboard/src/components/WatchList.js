@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import { watchlist } from '../data/data'
 import { Tooltip, Grow } from "@mui/material"
 import { BarChartOutlined, KeyboardArrowDown, KeyboardArrowUp, Label, MoreHoriz } from "@mui/icons-material"
@@ -35,6 +35,14 @@ function WatchList() {
     ]
   }
 
+  const doughnoutChartRef = useRef(null);
+
+  const scrollToChart = () => {
+    if (doughnoutChartRef.current) {
+      doughnoutChartRef.current.scrollIntoView({ behavior: "smooth" })
+    }
+  };
+
   return (
     <div className='watchlist-container'>
       <div className='search-container'>
@@ -62,11 +70,13 @@ function WatchList() {
         </div>
         <ul className='list-group'>
           {watchlist.map((stock, index) => (
-            <WatchListItem stock={stock} key={index} />
+            <WatchListItem stock={stock} key={index} scrollToChart={scrollToChart} />
           ))}
         </ul>
       </div>
-      <DoughnoutChart data={data} />
+      <div ref={doughnoutChartRef}>
+        <DoughnoutChart data={data} />
+      </div>
     </div>
   )
 }
@@ -74,7 +84,7 @@ function WatchList() {
 export default WatchList
 
 
-function WatchListItem({ stock }) {
+function WatchListItem({ stock, scrollToChart }) {
   const [showWatchListActions, setShowWatchlistActions] = useState(false);
 
   const mouseHover = (e) => {
@@ -105,7 +115,7 @@ function WatchListItem({ stock }) {
           <KeyboardArrowUp className="icon text-success" />
         )}
       </div>
-      {showWatchListActions && <WatchListActions uid={stock.name} stockPrice={stock.price} dayChange={stock.percent} avgCost={stock.avgCost} />}
+      {showWatchListActions && <WatchListActions uid={stock.name} stockPrice={stock.price} dayChange={stock.percent} avgCost={stock.avgCost} scrollToChart={scrollToChart} />}
     </li>
   );
 }
@@ -114,7 +124,7 @@ function WatchListItem({ stock }) {
 
 
 
-function WatchListActions({ uid, stockPrice, dayChange, avgCost }) {
+function WatchListActions({ uid, stockPrice, dayChange, avgCost, scrollToChart }) {
   const [buy, setBuy] = useState(false);
 
   const openBuyActionWindow = () => {
@@ -142,21 +152,13 @@ function WatchListActions({ uid, stockPrice, dayChange, avgCost }) {
             >
               <button className='buy' onClick={openBuyActionWindow}>Buy</button>
             </Tooltip>
-            {/* <Tooltip
-              title="Sell(S)"
-              placement='top'
-              arrow
-              TransitionComponent={Grow}
-            >
-              <button className='sell'>Sell</button>
-            </Tooltip> */}
             <Tooltip
               title="Analytics(A)"
               placement='top'
               arrow
               TransitionComponent={Grow}
             >
-              <button className='action'>
+              <button className='action' onClick={scrollToChart}>
                 <BarChartOutlined className='icon' />
               </button>
             </Tooltip>

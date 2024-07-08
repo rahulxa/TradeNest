@@ -74,7 +74,7 @@ function Menu() {
               </p>
             </Link>
           </li>
-          <li>
+          {/* <li>
             <Link
               style={{ textDecoration: "none" }}
               to="funds"
@@ -84,15 +84,15 @@ function Menu() {
                 Funds
               </p>
             </Link>
-          </li>
+          </li> */}
           <li>
             <Link
               style={{ textDecoration: "none" }}
-              to="/apps"
+              to="/AI"
               onClick={() => handleMenuClick(6)}
             >
               <p className={selectedOption === 6 ? activeMenuClass : menuClass}>
-                Apps
+                AI<i className="fa-solid fa-wand-sparkles" style={{marginLeft:"4px"}}></i>
               </p>
             </Link>
           </li>
