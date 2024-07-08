@@ -30,7 +30,7 @@ const createUserHoldings = asyncHandler(async (req, res) => {
             const holdings = await Holdings.create({
                 stockName,
                 qty,
-                price,
+                price,  //idhar
                 avgCost,
                 dayChange,
                 isLoss,
@@ -78,9 +78,9 @@ const getUserHoldings = asyncHandler(async (req, res) => {
 
 const updateUserHoldings = asyncHandler(async (req, res) => {
     const { stockName, qty } = req.body;
-    const { userId } = req.params;
+    const userId = req.params?._id || req.user?._id//apply jwt
 
-    if (!stockName || qty === undefined) {
+    if (!stockName || qty === 0) {
         throw new ApiError(400, "Stockname and qty are required fields");
     }
 

@@ -38,7 +38,7 @@ function BuyActionWindow({ stockName, onClose, stockPrice, dayChange, avgCost })
             const orderData = {
                 stockName: stockName,
                 qty: formData.qty,
-                price: formData.price, //this is lTP for holdings
+                price: formData.price, //this is the total price of all the stocks combined
                 mode: "buy"
             };
             const orderResponse = await axios.post("http://localhost:3002/api/v1/orders/place-order", orderData,
@@ -55,7 +55,7 @@ function BuyActionWindow({ stockName, onClose, stockPrice, dayChange, avgCost })
                 const holdingsData = {
                     stockName: stockName,
                     qty: formData.qty,
-                    price: formData.price,
+                    price: formData.price / formData.qty, // this is the priceof each stock
                     avgCost: avgCost,
                     dayChange: dayChange,
                     isLoss: dayChange < 0 ? true : false,
@@ -89,7 +89,7 @@ function BuyActionWindow({ stockName, onClose, stockPrice, dayChange, avgCost })
                     <div className="modal-overlay">
                         <div className="modal-content p-4 bg-light rounded shadow-sm max-w-md mx-auto">
                             <h5 style={{ color: "darkblue", textAlign: "center", textDecoration: "underline" }}>{stockName}</h5>
-                            <h5 style={{ color: "darkblue", textAlign: "center",}} className='mb-2'>LTP - {stockPrice}</h5>
+                            <h5 style={{ color: "darkblue", textAlign: "center", }} className='mb-2'>LTP - {stockPrice}</h5>
                             {priceMessage && <p style={{ color: "darkblue", textAlign: "center" }}>{priceMessage}</p>}
                             <div className="mb-3">
                                 <label htmlFor="quantity" className="form-label">Qty.</label>

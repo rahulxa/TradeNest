@@ -6,7 +6,7 @@ const holdingsRouter = Router();
 
 holdingsRouter.route("/create-holdings").post(verifyJWT, createUserHoldings);
 holdingsRouter.route("/get-holdings/:userId").get(verifyJWT, getUserHoldings);
-holdingsRouter.route("/update-holdings/:userId").patch(updateUserHoldings);
+holdingsRouter.route("/update-holdings/:userId").patch(verifyJWT,updateUserHoldings);
 
 
 export default holdingsRouter;

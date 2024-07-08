@@ -210,11 +210,12 @@ function Holdings() {
           </thead>
           <tbody>
             {finalHoldings.map((stock, index) => {
-
-              const stockPrice = stock.price / stock.qty;
-              const currValue = stockPrice * stock.qty;
+              //stock.price
+              // const stockPrice = stock.price / stock.qty;
+              // console.log("stock price:", stockPrice);
+              const currValue = stock.price * stock.qty;
               const profitLoss = currValue - (stock.avgCost * stock.qty);
-              const netChange = (((stockPrice - stock.avgCost) / stock.avgCost) * 100).toFixed(2);
+              const netChange = (((stock.price - stock.avgCost) / stock.avgCost) * 100).toFixed(2);
               const profClass = profitLoss >= 0 ? "profit" : "loss";
               const dayClass = stock.isLoss === true ? "loss" : "profit";
 
@@ -231,7 +232,7 @@ function Holdings() {
                       <td>{stock.stockName}</td>
                       <td>{stock.qty}</td>
                       <td>{stock.avgCost.toFixed(2)}</td>
-                      <td>{stockPrice.toFixed(2)}</td>
+                      <td>{stock.price.toFixed(2)}</td>
                       <td style={{ width: '60px', textAlign: 'center' }}>
                         {hoveredRow === index && (
                           <button
