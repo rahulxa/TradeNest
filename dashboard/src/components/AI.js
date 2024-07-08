@@ -8,6 +8,7 @@ function AI() {
     const [messages, setMessages] = useState([]);
     const [input, setInput] = useState('');
     const [loading, setLoading] = useState(false);
+    const [previewMessage, setPreviewMessage] = useState(true)
     const messagesEndRef = useRef(null);
 
     const scrollToBottom = () => {
@@ -50,8 +51,6 @@ function AI() {
     };
 
 
-
-
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (!input.trim()) return;
@@ -74,28 +73,58 @@ function AI() {
         }
     };
 
+
     return (
-        <div className="container mt-5">
+        <div className="container mt-5" style={{ maxWidth: "900px" }}>
             <div className="row justify-content-center">
-                <div className="col-md-8">
+                <div className="col-12">
                     <div className="card">
                         <div className="card-header bg-primary text-white">
-                            <h5 className="mb-0">AI Chat</h5>
+                            <h5 className="mb-0">TradeIntel AI</h5>
                         </div>
                         <div className="card-body" style={{ height: '500px', overflowY: 'auto' }}>
-                            {messages.map((message, index) => (
-                                <div key={index} className={`d-flex ${message.sender === 'user' ? 'justify-content-end' : 'justify-content-start'} mb-3`}>
-                                    <div className={`card ${message.sender === 'user' ? 'bg-primary text-white' : 'bg-light'}`} style={{ maxWidth: '80%' }}>
-                                        <div className="card-body py-2 px-3">
-                                            {message.sender === 'user' ? (
-                                                <p className="mb-0">{message.text}</p>
-                                            ) : (
-                                                <div>{formatAIResponse(message.text)}</div>
-                                            )}
+                            {previewMessage ? (
+                                <div className="d-flex justify-content-center align-items-center" style={{ height: '100%' }}>
+                                    <div className="text-center">
+                                        <h4 className='text-muted' style={{ marginTop: "-100px" }}>
+                                            Welcome to TradeIntel AI
+                                            <i className="fa-solid fa-wand-sparkles text-muted" style={{ marginLeft: "8px" }}></i>
+                                        </h4>
+                                        <h5 className='text-muted'>Start by clicking...</h5>
+                                        <div>
+                                            <button
+                                                className='btn btn-outline-secondary w-100 mt-4'
+                                                style={{ cursor: 'pointer', textAlign: 'center', fontSize: '1rem' }}
+                                            >
+                                                learn how to use stockmarket
+                                            </button>
+                                            <p className='mt-3 text-muted text-center'>or</p>
+                                            <button
+                                                className='btn btn-outline-secondary w-100'
+                                                style={{ cursor: 'pointer', textAlign: 'center', fontSize: '1rem' }}
+                                            >
+                                                learn how to use kite app
+                                            </button>
                                         </div>
+
                                     </div>
                                 </div>
-                            ))}
+                            ) : (
+                                messages.map((message, index) => (
+                                    <div key={index} className={`d-flex ${message.sender === 'user' ? 'justify-content-end' : 'justify-content-start'} mb-3`}>
+                                        <div className={`card ${message.sender === 'user' ? 'bg-primary text-white' : 'bg-light'}`} style={{ maxWidth: '80%' }}>
+                                            <div className="card-body py-2 px-3">
+                                                {message.sender === 'user' ? (
+                                                    <p className="mb-0">{message.text}</p>
+                                                ) : (
+                                                    <div>{formatAIResponse(message.text)}</div>
+                                                )}
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))
+                            )}
+
                             {loading && (
                                 <div className="d-flex justify-content-start mb-3">
                                     <div className="card bg-light" style={{ maxWidth: '80%' }}>
