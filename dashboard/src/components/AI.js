@@ -27,9 +27,14 @@ function AI() {
                 return <h5 key={index} className="mt-3 mb-2">{paragraph.slice(2, -2)}</h5>;
             }
 
+            // Check if the paragraph is a header (starts with ##)
+            if (paragraph.startsWith("##")) {
+                return <h5 key={index} className='mt-3 mb-2'>{paragraph.slice(2).trim()}</h5>;
+            }
+
             // Check if the paragraph is a list
             if (paragraph.includes('\n* ')) {
-                const listItems = paragraph.split('\n* ');
+                const listItems = paragraph.split('\n* ').filter(item => item.trim() !== '');
                 return (
                     <ul key={index} className="list-group list-group-flush mt-2">
                         {listItems.map((item, i) => (
@@ -43,6 +48,8 @@ function AI() {
             return <p key={index} className="mb-2">{paragraph}</p>;
         });
     };
+
+
 
 
     const handleSubmit = async (e) => {
