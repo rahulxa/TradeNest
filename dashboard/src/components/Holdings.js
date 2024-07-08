@@ -234,7 +234,7 @@ function Holdings() {
                       <td>{stock.avgCost.toFixed(2)}</td>
                       <td>{stock.price.toFixed(2)}</td>
                       <td style={{ width: '60px', textAlign: 'center' }}>
-                        {hoveredRow === index && (
+                        {index > 4 && hoveredRow === index && (
                           <button
                             onClick={() => handleSellclick(stock)}
                             className="btn btn-sm btn-primary rounded"
