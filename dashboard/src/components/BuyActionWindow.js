@@ -39,7 +39,7 @@ function BuyActionWindow({ stockName, onClose, stockPrice, dayChange, avgCost })
                 stockName: stockName,
                 qty: formData.qty,
                 price: formData.price, //this is the total price of all the stocks combined
-                mode: "buy"
+                mode: "Buy"
             };
             const orderResponse = await axios.post("http://localhost:3002/api/v1/orders/place-order", orderData,
                 {

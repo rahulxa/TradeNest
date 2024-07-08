@@ -16,7 +16,7 @@ function SellActionWindow({ stock, onClose }) {
 
     useEffect(() => {
         if (stock.qty !== 0) {
-            setSellPrice(((stock.price / stock.qty) * (sellQty)).toFixed(2))
+            setSellPrice((stock.price * sellQty).toFixed(2))
         }
     }, [sellQty, stock.price])
 
@@ -31,8 +31,9 @@ function SellActionWindow({ stock, onClose }) {
                 stockName: stock.stockName,
                 qty: sellQty,
                 price: sellPrice, //this is lTP for holdings
-                mode: "sell"
+                mode: "Sell"
             };
+            console.log("order data:", orderData)
             const orderResponse = await axios.post("http://localhost:3002/api/v1/orders/place-order", orderData, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`
