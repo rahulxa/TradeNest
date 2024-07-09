@@ -8,7 +8,7 @@ function AI() {
     const [messages, setMessages] = useState([]);
     const [input, setInput] = useState('');
     const [loading, setLoading] = useState(false);
-    const [previewMessage, setPreviewMessage] = useState(true)
+    const [previewMessage, setPreviewMessage] = useState(true);
     const messagesEndRef = useRef(null);
 
     const scrollToBottom = () => {
@@ -17,23 +17,15 @@ function AI() {
 
     useEffect(scrollToBottom, [messages]);
 
-
     const formatAIResponse = (text) => {
-        // Split the text into paragraphs
         const paragraphs = text.split('\n\n');
-
         return paragraphs.map((paragraph, index) => {
-            // Check if the paragraph is a header (starts with **)
             if (paragraph.startsWith('**') && paragraph.endsWith('**')) {
                 return <h5 key={index} className="mt-3 mb-2">{paragraph.slice(2, -2)}</h5>;
             }
-
-            // Check if the paragraph is a header (starts with ##)
             if (paragraph.startsWith("##")) {
                 return <h5 key={index} className='mt-3 mb-2'>{paragraph.slice(2).trim()}</h5>;
             }
-
-            // Check if the paragraph is a list
             if (paragraph.includes('\n* ')) {
                 const listItems = paragraph.split('\n* ').filter(item => item.trim() !== '');
                 return (
@@ -44,25 +36,20 @@ function AI() {
                     </ul>
                 );
             }
-
-            // Regular paragraph
             return <p key={index} className="mb-2">{paragraph}</p>;
         });
     };
 
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        if (!input.trim()) return;
-
-        const userMessage = { text: input, sender: 'user' };
+    const handleSubmit = async (textMessage) => {
+        setPreviewMessage(false);
+        const userMessage = { text: textMessage, sender: 'user' };
         setMessages(prev => [...prev, userMessage]);
-        setInput('');
         setLoading(true);
+        setInput('');
 
         try {
-            const r = await model.generateContent(input);
-            const responseText = r.response.text();
+            const data = await model.generateContent(textMessage);
+            const responseText = await data.response.text();
             const aiMessage = { text: responseText, sender: 'ai' };
             setMessages(prev => [...prev, aiMessage]);
         } catch (error) {
@@ -73,6 +60,15 @@ function AI() {
         }
     };
 
+    const handlePreviewOptionClick = (text) => {
+        handleSubmit(text);
+    };
+
+    const handleFormSubmit = (e) => {
+        e.preventDefault();
+        if (!input.trim()) return;
+        handleSubmit(input);
+    };
 
     return (
         <div className="container mt-5" style={{ maxWidth: "900px" }}>
@@ -87,26 +83,27 @@ function AI() {
                                 <div className="d-flex justify-content-center align-items-center" style={{ height: '100%' }}>
                                     <div className="text-center">
                                         <h4 className='text-muted' style={{ marginTop: "-100px" }}>
-                                            Welcome to TradeIntel AI
+                                            Welcome to TradeIntel AI ChatBot
                                             <i className="fa-solid fa-wand-sparkles text-muted" style={{ marginLeft: "8px" }}></i>
                                         </h4>
                                         <h5 className='text-muted'>Start by clicking...</h5>
                                         <div>
                                             <button
-                                                className='btn btn-outline-secondary w-100 mt-4'
+                                                className='btn btn-outline-secondary btn-light rounded-3 w-100 mt-4'
                                                 style={{ cursor: 'pointer', textAlign: 'center', fontSize: '1rem' }}
+                                                onClick={(e) => handlePreviewOptionClick(e.currentTarget.textContent)}
                                             >
                                                 learn how to use stockmarket
                                             </button>
                                             <p className='mt-3 text-muted text-center'>or</p>
                                             <button
-                                                className='btn btn-outline-secondary w-100'
+                                                className='btn btn-outline-secondary btn-light rounded-3 w-100'
                                                 style={{ cursor: 'pointer', textAlign: 'center', fontSize: '1rem' }}
+                                                onClick={(e) => handlePreviewOptionClick(e.currentTarget.textContent)}
                                             >
                                                 learn how to use kite app
                                             </button>
                                         </div>
-
                                     </div>
                                 </div>
                             ) : (
@@ -137,7 +134,7 @@ function AI() {
                             <div ref={messagesEndRef} />
                         </div>
                         <div className="card-footer">
-                            <form onSubmit={handleSubmit}>
+                            <form onSubmit={handleFormSubmit}>
                                 <div className="input-group">
                                     <input
                                         type="text"
@@ -148,7 +145,7 @@ function AI() {
                                         disabled={loading}
                                     />
                                     <div className="input-group-append">
-                                        <button className="btn btn-primary" type="submit" disabled={loading}>
+                                        <button className="btn btn-primary rounded" type="submit" disabled={loading}>
                                             Send
                                         </button>
                                     </div>
@@ -161,6 +158,5 @@ function AI() {
         </div>
     );
 }
-
 
 export default AI;
