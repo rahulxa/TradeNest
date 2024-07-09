@@ -31,7 +31,7 @@ function AI() {
                 return (
                     <ul key={index} className="list-group list-group-flush mt-2">
                         {listItems.map((item, i) => (
-                            <li key={i} className="list-group-item">{item.trim()}</li>
+                            <li key={i} className="list-group-item">{item}</li>
                         ))}
                     </ul>
                 );
@@ -69,6 +69,15 @@ function AI() {
         if (!input.trim()) return;
         handleSubmit(input);
     };
+
+
+    const handleChatClear = () => {
+        setPreviewMessage(true);
+        setMessages([])
+        setInput("")
+        setLoading(false)
+    }
+
 
     return (
         <div className="container mt-5" style={{ maxWidth: "900px" }}>
@@ -134,7 +143,14 @@ function AI() {
                             <div ref={messagesEndRef} />
                         </div>
                         <div className="card-footer">
-                            <form onSubmit={handleFormSubmit}>
+                            <form onSubmit={handleFormSubmit} className="d-flex align-items-center">
+                                <button className="mr-2 mb-3"
+                                    style={{ height: "45px" }}
+                                    title="Clear Chat"
+                                    onClick={handleChatClear}
+                                >
+                                    <i className="fa-solid fa-broom"></i>
+                                </button>
                                 <div className="input-group">
                                     <input
                                         type="text"
