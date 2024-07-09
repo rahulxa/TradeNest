@@ -102,7 +102,7 @@ function AI() {
                                                 style={{ cursor: 'pointer', textAlign: 'center', fontSize: '1rem' }}
                                                 onClick={(e) => handlePreviewOptionClick(e.currentTarget.textContent)}
                                             >
-                                                learn how to use stockmarket
+                                                Learn how to start investing in stock markets efficiently.
                                             </button>
                                             <p className='mt-3 text-muted text-center'>or</p>
                                             <button
@@ -110,7 +110,7 @@ function AI() {
                                                 style={{ cursor: 'pointer', textAlign: 'center', fontSize: '1rem' }}
                                                 onClick={(e) => handlePreviewOptionClick(e.currentTarget.textContent)}
                                             >
-                                                learn how to use kite app
+                                                Discover how to navigate Zerodha Kite for seamless trading experiences
                                             </button>
                                         </div>
                                     </div>
@@ -134,10 +134,13 @@ function AI() {
                             {loading && (
                                 <div className="d-flex justify-content-start mb-3">
                                     <div className="card bg-light" style={{ maxWidth: '80%' }}>
-                                        <div className="card-body py-2 px-3">
-                                            <p className="mb-0 font-italic text-muted">AI is thinking...</p>
+                                        <div className="card-body py-2 px-3 d-flex align-items-center">
+                                            <p className="mb-0 font-italic text-muted" style={{ marginRight: '10px' }}>TradeIntel AI is thinking...</p>
+                                            <div className="spinner-border spinner-border-sm text-primary" role="status">
+                                                <span className="visually-hidden">Loading...</span>
+                                            </div>
                                         </div>
-                                    </div>
+                                    </div>  
                                 </div>
                             )}
                             <div ref={messagesEndRef} />
