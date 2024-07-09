@@ -1,14 +1,17 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { addMessage, setPreviewMessage, clearChat } from "../store/chatSlice"
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
 const genAI = new GoogleGenerativeAI("AIzaSyATJ_AfiXUTU4YVYG7soBWa7SfvV7K1Sjw");
 const model = genAI.getGenerativeModel({ model: "gemini-1.5-pro" });
 
 function AI() {
-    const [messages, setMessages] = useState([]);
+    const dispatch = useDispatch();
+    const messages = useSelector(state => state.chat.messages);
+    const previewMessage = useSelector(state => state.chat.previewMessage);
     const [input, setInput] = useState('');
     const [loading, setLoading] = useState(false);
-    const [previewMessage, setPreviewMessage] = useState(true);
     const messagesEndRef = useRef(null);
 
     const scrollToBottom = () => {
@@ -41,9 +44,9 @@ function AI() {
     };
 
     const handleSubmit = async (textMessage) => {
-        setPreviewMessage(false);
+        dispatch(setPreviewMessage(false));
         const userMessage = { text: textMessage, sender: 'user' };
-        setMessages(prev => [...prev, userMessage]);
+        dispatch(addMessage(userMessage));
         setLoading(true);
         setInput('');
 
@@ -51,10 +54,10 @@ function AI() {
             const data = await model.generateContent(textMessage);
             const responseText = await data.response.text();
             const aiMessage = { text: responseText, sender: 'ai' };
-            setMessages(prev => [...prev, aiMessage]);
+            dispatch(addMessage(aiMessage));
         } catch (error) {
             console.error("Error fetching data:", error);
-            setMessages(prev => [...prev, { text: "Sorry, I encountered an error. Please try again.", sender: 'ai' }]);
+            dispatch(addMessage({ text: "Sorry, I encountered an error. Please try again.", sender: 'ai' }));
         } finally {
             setLoading(false);
         }
@@ -72,10 +75,9 @@ function AI() {
 
 
     const handleChatClear = () => {
-        setPreviewMessage(true);
-        setMessages([])
-        setInput("")
-        setLoading(false)
+        dispatch(clearChat());
+        setInput("");
+        setLoading(false);
     }
 
 
