@@ -4,7 +4,6 @@ import Logout from './Logout';
 import { useSelector } from 'react-redux';
 
 function Menu() {
-
   const userData = useSelector((state) => state.auth.userData);
   const username = userData ? userData.username : '';
   const initials = username.split(' ')[0];
@@ -25,88 +24,74 @@ function Menu() {
   const activeMenuClass = "menu selected";
 
   return (
-    <div className="menu-container">
-      <img src="logo.png" style={{ width: "35px" }} />
-      <p style={{ marginLeft: "-550px" }}>Zerodha</p>
-      <div className="menus">
+    <div className="menu-container mt-3" style={{ marginRight: "-200px" }}>
+      <div className="logo-section">
+        <img src="logo.png" className="logo" alt="Kite logo" />
+        <span className="logo-text">Kite</span>
+      </div>
+      <div className="menus" >
         <ul>
           <li>
             <Link
-              style={{ textDecoration: "none" }}
               to="/"
               onClick={() => handleMenuClick(0)}
+              className={selectedOption === 0 ? activeMenuClass : menuClass}
             >
-              <p className={selectedOption === 0 ? activeMenuClass : menuClass}>
-                Dashboard
-              </p>
+              Dashboard
             </Link>
           </li>
           <li>
             <Link
-              style={{ textDecoration: "none" }}
               to="/orders"
               onClick={() => handleMenuClick(1)}
+              className={selectedOption === 1 ? activeMenuClass : menuClass}
             >
-              <p className={selectedOption === 1 ? activeMenuClass : menuClass}>
-                Orders
-              </p>
+              Orders
             </Link>
           </li>
           <li>
             <Link
-              style={{ textDecoration: "none" }}
               to="/holdings"
               onClick={() => handleMenuClick(2)}
+              className={selectedOption === 2 ? activeMenuClass : menuClass}
             >
-              <p className={selectedOption === 2 ? activeMenuClass : menuClass}>
-                Holdings
-              </p>
+              Holdings
             </Link>
           </li>
           <li>
             <Link
-              style={{ textDecoration: "none" }}
               to="/positions"
               onClick={() => handleMenuClick(3)}
+              className={selectedOption === 3 ? activeMenuClass : menuClass}
             >
-              <p className={selectedOption === 3 ? activeMenuClass : menuClass}>
-                Positions
-              </p>
+              Positions
             </Link>
           </li>
-          {/* <li>
-            <Link
-              style={{ textDecoration: "none" }}
-              to="funds"
-              onClick={() => handleMenuClick(4)}
-            >
-              <p className={selectedOption === 4 ? activeMenuClass : menuClass}>
-                Funds
-              </p>
-            </Link>
-          </li> */}
           <li>
             <Link
-              style={{ textDecoration: "none" }}
               to="/AI"
               onClick={() => handleMenuClick(6)}
+              className={selectedOption === 6 ? activeMenuClass : menuClass}
             >
-              <p className={selectedOption === 6 ? activeMenuClass : menuClass}>
-                AI<i className="fa-solid fa-wand-sparkles" style={{marginLeft:"4px"}}></i>
-              </p>
+              AI<i className="fa-solid fa-wand-sparkles" style={{ marginLeft: "4px" }}></i>
             </Link>
           </li>
-          <li>
-            <Logout />
-          </li>
+          {/* <li> */}
+          {/* </li> */}
         </ul>
-        <hr />
-        <div className={`profile ${isProfileDropDownOpen === true ? activeMenuClass : menuClass}`} onClick={handleProfileClick}>
-          <div className="avatar">{initials}</div>
-          <p className="username">{username}</p>
-        </div>
       </div>
-    </div >
+      <div>
+        <Logout />
+      </div>
+      <div
+        className={`profile ${isProfileDropDownOpen ? 'active' : ''}`}
+        onClick={handleProfileClick}
+      >
+        <div className="avatar mb-2">{initials}</div>
+        {/* Uncomment the following line if you want to display the username */}
+        {/* <span className="username">{username}</span> */}
+      </div>
+    </div>
   )
 }
 

@@ -345,86 +345,127 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.logo-section {
+  display: flex;
+  align-items: center;
+  margin-right: 20px;
 }
 
 .logo {
   width: 30px;
   height: 20px;
+  margin-right: 10px;
+}
+
+.logo-text {
+  font-size: 1.2rem;
+  font-weight: bold;
+  white-space: nowrap;
 }
 
 .menus {
   display: flex;
   align-items: center;
-  justify-content: space-evenly;
+  justify-content: center;
+  flex-grow: 1;
 }
 
 .menus ul {
   list-style-type: none;
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0;
+  margin: 0;
 }
 
 .menus li {
-  display: inline-block;
-  margin-right: 30px;
-  text-decoration: none;
+  margin-right: 20px;
+  margin-bottom: 5px;
 }
 
 .menu {
   font-size: 0.8rem;
   font-weight: 400;
   color: rgb(70, 70, 70);
+  text-decoration: none;
+  padding: 5px 10px;
+  border-radius: 4px;
+  transition: color 0.3s, background-color 0.3s;
 }
 
 .menu.selected {
   color: rgb(245, 104, 52);
+  background-color: rgba(245, 104, 52, 0.1);
 }
 
-hr {
-  border-left: 0.8px solid rgb(243, 242, 242);
-  height: 30px;
+.menu:hover {
+  color: rgb(245, 104, 52);
+  background-color: rgba(245, 104, 52, 0.05);
 }
 
 .profile {
   display: flex;
   align-items: center;
-  justify-content: space-evenly;
   margin-left: 20px;
+  cursor: pointer;
 }
 
 .profile .avatar {
   width: 30px;
   height: 30px;
-  text-align: center;
-  position: relative;
   font-size: 0.7rem;
   font-weight: 400;
   color: rgb(221, 139, 221);
+  background: rgb(252, 229, 252);
+  border-radius: 50%;
+  display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 100%;
-  text-align: center;
-  display: flex;
-  background: rgb(252, 229, 252);
   margin-right: 8px;
 }
 
 .profile .username {
   font-size: 0.8rem;
   font-weight: 300;
-}
-
-/* sudo selectors */
-
-.menu:hover {
-  color: rgb(245, 104, 52);
-}
-
-.profile:hover {
-  cursor: pointer;
+  transition: color 0.3s;
 }
 
 .profile:hover .username {
-  cursor: pointer;
   color: rgb(223, 91, 43);
+}
+
+@media (max-width: 1024px) {
+  .menu-container {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .logo-section {
+    margin-bottom: 10px;
+  }
+
+  .menus {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .menus ul {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .menus li {
+    margin-right: 0;
+    margin-bottom: 10px;
+  }
+
+  .profile {
+    margin-left: 0;
+    margin-top: 10px;
+  }
 }
 
 .orders {

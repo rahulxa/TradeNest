@@ -1,12 +1,14 @@
 // src/features/chatSlice.js
 import { createSlice } from '@reduxjs/toolkit';
 
+const initialState = {
+    messages: [],
+    previewMessage: true,
+}
+
 const chatSlice = createSlice({
     name: 'chat',
-    initialState: {
-        messages: [],
-        previewMessage: true,
-    },
+    initialState,
     reducers: {
         addMessage: (state, action) => {
             state.messages.push(action.payload);
