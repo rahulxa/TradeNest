@@ -83,7 +83,7 @@ function AI() {
         <div className="container mt-5" style={{ maxWidth: "900px" }}>
             <div className="row justify-content-center">
                 <div className="col-12">
-                    <div className="card">
+                    <div className="card" style={{ fontFamily: "monospace" }}>
                         <div className="card-header bg-primary text-white">
                             <h5 className="mb-0">TradeIntel AI</h5>
                         </div>
@@ -102,7 +102,7 @@ function AI() {
                                                 style={{ cursor: 'pointer', textAlign: 'center', fontSize: '1rem' }}
                                                 onClick={(e) => handlePreviewOptionClick(e.currentTarget.textContent)}
                                             >
-                                                Learn how to start investing in stock markets efficiently.
+                                                How to start investing in stock markets efficiently.
                                             </button>
                                             <p className='mt-3 text-muted text-center'>or</p>
                                             <button
@@ -140,36 +140,40 @@ function AI() {
                                                 <span className="visually-hidden">Loading...</span>
                                             </div>
                                         </div>
-                                    </div>  
+                                    </div>
                                 </div>
                             )}
                             <div ref={messagesEndRef} />
                         </div>
                         <div className="card-footer">
-                            <form onSubmit={handleFormSubmit} className="d-flex align-items-center">
-                                <button className="mr-2 mb-3"
-                                    style={{ height: "45px" }}
+                            <div className="d-flex align-items-center">
+                                <button
+                                    className="btn rounded mr-3 mb-4"
+                                    style={{ height: "50px" }}
                                     title="Clear Chat"
                                     onClick={handleChatClear}
                                 >
                                     <i className="fa-solid fa-broom"></i>
                                 </button>
-                                <div className="input-group">
-                                    <input
-                                        type="text"
-                                        className="form-control"
-                                        value={input}
-                                        onChange={(e) => setInput(e.target.value)}
-                                        placeholder="Ask me anything..."
-                                        disabled={loading}
-                                    />
-                                    <div className="input-group-append">
-                                        <button className="btn btn-primary rounded" type="submit" disabled={loading}>
-                                            Send
-                                        </button>
+                                <form onSubmit={handleFormSubmit} className="flex-grow-1">
+                                    <div className="input-group">
+                                        <input
+                                            style={{ height: "55px" }}
+                                            type="text"
+                                            className="form-control"
+                                            value={input}
+                                            onChange={(e) => setInput(e.target.value)}
+                                            placeholder="Ask me anything..."
+                                            disabled={loading}
+                                        />
+                                        <div className="input-group-append">
+                                            <button className="btn btn-primary rounded" type="submit" disabled={loading}>
+                                                Send
+                                            </button>
+                                        </div>
                                     </div>
-                                </div>
-                            </form>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
