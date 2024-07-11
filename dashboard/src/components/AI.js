@@ -96,7 +96,7 @@ function AI() {
                                     <div className="text-center">
                                         <h4 className='text-muted mb-4'>
                                             Welcome to TradeIntel AI ChatBot
-                                            <i className="fa-solid fa-wand-sparkles text-muted ml-2"></i>
+                                            <i className="fa-solid fa-wand-sparkles text-muted" style={{ marginLeft: "8px" }}></i>
                                         </h4>
                                         <h5 className='text-muted mb-4'>Start by clicking...</h5>
                                         <div>
@@ -104,14 +104,14 @@ function AI() {
                                                 className='btn  rounded-pill w-100 mb-3 py-2'
                                                 onClick={(e) => handlePreviewOptionClick(e.currentTarget.textContent)}
                                             >
-                                                How to start investing in stock markets efficiently.explain briefly
+                                                Quick guide: Zerodha Kite basics for efficient trading
                                             </button>
                                             <p className='my-3 text-muted'>or</p>
                                             <button
                                                 className='btn rounded-pill w-100 py-2'
                                                 onClick={(e) => handlePreviewOptionClick(e.currentTarget.textContent)}
                                             >
-                                                Discover how to navigate Zerodha Kite for seamless trading experiences.expalain in short
+                                                5 steps to start investing in stocks efficiently
                                             </button>
                                         </div>
                                     </div>
