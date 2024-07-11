@@ -3,7 +3,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { addMessage, setPreviewMessage, clearChat } from "../store/chatSlice"
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
-const genAI = new GoogleGenerativeAI("AIzaSyATJ_AfiXUTU4YVYG7soBWa7SfvV7K1Sjw");
+const APIKEY = process.env.REACT_APP_GEMINI_API_KEY
+const genAI = new GoogleGenerativeAI(APIKEY);
 const model = genAI.getGenerativeModel({ model: "gemini-1.5-pro" });
 
 function AI() {
@@ -82,37 +83,35 @@ function AI() {
 
 
     return (
-        <div className="container mt-5" style={{ maxWidth: "900px" }}>
-            <div className="row justify-content-center">
+        <div className='container' style={{ maxWidth: "1100px" }}>
+            <div className="row justify-content-center" >
                 <div className="col-12">
-                    <div className="card" style={{ fontFamily: "monospace" }}>
-                        <div className="card-header bg-primary text-white">
+                    <div className="card border-0 shadow-sm" style={{ fontFamily: "sans-serif", borderRadius: "20px", overflow: "hidden" }}>
+                        <div className="card-header text-white py-3" style={{ backgroundColor: "#294eb3" }}>
                             <h5 className="mb-0">TradeIntel AI</h5>
                         </div>
-                        <div className="card-body" style={{ height: '500px', overflowY: 'auto' }}>
+                        <div className="card-body bg-light" style={{ height: '500px', overflowY: 'auto' }}>
                             {previewMessage ? (
-                                <div className="d-flex justify-content-center align-items-center" style={{ height: '100%' }}>
+                                <div className="d-flex justify-content-center align-items-center h-100">
                                     <div className="text-center">
-                                        <h4 className='text-muted' style={{ marginTop: "-100px" }}>
+                                        <h4 className='text-muted mb-4'>
                                             Welcome to TradeIntel AI ChatBot
-                                            <i className="fa-solid fa-wand-sparkles text-muted" style={{ marginLeft: "8px" }}></i>
+                                            <i className="fa-solid fa-wand-sparkles text-muted ml-2"></i>
                                         </h4>
-                                        <h5 className='text-muted'>Start by clicking...</h5>
+                                        <h5 className='text-muted mb-4'>Start by clicking...</h5>
                                         <div>
                                             <button
-                                                className='btn btn-outline-secondary btn-light rounded-3 w-100 mt-4'
-                                                style={{ cursor: 'pointer', textAlign: 'center', fontSize: '1rem' }}
+                                                className='btn  rounded-pill w-100 mb-3 py-2'
                                                 onClick={(e) => handlePreviewOptionClick(e.currentTarget.textContent)}
                                             >
-                                                How to start investing in stock markets efficiently.
+                                                How to start investing in stock markets efficiently.explain briefly
                                             </button>
-                                            <p className='mt-3 text-muted text-center'>or</p>
+                                            <p className='my-3 text-muted'>or</p>
                                             <button
-                                                className='btn btn-outline-secondary btn-light rounded-3 w-100'
-                                                style={{ cursor: 'pointer', textAlign: 'center', fontSize: '1rem' }}
+                                                className='btn rounded-pill w-100 py-2'
                                                 onClick={(e) => handlePreviewOptionClick(e.currentTarget.textContent)}
                                             >
-                                                Discover how to navigate Zerodha Kite for seamless trading experiences
+                                                Discover how to navigate Zerodha Kite for seamless trading experiences.expalain in short
                                             </button>
                                         </div>
                                     </div>
@@ -120,14 +119,12 @@ function AI() {
                             ) : (
                                 messages.map((message, index) => (
                                     <div key={index} className={`d-flex ${message.sender === 'user' ? 'justify-content-end' : 'justify-content-start'} mb-3`}>
-                                        <div className={`card ${message.sender === 'user' ? 'bg-primary text-white' : 'bg-light'}`} style={{ maxWidth: '80%' }}>
-                                            <div className="card-body py-2 px-3">
-                                                {message.sender === 'user' ? (
-                                                    <p className="mb-0">{message.text}</p>
-                                                ) : (
-                                                    <div>{formatAIResponse(message.text)}</div>
-                                                )}
-                                            </div>
+                                        <div className={`rounded-pill py-2 px-3 ${message.sender === 'user' ? 'bg-primary text-white' : 'bg-white shadow-sm'}`} style={{ maxWidth: '80%' }}>
+                                            {message.sender === 'user' ? (
+                                                <p className="mb-0">{message.text}</p>
+                                            ) : (
+                                                <div>{formatAIResponse(message.text)}</div>
+                                            )}
                                         </div>
                                     </div>
                                 ))
@@ -135,23 +132,21 @@ function AI() {
 
                             {loading && (
                                 <div className="d-flex justify-content-start mb-3">
-                                    <div className="card bg-light" style={{ maxWidth: '80%' }}>
-                                        <div className="card-body py-2 px-3 d-flex align-items-center">
-                                            <p className="mb-0 font-italic text-muted" style={{ marginRight: '10px' }}>TradeIntel AI is thinking...</p>
-                                            <div className="spinner-border spinner-border-sm text-primary" role="status">
-                                                <span className="visually-hidden">Loading...</span>
-                                            </div>
-                                        </div>
+                                    <div className="bg-white rounded-pill py-2 px-3 shadow-sm">
+                                        <p className="mb-0 font-italic text-muted d-flex align-items-center">
+                                            TradeIntel AI is thinking...
+                                            <span className="spinner-grow spinner-grow-sm text-danger ml-2" role="status" aria-hidden="true"></span>
+                                        </p>
                                     </div>
                                 </div>
                             )}
                             <div ref={messagesEndRef} />
                         </div>
-                        <div className="card-footer">
+                        <div className="card-footer bg-light border-0 py-3">
                             <div className="d-flex align-items-center">
                                 <button
-                                    className="btn rounded mr-3 mb-4"
-                                    style={{ height: "50px" }}
+                                    className="btn  rounded-circle d-flex justify-content-center align-items-center mr-3 mb-4"
+                                    style={{ width: "50px", height: "50px" }}
                                     title="Clear Chat"
                                     onClick={handleChatClear}
                                 >
@@ -160,17 +155,22 @@ function AI() {
                                 <form onSubmit={handleFormSubmit} className="flex-grow-1">
                                     <div className="input-group">
                                         <input
-                                            style={{ height: "55px" }}
                                             type="text"
-                                            className="form-control"
+                                            className="form-control form-control-lg border-0 rounded-pill-left mt-2"
                                             value={input}
                                             onChange={(e) => setInput(e.target.value)}
                                             placeholder="Ask me anything..."
                                             disabled={loading}
+                                            style={{ backgroundColor: "#f8f9fa" }}
                                         />
                                         <div className="input-group-append">
-                                            <button className="btn btn-primary rounded" type="submit" disabled={loading}>
-                                                Send
+                                            <button
+                                                className="btn rounded-circle d-flex justify-content-center align-items-center mr-3 mt-2 "
+                                                style={{ width: "50px", height: "50px" }}
+                                                title="Send"
+                                            // onClick={handleChatClear}
+                                            >
+                                                <i class="fa-solid fa-arrow-right"></i>
                                             </button>
                                         </div>
                                     </div>
