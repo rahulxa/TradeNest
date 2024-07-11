@@ -144,7 +144,7 @@ function WatchListActions({ uid, stockPrice, dayChange, avgCost, scrollToChart }
       {!buy && (
         <span className='actions'>
           <span>
-            <Tooltip
+            <Tooltip 
               title="Buy(B)"
               placement='top'
               arrow

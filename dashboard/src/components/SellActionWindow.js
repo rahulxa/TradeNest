@@ -5,7 +5,7 @@ import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
 function SellActionWindow({ stock, onClose }) {
-    console.log("stock:", stock)
+    // console.log("stock:", stock)
     const accessToken = useSelector((state) => state.auth.userAccessToken)
     const userId = useSelector((state) => state.auth.userData._id)
     // console.log("access token:", accessToken)
@@ -23,9 +23,11 @@ function SellActionWindow({ stock, onClose }) {
 
     const placeOrder = async () => {
         try {
-            if (sellQty === 0 || sellQty > stock.qty) {
+            const sellQuantity = Number(sellQty); // Convert sellQty to a number
+
+            if (sellQuantity <= 0 || sellQuantity > stock.qty) {
                 setMessage("Please enter a valid quantity. The quantity must be greater than zero and not exceed your current holdings.");
-                return
+                return;
             }
             const orderData = {
                 stockName: stock.stockName,
@@ -33,7 +35,7 @@ function SellActionWindow({ stock, onClose }) {
                 price: sellPrice, //this is lTP for holdings
                 mode: "Sell"
             };
-            console.log("order data:", orderData)
+            console.log(" this order data:", orderData)
             const orderResponse = await axios.post("http://localhost:3002/api/v1/orders/place-order", orderData, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`
@@ -47,7 +49,7 @@ function SellActionWindow({ stock, onClose }) {
                     stockName: stock.stockName,
                     qty: sellQty
                 }
-                console.log("holdings data:", holdingsData)
+                // console.log("holdings data:", holdingsData)
                 try {
                     const holdingsResponse = await axios.patch(`http://localhost:3002/api/v1/holdings/update-holdings/${userId}`, holdingsData, {
                         headers: {
@@ -56,7 +58,7 @@ function SellActionWindow({ stock, onClose }) {
                     })
                     if (holdingsResponse) {
                         console.log("this is the holding response:", holdingsResponse.data.data);
-                        console.log("Holdings created successfully")
+                        // console.log("Holdings created successfully")
                     }
                 } catch (error) {
                     console.log("Error updating your holdings:", error.message);
@@ -109,7 +111,7 @@ function SellActionWindow({ stock, onClose }) {
                                 type="number"
                                 id="sellQty"
                                 value={sellQty}
-                                onChange={(e) => setSellQty(e.target.value)}
+                                onChange={(e) => setSellQty(Number(e.target.value))}
                                 max={stock.qty}
                             />
                         </div>

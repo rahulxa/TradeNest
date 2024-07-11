@@ -9,8 +9,11 @@ const placeOrder = asyncHandler(async (req, res) => {
     const { stockName, qty, price, mode } = req.body;
     const userId = req.user?._id; //apply jwt middleware
     // console.log("userid", userId);
-    if ([stockName, qty, price, mode].some((feild) => { return feild?.trim() == "" })) {
-        throw new ApiError(400, "All feilds are required")
+    if (!stockName?.trim() ||
+        !mode?.trim() ||
+        qty == null || qty <= 0 ||
+        price == null || price <= 0) {
+        throw new ApiError(400, "All fields are required");
     }
 
     const order = await Order.create({
