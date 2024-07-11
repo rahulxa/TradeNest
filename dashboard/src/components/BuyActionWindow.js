@@ -29,7 +29,7 @@ function BuyActionWindow({ stockName, onClose, stockPrice, dayChange, avgCost })
         try {
             //placing order
             if (formData.price < (stockPrice * formData.qty)) {
-                setPriceMessage("Stock price cannot be less than the LTP!! Please check the price and quantity");
+                setPriceMessage("Please check the required margin!");
                 return
             } else if (formData.qty <= 0 || formData.qty === undefined) {
                 setPriceMessage("Quantity cannot be zero!!");
@@ -119,7 +119,7 @@ function BuyActionWindow({ stockName, onClose, stockPrice, dayChange, avgCost })
                             </div>
                             <div className="mb-3 text-muted">
                                 <strong>Margin required: </strong>
-                                {newStockPrice ? ((newStockPrice * stockQuantity) * 0.1).toFixed(2) : ((stockPrice * stockQuantity * 0.1)).toFixed(2)}
+                                {(stockPrice * stockQuantity).toFixed(2)}
                             </div>
                             <div className="d-flex justify-content-between">
                                 <button className="btn btn-primary">Buy</button>

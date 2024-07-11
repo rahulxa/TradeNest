@@ -22,6 +22,7 @@ function Logout() {
                 // console.log("User logged out:", logoutUser)
                 window.location.href = "http://localhost:3000/signup";
                 dispatch(logout({ userdata: null, status: false, userAccessToken: null }));
+                localStorage.removeItem("token");
             }
         } catch (error) {
             console.log("userAcesstoken:", userAccessToken);
