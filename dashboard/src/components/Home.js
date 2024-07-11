@@ -42,7 +42,7 @@ function Home() {
                 const secretKey = process.env.REACT_APP_SECRET_KEY;
                 const bytes = CryptoJS.AES.decrypt(encryptedToken, secretKey);
                 const originalAccessToken = bytes.toString(CryptoJS.enc.Utf8);
-                localStorage.setItem('token', originalAccessToken); // Fixed: use originalAccessToken instead of token
+                sessionStorage.setItem('token', originalAccessToken); // Fixed: use originalAccessToken instead of token
                 fetchUserData(originalAccessToken);
             } catch (error) {
                 console.error("Error decrypting token:", error);
@@ -60,7 +60,7 @@ function Home() {
     }, []);
 
     useEffect(() => {
-        if (!loading && !userStatus && !localStorage.getItem('token')) {
+        if (!loading && !userStatus && !sessionStorage.getItem('token')) {
             navigate('/error');
         }
     }, [userStatus, navigate, loading]); // Removed userToken from dependencies

@@ -241,6 +241,7 @@ function Holdings() {
                       <td style={{ width: '60px', textAlign: 'center' }}>
                         {index > 3 && hoveredRow === index && (
                           <button
+                            title='Sell'
                             onClick={() => handleSellclick(stock)}
                             className="btn btn-sm btn-primary rounded"
                             style={{

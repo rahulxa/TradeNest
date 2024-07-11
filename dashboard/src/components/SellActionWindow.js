@@ -35,7 +35,7 @@ function SellActionWindow({ stock, onClose }) {
                 price: sellPrice, //this is lTP for holdings
                 mode: "Sell"
             };
-            console.log(" this order data:", orderData)
+            // console.log(" this order data:", orderData)
             const orderResponse = await axios.post("http://localhost:3002/api/v1/orders/place-order", orderData, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`
@@ -79,7 +79,8 @@ function SellActionWindow({ stock, onClose }) {
             {orderSuccessMessage === "" ? (
                 <div className="sell-action-overlay">
                     <div className="sell-action-window">
-                        <h2>{stock.stockName}</h2>
+                        <h2 style={{ textDecoration: 'underline' }}>{stock.stockName}</h2>
+                        {message && <b>NOTE:</b>}
                         <p>{message}</p>
                         <div className="stock-info">
                             <div className="info-item">

@@ -52,6 +52,7 @@ function WatchList() {
           id='search'
           placeholder='Search eg:infy, bse, nifty fut weekly, gold mcx'
           className='search'
+          disabled
         />
         <span className='counts'>{watchlist.length}/50</span>
       </div>
