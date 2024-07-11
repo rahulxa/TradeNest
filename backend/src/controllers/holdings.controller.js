@@ -110,7 +110,7 @@ const updateUserHoldings = asyncHandler(async (req, res) => {
     } else {
         const updatedHolding = await Holdings.findByIdAndUpdate(
             holding._id,
-            { $set: { qty: qty } },
+            { $set: { qty: holding.qty - qty } }, //substracting from the original qty 
             { new: true }
         );
         if (!updatedHolding) {
