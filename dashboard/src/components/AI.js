@@ -147,7 +147,7 @@ function AI() {
                                 <button
                                     className="btn  rounded-circle d-flex justify-content-center align-items-center mr-3 mb-4"
                                     style={{ width: "50px", height: "50px" }}
-                                    title="Clear Chat"
+                                    title="Clear Context"
                                     onClick={handleChatClear}
                                 >
                                     <i className="fa-solid fa-broom"></i>
@@ -167,7 +167,7 @@ function AI() {
                                             <button
                                                 className="btn rounded-circle d-flex justify-content-center align-items-center mr-3 mt-2 "
                                                 style={{ width: "50px", height: "50px" }}
-                                                title="Send"
+                                                title="Send Message"
                                             // onClick={handleChatClear}
                                             >
                                                 <i class="fa-solid fa-arrow-right"></i>

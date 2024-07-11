@@ -18,7 +18,7 @@ export const watchlist = [
         price: 3194.8,
         percent: "-0.25%",
         isDown: true,
-        avgCost: 3000.00,
+        avgCost: 3400.00,
     },
     {
         name: "KPITTECH",
@@ -32,7 +32,7 @@ export const watchlist = [
         price: 308.55,
         percent: "-0.15%",
         isDown: true,
-        avgCost: 280.00,
+        avgCost: 330.00,
     },
     {
         name: "WIPRO",
@@ -46,7 +46,7 @@ export const watchlist = [
         price: 779.8,
         percent: "-0.01%",
         isDown: true,
-        avgCost: 700.00,
+        avgCost: 800.00,
     },
     {
         name: "RELIANCE",

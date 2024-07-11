@@ -24,14 +24,6 @@ function Holdings() {
 
   const initialHoldings = [
     {
-      stockName: "RELIANCE",
-      qty: 1,
-      price: 2112.4,
-      dayChange: "+1.44%",
-      isLoss: false,
-      avgCost: 1900.0,  // Hypothetical average cost
-    },
-    {
       stockName: "BHARTIARTL",
       qty: 2,
       price: 541.15,
@@ -141,7 +133,7 @@ function Holdings() {
   }, [finalHoldings, dispatch]);
 
 
-  //handling refresh button
+  //handling refresh button click
   const debouncedRefresh = useCallback(
     debounce(() => {
       fetchUserHoldings();
@@ -247,7 +239,7 @@ function Holdings() {
                       <td>{stock.avgCost.toFixed(2)}</td>
                       <td>{stock.price.toFixed(2)}</td>
                       <td style={{ width: '60px', textAlign: 'center' }}>
-                        {index > 4 && hoveredRow === index && (
+                        {index > 3 && hoveredRow === index && (
                           <button
                             onClick={() => handleSellclick(stock)}
                             className="btn btn-sm btn-primary rounded"
