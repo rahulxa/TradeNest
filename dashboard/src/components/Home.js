@@ -23,7 +23,6 @@ function Home() {
             if (response) {
                 const userData = response.data.data.loggedInUser;
                 dispatch(login({ userData: userData, status: true, userAccessToken: token }));
-                localStorage.setItem('token', token); // Store token in local storage
                 setLoading(false);
             } else {
                 setLoading(false);
@@ -38,30 +37,33 @@ function Home() {
         const urlParams = new URLSearchParams(window.location.search);
         let encryptedToken = urlParams.get('token');
 
-        if (!encryptedToken) {
-            encryptedToken = localStorage.getItem('token'); // Retrieve token from local storage
-        }
-
         if (encryptedToken) {
             try {
                 const secretKey = process.env.REACT_APP_SECRET_KEY;
                 const bytes = CryptoJS.AES.decrypt(encryptedToken, secretKey);
                 const originalAccessToken = bytes.toString(CryptoJS.enc.Utf8);
+                localStorage.setItem('token', originalAccessToken); // Fixed: use originalAccessToken instead of token
                 fetchUserData(originalAccessToken);
             } catch (error) {
                 console.error("Error decrypting token:", error);
                 setLoading(false);
             }
         } else {
-            setLoading(false);
+            // If no token in URL, check localStorage
+            const storedToken = localStorage.getItem('token');
+            if (storedToken) {
+                fetchUserData(storedToken);
+            } else {
+                setLoading(false);
+            }
         }
     }, []);
 
     useEffect(() => {
-        if (!loading && !userStatus) {
+        if (!loading && !userStatus && !localStorage.getItem('token')) {
             navigate('/error');
         }
-    }, [userStatus, navigate, loading]);
+    }, [userStatus, navigate, loading]); // Removed userToken from dependencies
 
     if (loading) {
         return <div>Loading...</div>;
