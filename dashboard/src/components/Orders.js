@@ -9,7 +9,7 @@ function Orders() {
 
   const [orders, setOrders] = useState([]);
 
-  useEffect(() => {
+  useEffect(() => { 
     const fetchOrders = async () => {
       try {
         const response = await axios.get(`http://localhost:3002/api/v1/orders/get-orders/${userId}`, {
