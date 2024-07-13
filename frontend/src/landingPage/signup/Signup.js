@@ -25,7 +25,7 @@ function Signup() {
 
   const registerUser = async (formData) => {
     try {
-      const response = await axios.post(`${baseURL}/api/v1/users/create-account`, formData);
+      const response = await axios.post("http://localhost:3002/api/v1/users/create-account", formData);
       if (response.data.statusCode === 200) {
         setMessage('Account created Successfully! Please Login to continue');
         setUserDetails(formData);
@@ -40,7 +40,7 @@ function Signup() {
 
   const loginUser = async (formData) => {
     try {
-      const response = await axios.post(`${baseURL}/api/v1/users/login`, formData);
+      const response = await axios.post("http://localhost:3002/api/v1/users/login", formData);
       console.log("logged in");
       if (response.data.statusCode === 200) {
         console.log("logged in")

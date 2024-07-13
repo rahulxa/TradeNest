@@ -45,7 +45,7 @@ function Summary() {
 
       <div className="section">
         <span>
-          <p>Holdings ({totalHoldings ? totalHoldings : (13)})</p>
+          <p>Holdings ({totalHoldings ? totalHoldings : (5)})</p>
         </span>
 
         <div className="data">

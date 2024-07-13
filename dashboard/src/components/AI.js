@@ -134,8 +134,10 @@ function AI() {
                                 <div className="d-flex justify-content-start mb-3">
                                     <div className="bg-white rounded-pill py-2 px-3 shadow-sm">
                                         <p className="mb-0 font-italic text-muted d-flex align-items-center">
-                                            TradeIntel AI is thinking...
-                                            <span className="spinner-grow spinner-grow-sm text-danger ml-2" role="status" aria-hidden="true"></span>
+                                            TradeIntel AI is thinking... it may take some time
+                                            <span style={{ marginLeft: '8px' }}> {/* Adjust the margin-left to create space */}
+                                                <span className="spinner-grow spinner-grow-sm text-danger" role="status" aria-hidden="true"></span>
+                                            </span>
                                         </p>
                                     </div>
                                 </div>

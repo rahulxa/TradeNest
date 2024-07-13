@@ -87,7 +87,7 @@ function Menu() {
         className={`profile ${isProfileDropDownOpen ? 'active' : ''}`}
         onClick={handleProfileClick}
       >
-        <div className="avatar mb-2">{initials}</div>
+        <div className="avatar mb-2">{initials.charAt(0).toUpperCase()}</div>
         {/* Uncomment the following line if you want to display the username */}
         {/* <span className="username">{username}</span> */}
       </div>
