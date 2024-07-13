@@ -46,7 +46,7 @@ function BuyActionWindow({ stockName, onClose, stockPrice, dayChange, avgCost })
             });
 
             if (orderResponse) {
-                setOrderSuccesMessage("Order placed successfully!!");
+                setOrderSuccesMessage("Order placed successfully!!          Head to orders or holdings section");
                 setPriceMessage("");
 
                 const holdingsData = {

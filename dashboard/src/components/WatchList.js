@@ -62,16 +62,16 @@ function WatchList() {
           <div className="col-4">
             <strong>(Stock Name)</strong>
           </div>
-          <div className="col-3" style={{ marginLeft: "30px" }}>
+          <div className="col-2" style={{ marginLeft: "10px" }}>
             <strong>(LTP)</strong>
           </div>
-          <div className="col-2" style={{ marginRight: "15px" }}>
+          <div className="col-3" style={{ marginLeft: "5px" }}>
             <strong>Avg Cost</strong>
           </div>
         </div>
         <ul className='list-group'>
           {watchlist.map((stock, index) => (
-            <WatchListItem stock={stock} key={index} scrollToChart={scrollToChart} />
+            <WatchListItem stock={stock} key={index} scrollToChart={scrollToChart} className='list-group-item' />
           ))}
         </ul>
       </div>
@@ -80,6 +80,7 @@ function WatchList() {
       </div>
     </div>
   )
+
 }
 
 export default WatchList
@@ -145,7 +146,7 @@ function WatchListActions({ uid, stockPrice, dayChange, avgCost, scrollToChart }
       {!buy && (
         <span className='actions'>
           <span>
-            <Tooltip 
+            <Tooltip
               title="Buy(B)"
               placement='top'
               arrow

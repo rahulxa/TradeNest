@@ -224,11 +224,9 @@ body {
   color: white;
   border: none;
   border-radius: 10px;
-  /* Adjust the value to control the roundness */
   padding: 6px 12px;
-  font-size: 18px;
+  font-size: 14px;
   font-weight: bold;
-  /* text-transform: uppercase; */
   transition: background-color 0.3s ease;
   cursor: pointer;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -362,7 +360,7 @@ body {
 }
 
 .logo-text {
-  font-size: 1.2rem;
+  font-size: 1rem;
   font-weight: bold;
   white-space: nowrap;
 }
@@ -775,10 +773,15 @@ body {
 
 .search-container {
   display: flex;
+  
   align-items: center;
   justify-content: space-evenly;
   position: relative;
 }
+
+/* .container {
+  height: 70%;
+} */
 
 .search {
   width: 100%;

@@ -184,9 +184,10 @@ function Holdings() {
     <>
       <div className="d-flex justify-content-between align-items-center mb-5 text-muted">
         <div className="d-flex align-items-center">
-          <h3 className="mb-0">Holdings ({finalHoldings.length})</h3>
-          <button className="ms-3" title="Analytics" onClick={scrollToGraph}>
-            <i className="fa-solid fa-chart-simple"></i>
+          <h4 className="mb-0">Holdings ({finalHoldings.length})</h4>
+          <button className=" d-flex align-items-center ms-3" title="Analytics" onClick={scrollToGraph} style={{ fontSize: "14px" }}>
+            <span>Analytics</span>
+            <i className="fa-solid fa-chart-simple ms-2"></i>
           </button>
         </div>
         <button

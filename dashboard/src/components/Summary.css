@@ -1,0 +1,91 @@
+.summary-container {
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.user-info {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.user-info h2 {
+    margin: 10px 0;
+    color: #333;
+}
+
+.user-info p {
+    color: #666;
+}
+
+.card {
+    background-color: white;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.card h3 {
+    display: flex;
+    align-items: center;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.icon {
+    margin-right: 10px;
+    color: #007bff;
+}
+
+.card-content {
+    display: flex;
+    justify-content: space-between;
+}
+
+.main-info h4 {
+    font-size: 24px;
+    margin-bottom: 5px;
+}
+
+.additional-info p {
+    margin: 5px 0;
+    color: #666;
+}
+
+.profit {
+    color: #28a745;
+}
+
+.loss {
+    color: #dc3545;
+}
+
+.arrow {
+    margin-right: 5px;
+}
+
+.quick-stats {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.stat-item {
+    text-align: center;
+    padding: 10px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.stat-item h5 {
+    margin-bottom: 5px;
+    color: #666;
+}
+
+.stat-item p {
+    font-weight: bold;
+    color: #333;
+}

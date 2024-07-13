@@ -18,15 +18,15 @@ body {
 
 .nav-link {
   margin-left: 35px;
-  transition: color 0.3s ease;
+  transition: color 0.3s ease, transform 0.3s ease;
 }
 
 .nav-link:hover {
-  color: blue;
-  /* Color change on hover */
+  color: #ff4500;
   transform: translateY(-2px);
-  /* Move link 2px up on hover */
+  transition: color 0.3s ease-in-out, transform 0.3s ease-in-out;
 }
+
 
 #supportHero {
   background-color: rgb(56, 126, 209);

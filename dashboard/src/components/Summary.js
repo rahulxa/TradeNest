@@ -1,75 +1,86 @@
-import React from 'react'
+import React from 'react';
 import { useSelector } from 'react-redux';
+import { FaUser, FaChartLine, FaWallet, FaArrowUp, FaArrowDown } from 'react-icons/fa';
+import "./Summary.css"
 
 function Summary() {
   const userData = useSelector((state) => state.auth.userData);
   const { finalProfitLoss, finalProfitLossPercentage, finalCurrentValue, finalInvestment, totalHoldings } =
     useSelector(state => ({
-      finalProfitLoss: state.data.finalProfitLoss,
-      finalProfitLossPercentage: state.data.finalProfitLossPercentage,
-      finalCurrentValue: state.data.finalCurrentValue,
-      finalInvestment: state.data.finalInvestment,
-      totalHoldings: state.data.totalHoldings,
+      finalProfitLoss: state.data.finalProfitLoss || 6550,
+      finalProfitLossPercentage: state.data.finalProfitLossPercentage || 5.20,
+      finalCurrentValue: state.data.finalCurrentValue || 31430,
+      finalInvestment: state.data.finalInvestment || 29880,
+      totalHoldings: state.data.totalHoldings || 5,
     }));
+  console.log("finalifndsj:", finalProfitLossPercentage)
+
+  const formatCurrency = (value) => {
+    return new Intl.NumberFormat('en-CA', { style: 'currency', currency: 'CAD' }).format(value || 0);
+  };
 
   return (
-    <>
-      <div className="username">
-        <h6>Hi, {userData?.username} </h6>
-        <hr className="divider" />
+    <div className="summary-container">
+      <div className="user-info">
+        <FaUser className="icon"  />
+        <h2>Welcome, {userData?.username || 'Investor'}!</h2>
+        <p>Your financial summary at a glance</p>
       </div>
 
-      <div className="section">
-        <span>
-          <p>Equity</p>
-        </span>
-
-        <div className="data">
-          <div className="first">
-            <h3>3.74k</h3>
-            <p>Margin available</p>
+      <div className="card equity-card">
+        <h4><FaWallet className="icon" /> Equity</h4>
+        <div className="card-content">
+          <div className="main-info">
+            <h4 className='text-muted'>{formatCurrency(3740)}</h4>
+            <p className='text-muted'>Margin available</p>
           </div>
-          <hr />
-
-          <div className="second">
-            <p>
-              Margins used <span>0</span>{" "}
-            </p>
-            <p>
-              Opening balance <span>3.74k</span>{" "}
-            </p>
+          <div className="additional-info">
+            <p>Margins used: <span>{formatCurrency(0)}</span></p>
+            <p>Opening balance: <span>{formatCurrency(3740)}</span></p>
           </div>
         </div>
-        <hr className="divider" />
       </div>
 
-      <div className="section">
-        <span>
-          <p>Holdings ({totalHoldings ? totalHoldings : (5)})</p>
-        </span>
-
-        <div className="data">
-          <div className="first">
-            <h3 className={finalProfitLoss > 0 ? "profit" : "loss"}>
-              {finalProfitLoss ? finalProfitLoss.toFixed(2) : "6.55k"} <small>{finalProfitLossPercentage ? finalProfitLossPercentage : "+5.20%"}%</small>{" "}
-            </h3>
-            <p>P&L</p>
+      <div className="card holdings-card">
+        <h3 ><FaChartLine className="icon" /> Holdings ({totalHoldings})</h3>
+        <div className="card-content">
+          <div className="main-info">
+            <h4 className={finalProfitLoss > 0 ? "profit" : "loss"} >
+              {formatCurrency(finalProfitLoss)}
+              <small>
+                {finalProfitLoss > 0 ? <FaArrowUp className="arrow" /> : <FaArrowDown className="arrow" />}
+                {finalProfitLossPercentage}%
+              </small>
+            </h4>
+            <p>Profit & Loss</p>
           </div>
-          <hr />
-
-          <div className="second">
-            <p>
-              Current Value <span>{finalCurrentValue ? finalCurrentValue.toFixed(2) : "31.43k"}</span>{" "}
-            </p>
-            <p>
-              Investment <span>{finalInvestment ? finalInvestment.toFixed(2) : "29.88k"}</span>{" "}
-            </p>
+          <div className="additional-info">
+            <p>Current Value: <span>{formatCurrency(finalCurrentValue)}</span></p>
+            <p>Investment: <span>{formatCurrency(finalInvestment)}</span></p>
           </div>
         </div>
-        <hr className="divider" />
       </div>
-    </>
+
+      <div className="quick-stats">
+        <div className="stat-item">
+          <h5>Day's Change</h5>
+          <p className={finalProfitLoss > 0 ? "profit" : "loss"}>
+            {finalProfitLoss > 0 ? '+' : '-'}{formatCurrency(Math.abs(finalProfitLoss / 30))}
+          </p>
+        </div>
+        <div className="stat-item">
+          <h5>Portfolio Diversity</h5>
+          <p>{totalHoldings} stocks</p>
+        </div>
+        <div className="stat-item">
+          <h5>Yearly Returns</h5>
+          <p className={finalProfitLossPercentage > 0 ? "profit" : "loss"}>
+            {finalProfitLossPercentage > 0 ? '+' : '-'}{Math.abs(finalProfitLossPercentage * 12).toFixed(2)}%
+          </p>
+        </div>
+      </div>
+    </div>
   );
 }
 
-export default Summary
+export default Summary;

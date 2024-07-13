@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { addMessage, setPreviewMessage, clearChat } from "../store/chatSlice"
+import { addMessage, setPreviewMessage, clearChat, updateLastAIMessage } from "../store/chatSlice"
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
 const APIKEY = process.env.REACT_APP_GEMINI_API_KEY
@@ -45,6 +45,7 @@ function AI() {
     };
 
     const handleSubmit = async (textMessage) => {
+        // setSpinner(true)
         dispatch(setPreviewMessage(false));
         const userMessage = { text: textMessage, sender: 'user' };
         dispatch(addMessage(userMessage));
@@ -52,10 +53,23 @@ function AI() {
         setInput('');
 
         try {
-            const data = await model.generateContent(textMessage);
-            const responseText = await data.response.text();
-            const aiMessage = { text: responseText, sender: 'ai' };
+            const result = await model.generateContentStream(textMessage);
+            // setSpinner(false)
+            console.log("AI result:", result)
+            console.log("AI result stream:", result.stream)
+            let aiResponse = "";
+            const aiMessage = { text: aiResponse, sender: 'ai' };
             dispatch(addMessage(aiMessage));
+
+            for await (const chunk of result.stream) {
+                console.log("chunk:", chunk)
+                const chunkText = chunk.text();
+                console.log("chunk text:", chunkText)
+                aiResponse += chunkText;
+                console.log("aires:", aiResponse)
+                dispatch(updateLastAIMessage(aiResponse));
+            }
+            // setSpinner(false);
         } catch (error) {
             console.error("Error fetching data:", error);
             dispatch(addMessage({ text: "Sorry, I encountered an error. Please try again.", sender: 'ai' }));
@@ -83,14 +97,14 @@ function AI() {
 
 
     return (
-        <div className='container' style={{ maxWidth: "1100px" }}>
-            <div className="row justify-content-center" >
-                <div className="col-12">
-                    <div className="card border-0 shadow-sm" style={{ fontFamily: "sans-serif", borderRadius: "20px", overflow: "hidden" }}>
+        <div className='container' style={{ maxWidth: "1100px", height: "600px" }}>
+            <div className="row justify-content-center h-100">
+                <div className="col-12 h-100">
+                    <div className="card border-0 shadow-sm h-100" style={{ fontFamily: "sans-serif", borderRadius: "20px", overflow: "hidden" }}>
                         <div className="card-header text-white py-3" style={{ backgroundColor: "#294eb3" }}>
                             <h5 className="mb-0">TradeIntel AI</h5>
                         </div>
-                        <div className="card-body bg-light" style={{ height: '500px', overflowY: 'auto' }}>
+                        <div className="card-body bg-light" style={{ height: 'calc(100% - 130px)', overflowY: 'auto' }}>
                             {previewMessage ? (
                                 <div className="d-flex justify-content-center align-items-center h-100">
                                     <div className="text-center">
@@ -101,7 +115,7 @@ function AI() {
                                         <h5 className='text-muted mb-4'>Start by clicking...</h5>
                                         <div>
                                             <button
-                                                className='btn  rounded-pill w-100 mb-3 py-2'
+                                                className='btn rounded-pill w-100 mb-3 py-2'
                                                 onClick={(e) => handlePreviewOptionClick(e.currentTarget.textContent)}
                                             >
                                                 Quick guide: Zerodha Kite basics for efficient trading
@@ -134,8 +148,8 @@ function AI() {
                                 <div className="d-flex justify-content-start mb-3">
                                     <div className="bg-white rounded-pill py-2 px-3 shadow-sm">
                                         <p className="mb-0 font-italic text-muted d-flex align-items-center">
-                                            TradeIntel AI is thinking... it may take some time
-                                            <span style={{ marginLeft: '8px' }}> {/* Adjust the margin-left to create space */}
+                                            TradeIntel AI is thinking...
+                                            <span style={{ marginLeft: '8px' }}>
                                                 <span className="spinner-grow spinner-grow-sm text-danger" role="status" aria-hidden="true"></span>
                                             </span>
                                         </p>
@@ -147,7 +161,7 @@ function AI() {
                         <div className="card-footer bg-light border-0 py-3">
                             <div className="d-flex align-items-center">
                                 <button
-                                    className="btn  rounded-circle d-flex justify-content-center align-items-center mr-3 mb-4"
+                                    className="btn rounded-circle d-flex justify-content-center align-items-center mr-3 mb-4"
                                     style={{ width: "50px", height: "50px" }}
                                     title="Clear Context"
                                     onClick={handleChatClear}
@@ -167,12 +181,11 @@ function AI() {
                                         />
                                         <div className="input-group-append">
                                             <button
-                                                className="btn rounded-circle d-flex justify-content-center align-items-center mr-3 mt-2 "
+                                                className="btn rounded-circle d-flex justify-content-center align-items-center mr-3 mt-2"
                                                 style={{ width: "50px", height: "50px" }}
                                                 title="Send Message"
-                                            // onClick={handleChatClear}
                                             >
-                                                <i class="fa-solid fa-arrow-right"></i>
+                                                <i className="fa-solid fa-arrow-right"></i>
                                             </button>
                                         </div>
                                     </div>
@@ -184,6 +197,7 @@ function AI() {
             </div>
         </div>
     );
+
 }
 
 export default AI;
