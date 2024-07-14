@@ -42,7 +42,7 @@ function Summary() {
       </div>
 
       <div className="card holdings-card">
-        <h3 ><FaChartLine className="icon" /> Holdings ({totalHoldings})</h3>
+        <h4 ><FaChartLine className="icon" /> Holdings ({totalHoldings})</h4>
         <div className="card-content">
           <div className="main-info">
             <h4 className={finalProfitLoss > 0 ? "profit" : "loss"} >
