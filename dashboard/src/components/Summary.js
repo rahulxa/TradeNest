@@ -1,28 +1,37 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { FaUser, FaChartLine, FaWallet, FaArrowUp, FaArrowDown } from 'react-icons/fa';
-import "./Summary.css"
+import "./Summary.css";
 
 function Summary() {
   const userData = useSelector((state) => state.auth.userData);
-  const { finalProfitLoss, finalProfitLossPercentage, finalCurrentValue, finalInvestment, totalHoldings } =
-    useSelector(state => ({
-      finalProfitLoss: state.data.finalProfitLoss || 6550,
-      finalProfitLossPercentage: state.data.finalProfitLossPercentage || 5.20,
-      finalCurrentValue: state.data.finalCurrentValue || 31430,
-      finalInvestment: state.data.finalInvestment || 29880,
-      totalHoldings: state.data.totalHoldings || 5,
-    }));
-  console.log("finalifndsj:", finalProfitLossPercentage)
+  const {
+    finalProfitLoss,
+    finalProfitLossPercentage,
+    finalCurrentValue,
+    finalInvestment,
+    totalHoldings
+  } = useSelector(state => ({
+    finalProfitLoss: state.data.finalProfitLoss || 6550,
+    finalProfitLossPercentage: state.data.finalProfitLossPercentage || 5.20,
+    finalCurrentValue: state.data.finalCurrentValue || 31430,
+    finalInvestment: state.data.finalInvestment || 29880,
+    totalHoldings: state.data.totalHoldings || 5,
+  }));
+  console.log("finalifndsj:", finalProfitLossPercentage);
 
   const formatCurrency = (value) => {
     return new Intl.NumberFormat('en-CA', { style: 'currency', currency: 'CAD' }).format(value || 0);
   };
 
+  const openingBalance = finalInvestment; // Dynamically set opening balance based on initial investment
+  const equity = finalCurrentValue; // Assuming equity is the current value of holdings
+  const marginsUsed = openingBalance - equity; // Margins used is the difference between equity and opening balance
+
   return (
     <div className="summary-container mt-4">
       <div className="user-info">
-        <FaUser className="icon"  />
+        <FaUser className="icon" />
         <h2>Welcome, {userData?.username || 'Investor'}!</h2>
         <p>Your financial summary at a glance</p>
       </div>
@@ -31,12 +40,12 @@ function Summary() {
         <h4><FaWallet className="icon" /> Equity</h4>
         <div className="card-content">
           <div className="main-info">
-            <h4 className='text-muted'>{formatCurrency(10000)}</h4>
-            <p className='text-muted'>Margin available</p>
+            <h4 className='text-muted'>{formatCurrency(equity)}</h4>
+            <p className='text-muted'>Equity Value</p>
           </div>
           <div className="additional-info">
-            <p>Margins used: <span>{formatCurrency(0)}</span></p>
-            <p>Opening balance: <span>{formatCurrency(3740)}</span></p>
+            <p>Margins used: <span>{formatCurrency(marginsUsed)}</span></p>
+            <p>Opening balance: <span>{formatCurrency(openingBalance)}</span></p>
           </div>
         </div>
       </div>

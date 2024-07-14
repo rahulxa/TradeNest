@@ -5,7 +5,7 @@ const initialState = {
     holdings: [],
     finalProfitLoss: null,
     finalProfitLossPercentage: null,
-    finalCurrentValue: null,
+    finalCurrentValue: null, 
     finalInvestment: null,
     totalHoldings: null
 }
