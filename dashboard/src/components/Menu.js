@@ -42,42 +42,47 @@ function Menu() {
           </li>
           <li>
             <Link
-              to="/orders"
+              to="/holdings"
               onClick={() => handleMenuClick(1)}
               className={selectedOption === 1 ? activeMenuClass : menuClass}
-            >
-              Orders
-            </Link>
-          </li>
-          <li>
-            <Link
-              to="/holdings"
-              onClick={() => handleMenuClick(2)}
-              className={selectedOption === 2 ? activeMenuClass : menuClass}
             >
               Holdings
             </Link>
           </li>
-          <li>
-            <Link
-              to="/positions"
-              onClick={() => handleMenuClick(3)}
-              className={selectedOption === 3 ? activeMenuClass : menuClass}
-            >
-              Positions
-            </Link>
-          </li>
+
+
           <li>
             <Link
               to="/AI"
-              onClick={() => handleMenuClick(6)}
-              className={selectedOption === 6 ? activeMenuClass : menuClass}
+              onClick={() => handleMenuClick(2)}
+              className={selectedOption === 2 ? activeMenuClass : menuClass}
             >
               AI<i className="fa-solid fa-wand-sparkles" style={{ marginLeft: "4px" }}></i>
             </Link>
           </li>
-          {/* <li> */}
-          {/* </li> */}
+
+          <li>
+            <Link
+              to="/orders"
+              onClick={() => handleMenuClick(3)}
+              className={selectedOption === 3 ? activeMenuClass : menuClass}
+            >
+              Orders
+            </Link>
+          </li>
+
+
+
+          <li>
+            <Link
+              to="/positions"
+              onClick={() => handleMenuClick(3)}
+              className={selectedOption === 4 ? activeMenuClass : menuClass}
+            >
+              Positions
+            </Link>
+          </li>
+
         </ul>
       </div>
       <div>

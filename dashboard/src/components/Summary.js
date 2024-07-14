@@ -20,7 +20,7 @@ function Summary() {
   };
 
   return (
-    <div className="summary-container">
+    <div className="summary-container mt-4">
       <div className="user-info">
         <FaUser className="icon"  />
         <h2>Welcome, {userData?.username || 'Investor'}!</h2>
@@ -61,7 +61,7 @@ function Summary() {
         </div>
       </div>
 
-      <div className="quick-stats">
+      <div className="quick-stats mt-3">
         <div className="stat-item">
           <h5>Day's Change</h5>
           <p className={finalProfitLoss > 0 ? "profit" : "loss"}>
