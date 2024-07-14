@@ -31,7 +31,7 @@ function Summary() {
         <h4><FaWallet className="icon" /> Equity</h4>
         <div className="card-content">
           <div className="main-info">
-            <h4 className='text-muted'>{formatCurrency(3740)}</h4>
+            <h4 className='text-muted'>{formatCurrency(10000)}</h4>
             <p className='text-muted'>Margin available</p>
           </div>
           <div className="additional-info">

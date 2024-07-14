@@ -10,7 +10,7 @@ const model = genAI.getGenerativeModel({ model: "gemini-1.5-pro" });
 function AI() {
     const dispatch = useDispatch();
     const messages = useSelector(state => state.chat.messages);
-    const previewMessage = useSelector(state => state.chat.previewMessage);
+    const previewMessage = useSelector(state => state.chat.previewMessage); //boolean
     const [input, setInput] = useState('');
     const [loading, setLoading] = useState(false);
     const messagesEndRef = useRef(null);
@@ -51,22 +51,19 @@ function AI() {
         dispatch(addMessage(userMessage));
         setLoading(true);
         setInput('');
-
+        
         try {
             const result = await model.generateContentStream(textMessage);
-            // setSpinner(false)
-            console.log("AI result:", result)
-            console.log("AI result stream:", result.stream)
             let aiResponse = "";
             const aiMessage = { text: aiResponse, sender: 'ai' };
             dispatch(addMessage(aiMessage));
 
             for await (const chunk of result.stream) {
-                console.log("chunk:", chunk)
+                // console.log("chunk:", chunk)
                 const chunkText = chunk.text();
-                console.log("chunk text:", chunkText)
+                // console.log("chunk text:", chunkText)
                 aiResponse += chunkText;
-                console.log("aires:", aiResponse)
+                // console.log("aires:", aiResponse)
                 dispatch(updateLastAIMessage(aiResponse));
             }
             // setSpinner(false);
