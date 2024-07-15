@@ -166,7 +166,7 @@ function Holdings() {
       {
         label: 'Stock Price',
         data: finalHoldings.map((stock) => stock.price),
-        backgroundColor: 'rgba(75, 192, 192, 0.5)',
+        backgroundColor: 'rgba(239, 83, 80, 0.7)',
       }
     ]
   };

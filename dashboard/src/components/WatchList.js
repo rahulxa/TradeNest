@@ -15,25 +15,27 @@ function WatchList() {
         label: 'Price',
         data: watchlist.map((stock) => stock.price),
         backgroundColor: [
-          'rgba(255, 99, 132, 0.5)',
-          'rgba(54, 162, 235, 0.5)',
-          'rgba(255, 206, 86, 0.5)',
-          'rgba(75, 192, 192, 0.5)',
-          'rgba(153, 102, 255, 0.5)',
-          'rgba(255, 159, 64, 0.5)',
+          'rgba(239, 83, 80, 0.7)',    // Light Coral
+          'rgba(255, 183, 77, 0.7)',   // Sandy Brown
+          'rgba(255, 213, 79, 0.7)',   // Light Goldenrod Yellow
+          'rgba(129, 199, 132, 0.7)',  // Light Green
+          'rgba(77, 182, 172, 0.7)',   // Medium Aquamarine
+          'rgba(41, 182, 246, 0.7)',   // Deep Sky Blue
         ],
         borderColor: [
-          'rgba(255, 99, 132, 1)',
-          'rgba(54, 162, 235, 1)',
-          'rgba(255, 206, 86, 1)',
-          'rgba(75, 192, 192, 1)',
-          'rgba(153, 102, 255, 1)',
-          'rgba(255, 159, 64, 1)',
+          'rgba(239, 83, 80, 1)',    // Light Coral
+          'rgba(255, 183, 77, 1)',   // Sandy Brown
+          'rgba(255, 213, 79, 1)',   // Light Goldenrod Yellow
+          'rgba(129, 199, 132, 1)',  // Light Green
+          'rgba(77, 182, 172, 1)',   // Medium Aquamarine
+          'rgba(41, 182, 246, 1)',   // Deep Sky Blue
         ],
         borderWidth: 1,
       }
     ]
-  }
+  };
+
+
 
   const doughnoutChartRef = useRef(null);
 

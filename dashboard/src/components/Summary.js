@@ -18,7 +18,7 @@ function Summary() {
     finalInvestment: state.data.finalInvestment || 29880,
     totalHoldings: state.data.totalHoldings || 5,
   }));
-  console.log("finalifndsj:", finalProfitLossPercentage);
+  // console.log("finalifndsj:", finalProfitLossPercentage);
 
   const formatCurrency = (value) => {
     return new Intl.NumberFormat('en-CA', { style: 'currency', currency: 'CAD' }).format(value || 0);
@@ -29,9 +29,9 @@ function Summary() {
   const marginsUsed = openingBalance - equity; // Margins used is the difference between equity and opening balance
 
   return (
-    <div className="summary-container mt-4">
+    <div className="summary-container mt-1">
       <div className="user-info">
-        <FaUser className="icon" />
+        <FaUser className="icon" style={{ fontSize: '1.8em' }} />
         <h2>Welcome, {userData?.username || 'Investor'}!</h2>
         <p>Your financial summary at a glance</p>
       </div>

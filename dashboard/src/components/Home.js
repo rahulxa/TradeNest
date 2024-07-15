@@ -65,6 +65,8 @@ function Home() {
         }
     }, [userStatus, navigate, loading]); // Removed userToken from dependencies
 
+    // get user holdings and send those holdings to store and from there do your work 
+    //if a user places an order that custom hook will run again in the holdings component when the refresh button is clicked
     if (loading) {
         return <div>Loading...</div>;
     }
