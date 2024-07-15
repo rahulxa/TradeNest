@@ -9,6 +9,7 @@ function Orders() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+
   useEffect(() => {
     const fetchOrders = async () => {
       try {
@@ -41,7 +42,7 @@ function Orders() {
 
   return (
     <div className="container py-3">
-      <h2 className="text-center text-muted" style={{ color: '#333', fontWeight: '600',textDecoration:"underline" }}>Your Orders</h2>
+      <h2 className="text-center text-muted" style={{ color: '#333', fontWeight: '600', textDecoration: "underline" }}>Your Orders</h2>
       {orders.length > 0 ? (
         <div className="table-responsive shadow-sm rounded">
           <table className="table table-hover mb-0">

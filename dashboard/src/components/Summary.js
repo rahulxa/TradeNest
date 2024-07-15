@@ -5,20 +5,9 @@ import "./Summary.css";
 
 function Summary() {
   const userData = useSelector((state) => state.auth.userData);
-  const {
-    finalProfitLoss,
-    finalProfitLossPercentage,
-    finalCurrentValue,
-    finalInvestment,
-    totalHoldings
-  } = useSelector(state => ({
-    finalProfitLoss: state.data.finalProfitLoss || 6550,
-    finalProfitLossPercentage: state.data.finalProfitLossPercentage || 5.20,
-    finalCurrentValue: state.data.finalCurrentValue || 31430,
-    finalInvestment: state.data.finalInvestment || 29880,
-    totalHoldings: state.data.totalHoldings || 5,
-  }));
-  // console.log("finalifndsj:", finalProfitLossPercentage);
+  // const holdings = useSelector(state => state.data.holdings);
+  const { finalProfitLoss, finalProfitLossPercentage, finalCurrentValue, finalInvestment, totalHoldings } = useSelector(state => state.data);
+
 
   const formatCurrency = (value) => {
     return new Intl.NumberFormat('en-CA', { style: 'currency', currency: 'CAD' }).format(value || 0);

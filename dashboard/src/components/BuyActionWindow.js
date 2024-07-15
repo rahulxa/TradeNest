@@ -1,14 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import axios from "axios";
 import { useSelector } from 'react-redux';
+import useFetchUserHoldingsValue from '../hooks/FetchUserHoldingsValue';
 
 function BuyActionWindow({ stockName, onClose, stockPrice, dayChange, avgCost }) {
     const accessToken = useSelector((state) => state.auth.userAccessToken);
+    const userId = useSelector((state) => state.auth.userData?._id);
     const [stockQuantity, setStockQuantity] = useState(0);
     const [newStockPrice, setNewStockPrice] = useState(stockPrice);
     const [orderSuccessMessage, setOrderSuccesMessage] = useState("");
     const [priceMessage, setPriceMessage] = useState("");
     const [margin, setMargin] = useState(0);
+    const [updateTrigger, setUpdateTrigger] = useState(0);
+
+    useFetchUserHoldingsValue(userId, accessToken, updateTrigger);
 
     useEffect(() => {
         const updatedMargin = (stockQuantity * stockPrice).toFixed(2);
@@ -37,7 +42,7 @@ function BuyActionWindow({ stockName, onClose, stockPrice, dayChange, avgCost })
             price: newStockPrice, // this is the total price of all the stocks combined
             mode: "Buy"
         };
-        console.log("order data:", orderData)
+        // console.log("order data:", orderData)
         try {
             const orderResponse = await axios.post("http://localhost:3002/api/v1/orders/place-order", orderData, {
                 headers: {
@@ -46,7 +51,7 @@ function BuyActionWindow({ stockName, onClose, stockPrice, dayChange, avgCost })
             });
 
             if (orderResponse) {
-                setOrderSuccesMessage("Order placed successfully!!          Head to orders or holdings section");
+                setOrderSuccesMessage("Order placed successfully!! Head to orders or holdings section");
                 setPriceMessage("");
 
                 const holdingsData = {
@@ -67,6 +72,7 @@ function BuyActionWindow({ stockName, onClose, stockPrice, dayChange, avgCost })
 
                     if (holdingsResponse) {
                         console.log("Holdings created successfully:", holdingsResponse.data.data);
+                        setUpdateTrigger(prev => prev + 1);
                     }
                 } catch (error) {
                     console.log("Error creating holdings:", error.message);

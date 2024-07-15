@@ -6,12 +6,17 @@ import Dashboard from "./Dashboard";
 import CryptoJS from 'crypto-js';
 import axios from 'axios';
 import { login } from "../store/authSlice";
+import useFetchUserHoldingsValue from '../hooks/FetchUserHoldingsValue';
 
 function Home() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const userStatus = useSelector((state) => state.auth.status);
     const [loading, setLoading] = useState(true);
+    const [userId, setUserId] = useState(null);
+    const [token, setToken] = useState(null);
+
+    useFetchUserHoldingsValue(userId, token);
 
     const fetchUserData = async (token) => {
         try {
@@ -23,6 +28,8 @@ function Home() {
             if (response) {
                 const userData = response.data.data.loggedInUser;
                 dispatch(login({ userData: userData, status: true, userAccessToken: token }));
+                setUserId(userData._id);
+                setToken(token);
                 setLoading(false);
             } else {
                 setLoading(false);
@@ -57,16 +64,15 @@ function Home() {
                 setLoading(false);
             }
         }
-    }, []);
+    },[]);
 
     useEffect(() => {
         if (!loading && !userStatus && !sessionStorage.getItem('token')) {
             navigate('/error');
         }
-    }, [userStatus, navigate, loading]); // Removed userToken from dependencies
+    }, [userStatus, navigate, loading]);
 
-    // get user holdings and send those holdings to store and from there do your work 
-    //if a user places an order that custom hook will run again in the holdings component when the refresh button is clicked
+
     if (loading) {
         return <div>Loading...</div>;
     }

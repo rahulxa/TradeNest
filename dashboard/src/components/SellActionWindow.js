@@ -1,82 +1,87 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './SellActionWindow.css'; // We'll create this CSS file for styling
 import axios from 'axios';
-import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
+import useFetchUserHoldingsValue from '../hooks/FetchUserHoldingsValue';
 
 function SellActionWindow({ stock, onClose }) {
-    // console.log("stock:", stock)
-    const accessToken = useSelector((state) => state.auth.userAccessToken)
-    const userId = useSelector((state) => state.auth.userData._id)
-    // console.log("access token:", accessToken)
+    const accessToken = useSelector((state) => state.auth.userAccessToken);
+    const userId = useSelector((state) => state.auth.userData._id);
     const [sellQty, setSellQty] = useState(0);
-    const [message, setMessage] = useState("")
-    const [sellPrice, setSellPrice] = useState(0)
-    const [orderSuccessMessage, setOrderSuccesMessage] = useState("");
+    const [message, setMessage] = useState("");
+    const [sellPrice, setSellPrice] = useState(0);
+    const [orderSuccess, setOrderSuccess] = useState(false);
+    const [updateTrigger, setUpdateTrigger] = useState(0);
+
+    useFetchUserHoldingsValue(userId, accessToken, updateTrigger);
 
     useEffect(() => {
         if (stock.qty !== 0) {
-            setSellPrice((stock.price * sellQty).toFixed(2))
+            setSellPrice((stock.price * sellQty).toFixed(2));
         }
-    }, [sellQty, stock.price])
-
+    }, [sellQty, stock.price]);
 
     const placeOrder = async () => {
         try {
-            const sellQuantity = Number(sellQty); // Convert sellQty to a number
+            const sellQuantity = Number(sellQty);
 
             if (sellQuantity <= 0 || sellQuantity > stock.qty) {
                 setMessage("Please enter a valid quantity. The quantity must be greater than zero and not exceed your current holdings.");
                 return;
             }
+
             const orderData = {
                 stockName: stock.stockName,
                 qty: sellQty,
-                price: sellPrice, //this is lTP for holdings
+                price: sellPrice,
                 mode: "Sell"
             };
-            // console.log(" this order data:", orderData)
+
             const orderResponse = await axios.post("http://localhost:3002/api/v1/orders/place-order", orderData, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`
                 }
-            })
-            if (orderResponse) {
-                setOrderSuccesMessage("Order placed successfully!!");
-                setMessage("")
+            });
 
+            if (orderResponse) {
                 const holdingsData = {
                     stockName: stock.stockName,
                     qty: sellQty
-                }
-                // console.log("holdings data:", holdingsData)
-                try {
-                    const holdingsResponse = await axios.patch(`http://localhost:3002/api/v1/holdings/update-holdings/${userId}`, holdingsData, {
-                        headers: {
-                            Authorization: `Bearer ${accessToken}`
-                        }
-                    })
-                    if (holdingsResponse) {
-                        console.log("this is the holding response:", holdingsResponse.data.data);
-                        // console.log("Holdings created successfully")
+                };
+
+                await axios.patch(`http://localhost:3002/api/v1/holdings/update-holdings/${userId}`, holdingsData, {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`
                     }
-                } catch (error) {
-                    console.log("Error updating your holdings:", error.message);
-                }
+                });
+
+                setOrderSuccess(true);
+                setMessage("");
+                setUpdateTrigger(prev => prev + 1);
             }
         } catch (error) {
             console.log("Error placing your order:", error.message);
+            setMessage("Error placing your order. Please try again.");
         }
-    }
+    };
 
     const handlePopupClose = () => {
-        setOrderSuccesMessage("")
+        setOrderSuccess(false);
         onClose();
-    }
+    };
 
     return (
         <>
-            {orderSuccessMessage === "" ? (
+            {orderSuccess ? (
+                <div className="modal-overlay">
+                    <div className="modal-content p-5 bg-light rounded shadow-lg max-w-lg mx-auto text-center">
+                        <h5 className="modal-title">Your stock has been sold successfully!</h5>
+                        <div className="d-flex justify-content-center mt-4">
+                            <button className="btn btn-secondary" onClick={handlePopupClose}>Close</button>
+                        </div>
+                    </div>
+                </div>
+            ) : (
                 <div className="sell-action-overlay">
                     <div className="sell-action-window">
                         <h2 style={{ textDecoration: 'underline' }}>{stock.stockName}</h2>
@@ -103,7 +108,6 @@ function SellActionWindow({ stock, onClose }) {
                                 id="sellPrice"
                                 value={sellPrice}
                                 readOnly
-                            // onChange={(e) => setSellPrice(e.target.value)}
                             />
                         </div>
                         <div className="input-group">
@@ -119,15 +123,6 @@ function SellActionWindow({ stock, onClose }) {
                         <div className="button-group">
                             <button className="sell-button" onClick={placeOrder}>Sell</button>
                             <button className="cancel-button" onClick={onClose}>Cancel</button>
-                        </div>
-                    </div>
-                </div >
-            ) : (
-                <div className="modal-overlay">
-                    <div className="modal-content p-5 bg-light rounded shadow-lg max-w-lg mx-auto text-center">
-                        <h5 className="modal-title">{orderSuccessMessage}</h5>
-                        <div className="d-flex justify-content-center mt-4">
-                            <button className="btn btn-secondary" onClick={handlePopupClose}>Close</button>
                         </div>
                     </div>
                 </div>
