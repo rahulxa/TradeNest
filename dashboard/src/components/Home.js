@@ -12,6 +12,7 @@ function Home() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const userStatus = useSelector((state) => state.auth.status);
+    const userAccessToken = useSelector((state) => state.auth.userAccessToken)
     const [loading, setLoading] = useState(true);
     const [userId, setUserId] = useState(null);
     const [token, setToken] = useState(null);
@@ -50,22 +51,19 @@ function Home() {
                 const secretKey = process.env.REACT_APP_SECRET_KEY;
                 const bytes = CryptoJS.AES.decrypt(encryptedToken, secretKey);
                 const originalAccessToken = bytes.toString(CryptoJS.enc.Utf8);
-                sessionStorage.setItem('token', originalAccessToken); // Fixed: use originalAccessToken instead of token
                 fetchUserData(originalAccessToken);
             } catch (error) {
                 console.error("Error decrypting token:", error);
                 setLoading(false);
             }
         } else {
-            // If no token in URL, check localStorage
-            const storedToken = localStorage.getItem('token');
-            if (storedToken) {
-                fetchUserData(storedToken);
+            if (userAccessToken) {
+                fetchUserData(userAccessToken);
             } else {
                 setLoading(false);
             }
         }
-    },[token]);
+    }, []);
 
     useEffect(() => {
         if (!loading && !userStatus && !sessionStorage.getItem('token')) {

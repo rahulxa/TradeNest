@@ -1,6 +1,6 @@
 import React, { useState, useRef, useCallback } from 'react';
 import { VerticalChart } from './VerticalChart';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import SellActionWindow from './SellActionWindow';
 
 function Holdings() {
@@ -9,7 +9,6 @@ function Holdings() {
   const [hoveredRow, setHoveredRow] = useState(null);
   const [openSellWindow, setOpenSellWindow] = useState(false);
   const [sellingStockDetails, setSellingStockDetails] = useState(null);
-  const dispatch = useDispatch();
 
 
   const handleSellClick = useCallback((stock) => {
@@ -49,19 +48,12 @@ function Holdings() {
     <>
       <div className="d-flex justify-content-between align-items-center mb-5 text-muted">
         <div className="d-flex align-items-center">
-          <h4 className="mb-0">Holdings ({totalHoldings})</h4>
-          <button className=" d-flex align-items-center ms-3" title="Analytics" onClick={scrollToGraph} style={{ fontSize: "14px" }}>
+          <h4 className="mb-0 row-6">Holdings ({totalHoldings})</h4>
+          <button className=" d-flex align-items-center ms-3" title="Analytics" onClick={scrollToGraph} style={{ fontSize: "14px", backgroundColor: "rgba(230, 83, 80, 0.7)  " }}>
             <span>Analytics</span>
             <i className="fa-solid fa-chart-simple ms-2"></i>
           </button>
         </div>
-        {/* <button
-            className="custom-btn-refresh"
-            onClick={handleRefreshClick}
-            disabled={isLoading}
-          >
-            {isLoading ? 'Refreshing...' : 'Refresh'}
-          </button> */}
       </div>
 
       <div className='order-table'>
@@ -133,7 +125,7 @@ function Holdings() {
           </tbody>
         </table>
       </div>
-      {/* finalProfitLoss, finalProfitLossPercentage, finalCurrentValue, finalInvestment */}
+
       <div className="row">
         <div className="col">
           <h5>{finalInvestment.toFixed(2)}</h5>

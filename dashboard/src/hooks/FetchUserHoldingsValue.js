@@ -54,7 +54,7 @@ function useFetchUserHoldingsValue(userId, accessToken, trigger) {
                     const holdings = response.data.data.holdings;
                     const combinedHoldings = holdings.length > 0 ? [...initialHoldings, ...holdings] : initialHoldings;
                     dispatch(setHoldings({ holdings: combinedHoldings }));
-                    console.log("combined holdings:", combinedHoldings);
+                    // console.log("combined holdings:", combinedHoldings);
                     calculateTotalValues(combinedHoldings);
                 } catch (error) {
                     console.error("Error fetching holdings:", error.message);

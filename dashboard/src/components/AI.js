@@ -59,7 +59,9 @@ function AI() {
         setInput('');
 
         try {
-            const chat = model.startChat({ history: chatHistory });//creating a new instance and starting the chat with the chat history
+            //creating a new instance and starting the chat with the chat history
+            // (this always  ensures that the model gives response according to the chat history)
+            const chat = model.startChat({ history: chatHistory });
             const result = await chat.sendMessageStream(textMessage) //sending the real time user input to the model
             let aiResponse = "";
             const aiMessage = { text: aiResponse, sender: 'ai' };
@@ -68,7 +70,7 @@ function AI() {
             for await (const chunk of result.stream) {
                 const chunkText = chunk.text();
                 aiResponse += chunkText;
-                dispatch(updateLastAIMessage(aiResponse));
+                dispatch(updateLastAIMessage(aiResponse));// updating last ai message ()
             }
             dispatch(addToChatHistory({ role: "model", text: aiResponse }));
         } catch (error) {

@@ -37,6 +37,11 @@ const chatSlice = createSlice({
         },
         clearChatHistory: (state) => {
             state.chatHistory = [];
+        },
+        clearAllChatData: (state, action) => {
+            Object.keys(initialState).forEach(key => {
+                state[key] = null
+            })
         }
     },
 });
