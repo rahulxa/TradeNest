@@ -1,7 +1,6 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useCallback } from 'react';
 import { VerticalChart } from './VerticalChart';
-import { useSelector } from 'react-redux';
-
+import { useDispatch, useSelector } from 'react-redux';
 import SellActionWindow from './SellActionWindow';
 
 function Holdings() {
@@ -10,16 +9,18 @@ function Holdings() {
   const [hoveredRow, setHoveredRow] = useState(null);
   const [openSellWindow, setOpenSellWindow] = useState(false);
   const [sellingStockDetails, setSellingStockDetails] = useState(null);
+  const dispatch = useDispatch();
 
 
-  const handleSellclick = (stock) => {
+  const handleSellClick = useCallback((stock) => {
     setOpenSellWindow(true);
     setSellingStockDetails(stock);
-  }
+  }, []);
 
-  const handleCloseSellWindow = () => {
+
+  const handleCloseSellWindow = useCallback(() => {
     setOpenSellWindow(false);
-  }
+  }, []);
 
 
   const labels = allHoldings.map((subArray) => subArray["stockName"]);
@@ -55,12 +56,12 @@ function Holdings() {
           </button>
         </div>
         {/* <button
-          className="custom-btn-refresh"
-          onClick={handleRefreshClick}
-          disabled={isLoading}
-        >
-          {isLoading ? 'Refreshing...' : 'Refresh'}
-        </button> */}
+            className="custom-btn-refresh"
+            onClick={handleRefreshClick}
+            disabled={isLoading}
+          >
+            {isLoading ? 'Refreshing...' : 'Refresh'}
+          </button> */}
       </div>
 
       <div className='order-table'>
@@ -104,7 +105,7 @@ function Holdings() {
                         {index > 3 && hoveredRow === index && (
                           <button
                             title='Sell'
-                            onClick={() => handleSellclick(stock)}
+                            onClick={() => handleSellClick(stock)}
                             className="btn btn-sm btn-primary rounded"
                             style={{
                               fontSize: '0.95rem',

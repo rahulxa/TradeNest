@@ -16,6 +16,7 @@ function Home() {
     const [userId, setUserId] = useState(null);
     const [token, setToken] = useState(null);
 
+
     useFetchUserHoldingsValue(userId, token);
 
     const fetchUserData = async (token) => {
@@ -64,7 +65,7 @@ function Home() {
                 setLoading(false);
             }
         }
-    },[]);
+    },[token]);
 
     useEffect(() => {
         if (!loading && !userStatus && !sessionStorage.getItem('token')) {

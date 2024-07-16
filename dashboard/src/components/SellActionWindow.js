@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import './SellActionWindow.css'; // We'll create this CSS file for styling
 import axios from 'axios';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import useFetchUserHoldingsValue from '../hooks/FetchUserHoldingsValue';
+import { setHoldings } from '../store/dataSlice';
 
 function SellActionWindow({ stock, onClose }) {
     const accessToken = useSelector((state) => state.auth.userAccessToken);
@@ -12,6 +13,7 @@ function SellActionWindow({ stock, onClose }) {
     const [sellPrice, setSellPrice] = useState(0);
     const [orderSuccess, setOrderSuccess] = useState(false);
     const [updateTrigger, setUpdateTrigger] = useState(0);
+    const dispatch = useDispatch();
 
     useFetchUserHoldingsValue(userId, accessToken, updateTrigger);
 
@@ -57,17 +59,24 @@ function SellActionWindow({ stock, onClose }) {
 
                 setOrderSuccess(true);
                 setMessage("");
-                setUpdateTrigger(prev => prev + 1);
+                setTimeout(() => {
+                    setUpdateTrigger(prev => prev + 1);
+                }, 3000);
             }
         } catch (error) {
-            console.log("Error placing your order:", error.message);
-            setMessage("Error placing your order. Please try again.");
+            if (error.response.status === 404) {
+                setMessage("All stocks for this holding have been sold. No quantity remaining to sell.");
+            } else {
+                setMessage("Error placing your order. Please try again.");
+            }
         }
     };
 
     const handlePopupClose = () => {
-        setOrderSuccess(false);
-        onClose();
+        setTimeout(() => {
+            setOrderSuccess(false);
+            onClose();
+        }, 500); // 500ms delay
     };
 
     return (
