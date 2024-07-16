@@ -1,11 +1,15 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { addMessage, setPreviewMessage, clearChat, updateLastAIMessage } from "../store/chatSlice"
+import {
+    addMessage, setPreviewMessage, clearChat,
+    updateLastAIMessage, clearChatHistory, addToChatHistory
+} from "../store/chatSlice"
+
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
 const APIKEY = process.env.REACT_APP_GEMINI_API_KEY
 const genAI = new GoogleGenerativeAI(APIKEY);
-const model = genAI.getGenerativeModel({ model: "gemini-1.5-pro" });
+const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
 function AI() {
     const dispatch = useDispatch();
@@ -14,6 +18,7 @@ function AI() {
     const [input, setInput] = useState('');
     const [loading, setLoading] = useState(false);
     const messagesEndRef = useRef(null);
+    const chatHistory = useSelector((state) => state.chat.chatHistory)
 
     const scrollToBottom = () => {
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -46,27 +51,26 @@ function AI() {
 
     const handleSubmit = async (textMessage) => {
         // setSpinner(true)
-        dispatch(setPreviewMessage(false));
-        const userMessage = { text: textMessage, sender: 'user' };
-        dispatch(addMessage(userMessage));
+        dispatch(setPreviewMessage(false)); //setting preview message false
+        const userMessage = { text: textMessage, sender: 'user' }; //
+        dispatch(addMessage(userMessage)); //adding user input to the message array in the store
+        dispatch(addToChatHistory({ role: "user", text: textMessage })) //adding user message to the chat history
         setLoading(true);
         setInput('');
-        
+
         try {
-            const result = await model.generateContentStream(textMessage);
+            const chat = model.startChat({ history: chatHistory });//creating a new instance and starting the chat with the chat history
+            const result = await chat.sendMessageStream(textMessage) //sending the real time user input to the model
             let aiResponse = "";
             const aiMessage = { text: aiResponse, sender: 'ai' };
-            dispatch(addMessage(aiMessage));
+            dispatch(addMessage(aiMessage)); ////adding ai message to the chat history
 
             for await (const chunk of result.stream) {
-                // console.log("chunk:", chunk)
                 const chunkText = chunk.text();
-                // console.log("chunk text:", chunkText)
                 aiResponse += chunkText;
-                // console.log("aires:", aiResponse)
                 dispatch(updateLastAIMessage(aiResponse));
             }
-            // setSpinner(false);
+            dispatch(addToChatHistory({ role: "model", text: aiResponse }));
         } catch (error) {
             console.error("Error fetching data:", error);
             dispatch(addMessage({ text: "Sorry, I encountered an error. Please try again.", sender: 'ai' }));
@@ -88,6 +92,7 @@ function AI() {
 
     const handleChatClear = () => {
         dispatch(clearChat());
+        dispatch(clearChatHistory())
         setInput("");
         setLoading(false);
     }

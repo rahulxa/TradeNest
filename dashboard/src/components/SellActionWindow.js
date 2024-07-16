@@ -3,7 +3,7 @@ import './SellActionWindow.css'; // We'll create this CSS file for styling
 import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
 import useFetchUserHoldingsValue from '../hooks/FetchUserHoldingsValue';
-import { setHoldings } from '../store/dataSlice';
+
 
 function SellActionWindow({ stock, onClose }) {
     const accessToken = useSelector((state) => state.auth.userAccessToken);
