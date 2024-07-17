@@ -25,7 +25,7 @@ function Holdings() {
   const labels = allHoldings.map((subArray) => subArray["stockName"]);
 
   const data = {
-    labels,
+    labels, 
     datasets: [
       {
         label: 'Stock Price',

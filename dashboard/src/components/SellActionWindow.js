@@ -13,7 +13,6 @@ function SellActionWindow({ stock, onClose }) {
     const [sellPrice, setSellPrice] = useState(0);
     const [orderSuccess, setOrderSuccess] = useState(false);
     const [updateTrigger, setUpdateTrigger] = useState(0);
-    const dispatch = useDispatch();
 
     useFetchUserHoldingsValue(userId, accessToken, updateTrigger);
 
@@ -57,11 +56,17 @@ function SellActionWindow({ stock, onClose }) {
                     }
                 });
 
-                setOrderSuccess(true);
+
                 setMessage("");
-                setTimeout(() => {
+                if (sellQty === stock.qty) {
+                    setTimeout(() => {
+                        setUpdateTrigger(prev => prev + 1);
+                    }, 2000);
+                    setOrderSuccess(true);
+                } else {
                     setUpdateTrigger(prev => prev + 1);
-                }, 3000);
+                    setOrderSuccess(true);
+                }
             }
         } catch (error) {
             if (error.response.status === 404) {
