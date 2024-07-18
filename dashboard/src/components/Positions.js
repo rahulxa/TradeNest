@@ -1,9 +1,16 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
+import { useDispatch } from 'react-redux';
+import { changeNavItems } from '../store/navSlice';
+
+
 
 function Positions() {
 
   const [allPositions, setAllPositions] = useState([])
+  const dispatch = useDispatch();
+
+  dispatch(changeNavItems({ currentItem: "positions" }))
 
   useEffect(() => {
     axios.get("http://localhost:3002/api/v1/allPositions")

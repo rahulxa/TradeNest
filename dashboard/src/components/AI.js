@@ -4,8 +4,10 @@ import {
     addMessage, setPreviewMessage, clearChat,
     updateLastAIMessage, clearChatHistory, addToChatHistory
 } from "../store/chatSlice"
-
 import { GoogleGenerativeAI } from "@google/generative-ai";
+import { changeNavItems } from '../store/navSlice';
+
+
 
 const APIKEY = process.env.REACT_APP_GEMINI_API_KEY
 const genAI = new GoogleGenerativeAI(APIKEY);
@@ -19,6 +21,9 @@ function AI() {
     const [loading, setLoading] = useState(false);
     const messagesEndRef = useRef(null);
     const chatHistory = useSelector((state) => state.chat.chatHistory)
+
+    dispatch(changeNavItems({ currentItem: "AI" }))
+
 
     const scrollToBottom = () => {
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from "axios";
 import { useSelector } from 'react-redux';
 import useFetchUserHoldingsValue from '../hooks/FetchUserHoldingsValue';
+import { useNavigate } from "react-router-dom"
 
 function BuyActionWindow({ stockName, onClose, stockPrice, dayChange, avgCost }) {
     const accessToken = useSelector((state) => state.auth.userAccessToken);
@@ -12,6 +13,7 @@ function BuyActionWindow({ stockName, onClose, stockPrice, dayChange, avgCost })
     const [priceMessage, setPriceMessage] = useState("");
     const [margin, setMargin] = useState(0);
     const [updateTrigger, setUpdateTrigger] = useState(0);
+    const navigate = useNavigate();
 
     useFetchUserHoldingsValue(userId, accessToken, updateTrigger);
 
@@ -23,6 +25,7 @@ function BuyActionWindow({ stockName, onClose, stockPrice, dayChange, avgCost })
     const handlePopupClose = () => {
         onClose();
         setOrderSuccesMessage("");
+        navigate("/holdings")
     };
 
     const placeOrder = async (e) => {
@@ -51,7 +54,7 @@ function BuyActionWindow({ stockName, onClose, stockPrice, dayChange, avgCost })
             });
 
             if (orderResponse) {
-                setOrderSuccesMessage("Order placed successfully!! Head to orders or holdings section");
+                setOrderSuccesMessage("Order placed successfully!!");
                 setPriceMessage("");
 
                 const holdingsData = {

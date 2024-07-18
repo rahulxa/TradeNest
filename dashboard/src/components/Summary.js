@@ -1,17 +1,20 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { FaUser, FaChartLine, FaWallet, FaArrowUp, FaArrowDown } from 'react-icons/fa';
 import "./Summary.css";
+import { changeNavItems } from '../store/navSlice';
 
 function Summary() {
   const userData = useSelector((state) => state.auth.userData);
-  // const holdings = useSelector(state => state.data.holdings);
+  const dispatch = useDispatch();
   const { finalProfitLoss, finalProfitLossPercentage, finalCurrentValue, finalInvestment, totalHoldings } = useSelector(state => state.data);
 
 
   const formatCurrency = (value) => {
     return new Intl.NumberFormat('en-CA', { style: 'currency', currency: 'CAD' }).format(value || 0);
   };
+
+  dispatch(changeNavItems({ currentItem: "summary" }))
 
   const openingBalance = finalInvestment; // Dynamically set opening balance based on initial investment
   const equity = finalCurrentValue; // Assuming equity is the current value of holdings

@@ -12,7 +12,7 @@ import orderRouter from "./routes/orders.routes.js";
 const app = express()
 
 const corsOptions = {
-    origin: ['http://localhost:3000', 'http://localhost:3001'], // Replace with your allowed origins
+    origin: ['http://localhost:3000', 'http://localhost:3001'],
     credentials: true, // Allow credentials (cookies)
 };
 
@@ -22,8 +22,6 @@ app.use(bodyParser.json());
 app.use(cookieParser()); //cookies for storing access and refresh tokens
 
 //routes
-
-
 app.use("/api/v1/holdings", holdingsRouter);
 app.use("/api/v1/allPositions", positionsRouter);
 app.use("/api/v1/users", userRouter);

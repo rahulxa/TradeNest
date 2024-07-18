@@ -7,7 +7,7 @@ const initialState = {
     chatHistory: []
 }
 
-const chatSlice = createSlice({
+const chatSlice = createSlice({ 
     name: 'chat',
     initialState,
     reducers: {

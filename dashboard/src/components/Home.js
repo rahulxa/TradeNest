@@ -8,6 +8,7 @@ import axios from 'axios';
 import { login } from "../store/authSlice";
 import useFetchUserHoldingsValue from '../hooks/FetchUserHoldingsValue';
 
+
 function Home() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -16,7 +17,6 @@ function Home() {
     const [loading, setLoading] = useState(true);
     const [userId, setUserId] = useState(null);
     const [token, setToken] = useState(null);
-
 
     useFetchUserHoldingsValue(userId, token);
 

@@ -1,14 +1,19 @@
 import React, { useState, useRef, useCallback } from 'react';
 import { VerticalChart } from './VerticalChart';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import SellActionWindow from './SellActionWindow';
+import { changeNavItems } from '../store/navSlice';
 
+ 
 function Holdings() {
+  const dispatch = useDispatch();
   const allHoldings = useSelector((state) => state.data.holdings);
   const { finalProfitLoss, finalProfitLossPercentage, finalCurrentValue, finalInvestment, totalHoldings } = useSelector(state => state.data);
   const [hoveredRow, setHoveredRow] = useState(null);
   const [openSellWindow, setOpenSellWindow] = useState(false);
   const [sellingStockDetails, setSellingStockDetails] = useState(null);
+
+  dispatch(changeNavItems({ currentItem: "holdings" }))
 
 
   const handleSellClick = useCallback((stock) => {
@@ -25,7 +30,7 @@ function Holdings() {
   const labels = allHoldings.map((subArray) => subArray["stockName"]);
 
   const data = {
-    labels, 
+    labels,
     datasets: [
       {
         label: 'Stock Price',

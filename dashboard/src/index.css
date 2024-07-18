@@ -386,24 +386,56 @@ body {
 }
 
 .menu {
-  font-size: 0.8rem;
-  font-weight: 400;
-  color: rgb(70, 70, 70);
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #4a4a4a;
   text-decoration: none;
-  padding: 5px 10px;
-  border-radius: 4px;
-  transition: color 0.3s, background-color 0.3s;
+  padding: 10px 15px;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+  display: inline-block;
+  margin: 0 5px;
+  position: relative;
 }
 
-.menu.selected {
-  color: rgb(245, 104, 52);
-  background-color: rgba(245, 104, 52, 0.1);
+.menu::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background-color: rgb(245, 104, 52);
+  transition: all 0.3s ease;
 }
 
 .menu:hover {
   color: rgb(245, 104, 52);
-  background-color: rgba(245, 104, 52, 0.05);
+  background-color: rgba(245, 104, 52, 0.12);
 }
+
+.menu:hover::after {
+  width: calc(100% - 30px);
+  left: 15px;
+}
+
+.menu-selected {
+  color: rgb(245, 104, 52);
+  background-color: rgba(245, 104, 52, 0.12);
+  position: relative;
+}
+
+.menu-selected::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background-color: rgb(245, 104, 52);
+  transition: all 0.3s ease;
+}
+
 
 .profile {
   display: flex;
@@ -773,7 +805,7 @@ body {
 
 .search-container {
   display: flex;
-  
+
   align-items: center;
   justify-content: space-evenly;
   position: relative;

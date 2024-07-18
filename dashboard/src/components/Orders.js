@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { changeNavItems } from '../store/navSlice';
+
+
 
 function Orders() {
   const userId = useSelector((state) => state.auth.userData?._id);
@@ -8,7 +11,9 @@ function Orders() {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const dispatch = useDispatch();
 
+  dispatch(changeNavItems({ currentItem: "orders" }))
 
   useEffect(() => {
     const fetchOrders = async () => {
