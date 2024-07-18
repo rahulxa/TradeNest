@@ -19,14 +19,36 @@ body {
 .nav-link {
   margin-left: 35px;
   transition: color 0.3s ease, transform 0.3s ease;
+  position: relative;
+  display: inline-block;
+  color: #333;
+  text-decoration: none;
 }
 
 .nav-link:hover {
-  color: #ff4500;
+  color: #007BFF;
+  /* Changed to blue */
   transform: translateY(-2px);
   transition: color 0.3s ease-in-out, transform 0.3s ease-in-out;
-  text-decoration: underline;
 }
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 100%;
+  height: 2px;
+  background-color: #007BFF;
+  /* Changed to blue */
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+
+.nav-link:hover::after {
+  transform: scaleX(1);
+}
+
 
 
 #supportHero {
