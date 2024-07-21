@@ -55,18 +55,8 @@ function SellActionWindow({ stock, onClose }) {
                         Authorization: `Bearer ${accessToken}`
                     }
                 });
-
-
                 setMessage("");
-                if (sellQty === stock.qty) {
-                    setTimeout(() => {
-                        setUpdateTrigger(prev => prev + 1);
-                    }, 2000);
-                    setOrderSuccess(true);
-                } else {
-                    setUpdateTrigger(prev => prev + 1);
-                    setOrderSuccess(true);
-                }
+                setOrderSuccess(true)
             }
         } catch (error) {
             if (error.response.status === 404) {
@@ -78,10 +68,11 @@ function SellActionWindow({ stock, onClose }) {
     };
 
     const handlePopupClose = () => {
+        setUpdateTrigger(prev => prev + 1);
         setTimeout(() => {
             setOrderSuccess(false);
             onClose();
-        }, 500); // 500ms delay
+        }, 500);
     };
 
     return (
