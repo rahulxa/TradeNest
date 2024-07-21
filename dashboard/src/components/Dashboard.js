@@ -5,7 +5,7 @@ import Funds from "./Funds";
 import Holdings from "./Holdings";
 
 import Orders from "./Orders";
-import Positions from "./Positions";
+import News from "./News";
 import Summary from "./Summary";
 import WatchList from "./WatchList";
 import AI from './AI';
@@ -23,7 +23,7 @@ function Dashboard() {
                     <Route exact path="/" element={<Summary />} />
                     <Route path="/orders" element={<Orders />} />
                     <Route path="/holdings" element={<Holdings />} />
-                    <Route path="/positions" element={<Positions />} />
+                    <Route path="/news" element={<News />} />
                     <Route path="/funds" element={<Funds />} />
                     <Route path="/AI" element={<AI />} />
                 </Routes>

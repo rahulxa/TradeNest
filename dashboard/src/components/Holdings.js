@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import SellActionWindow from './SellActionWindow';
 import { changeNavItems } from '../store/navSlice';
 
- 
+
 function Holdings() {
   const dispatch = useDispatch();
   const allHoldings = useSelector((state) => state.data.holdings);
@@ -54,7 +54,7 @@ function Holdings() {
       <div className="d-flex justify-content-between align-items-center mb-5 text-muted">
         <div className="d-flex align-items-center">
           <h4 className="mb-0 row-6">Holdings ({totalHoldings})</h4>
-          <button className=" d-flex align-items-center ms-3" title="Analytics" onClick={scrollToGraph} style={{ fontSize: "14px", backgroundColor: "rgba(230, 83, 80, 0.7)  " }}>
+          <button className=" d-flex align-items-center ms-3 custom-btn" title="Analytics" onClick={scrollToGraph} >
             <span>Analytics</span>
             <i className="fa-solid fa-chart-simple ms-2"></i>
           </button>

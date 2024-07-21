@@ -1,6 +1,7 @@
 import express from "express"
 import bodyParser from "body-parser";
 import cors from "cors"
+
 import cookieParser from "cookie-parser";
 
 
@@ -22,6 +23,8 @@ app.use(bodyParser.json());
 app.use(cookieParser()); //cookies for storing access and refresh tokens
 
 //routes
+
+
 app.use("/api/v1/holdings", holdingsRouter);
 app.use("/api/v1/allPositions", positionsRouter);
 app.use("/api/v1/users", userRouter);

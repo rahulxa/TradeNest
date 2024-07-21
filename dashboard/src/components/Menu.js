@@ -54,10 +54,10 @@ function Menu() {
           </li>
           <li>
             <Link
-              to="/positions"
-              className={currMenu === "positions" ? activeMenuClass : menuClass}
+              to="/news"
+              className={currMenu === "news" ? activeMenuClass : menuClass}
             >
-              Positions
+              News
             </Link>
           </li>
         </ul>
