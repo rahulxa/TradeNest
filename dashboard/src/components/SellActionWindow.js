@@ -21,7 +21,7 @@ function SellActionWindow({ stock, onClose }) {
             setSellPrice((stock.price * sellQty).toFixed(2));
         }
     }, [sellQty, stock.price]);
-
+    
     const placeOrder = async () => {
         try {
             const sellQuantity = Number(sellQty);

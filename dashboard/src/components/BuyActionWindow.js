@@ -45,7 +45,6 @@ function BuyActionWindow({ stockName, onClose, stockPrice, dayChange, avgCost })
             price: newStockPrice, // this is the total price of all the stocks combined
             mode: "Buy"
         };
-        // console.log("order data:", orderData)
         try {
             const orderResponse = await axios.post("http://localhost:3002/api/v1/orders/place-order", orderData, {
                 headers: {
@@ -74,7 +73,6 @@ function BuyActionWindow({ stockName, onClose, stockPrice, dayChange, avgCost })
                     });
 
                     if (holdingsResponse) {
-                        console.log("Holdings created successfully:", holdingsResponse.data.data);
                         setUpdateTrigger(prev => prev + 1);
                     }
                 } catch (error) {

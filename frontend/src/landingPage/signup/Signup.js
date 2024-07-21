@@ -20,7 +20,6 @@ function Signup() {
   const [message, setMessage] = useState(''); // for displaying message
   const [userDetails, setUserDetails] = useState({}); // for autocomplete the login fields when user registers and tries to login
   const [info, setInfo] = useState("");
-  const baseURL = process.env.REACT_APP_BACKEND_URL;
 
 
   const registerUser = async (formData) => {
@@ -34,7 +33,7 @@ function Signup() {
       }
     } catch (error) {
       // console.log(error.response.data.message)
-      setMessage(error.response.data.message); // Display backend error message
+      setMessage(error.response.data.message); 
     }
   };
 
@@ -43,15 +42,13 @@ function Signup() {
       const response = await axios.post("http://localhost:3002/api/v1/users/login", formData);
       console.log("logged in");
       if (response.data.statusCode === 200) {
-        console.log("logged in")
+        // console.log("logged in")
         const userData = response.data.data;
         const accessToken = userData.accessToken;
-        console.log("original access token frontend:", accessToken);
 
         //encryption
         const secretKey = process.env.REACT_APP_SECRET_KEY;
         const encryptedToken = CryptoJS.AES.encrypt(accessToken, secretKey).toString();
-        console.log("encypted access token frontend:", encryptedToken)
 
         setMessage('');
         setUserDetails("")
@@ -61,7 +58,6 @@ function Signup() {
         setInfo("")
       }
     } catch (error) {
-      // console.log("this is the error:", error)
       setInfo("Wrong username or password!!"); // Display frontend error message
     }
   };

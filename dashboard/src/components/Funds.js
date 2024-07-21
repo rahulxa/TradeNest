@@ -2,9 +2,6 @@ import React from 'react'
 
 
 function Funds() {
-    // const data = useSelector((state) => state.auth.userData);
-    // console.log("this is userdata:", data.username)
-
     return (
         <>
             <div className="row" style={{ marginTop: "-20px" }}>

@@ -23,8 +23,6 @@ const generateAccessAndRefreshTokens = async (userid) => {
 const signupUser = asyncHandler(async (req, res) => {
     const { username, email, password } = req.body;
 
-    console.log("username:", username, "password:", password, "email:", email)
-
     //validation for all fields
     if ([, email, password, username].some((feild) => { return feild?.trim() == "" })) {
         throw new ApiError(400, "All feilds are required")
