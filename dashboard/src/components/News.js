@@ -15,13 +15,13 @@ function News() {
 
   const searchParams = [
     ['stock', 'market', 'news'],
-    ['stock', 'exchange', 'updates'],
-    ['economic', 'indicators', 'stocks'],
-    ['investment', 'strategies', 'analysis'],
-    ['corporate', 'earnings', 'reports'],
-    ['market', 'volatility', 'factors'],
     ['commodity', 'prices', 'impact'],
+    ['investment', 'strategies', 'analysis'],
     ['currency', 'exchange', 'rates']
+    ['economic', 'indicators', 'stocks'],
+    ['corporate', 'earnings', 'reports'],
+    ['stock', 'exchange', 'updates'],
+    ['market', 'volatility', 'factors'],
   ];
 
   useEffect(() => {
