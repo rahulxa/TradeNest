@@ -133,17 +133,17 @@ function Holdings() {
 
       <div className="row">
         <div className="col">
-          <h5>{finalInvestment.toFixed(2)}</h5>
+          <h4>{finalInvestment.toFixed(2)}</h4>
           <p>Total Investment</p>
         </div>
         <div className="col">
-          <h5>{finalCurrentValue.toFixed(2)}</h5>
+          <h4>{finalCurrentValue.toFixed(2)}</h4>
           <p>Current value</p>
         </div>
         <div className="col">
-          <h5 style={{ color: finalProfitLoss > 0 ? "#4CAF50" : "red" }}>
+          <h4 style={{ color: finalProfitLoss > 0 ? "#4CAF50" : "red" }}>
             {finalProfitLoss.toFixed(2)} ({finalProfitLossPercentage}%)
-          </h5>
+          </h4>
           <p>P&L</p>
         </div>
       </div>

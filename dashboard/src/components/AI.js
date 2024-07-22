@@ -104,34 +104,33 @@ function AI() {
         setLoading(false);
     }
 
-
     return (
         <div className='container' style={{ maxWidth: "850px", height: "550px" }}>
             <div className="row justify-content-center h-100">
                 <div className="col-12 h-100">
                     <div className="card border-0 shadow-sm h-100" style={{ fontFamily: "sans-serif", borderRadius: "20px", overflow: "hidden" }}>
-                        <div className="card-header text-white py-3" style={{ backgroundColor: "#294eb3" }}>
+                        <div className="card-header text-white py-2" style={{ backgroundColor: "#294eb3" }}>
                             <h5 className="mb-0">TradeIntel AI</h5>
                         </div>
                         <div className="card-body bg-light" style={{ height: 'calc(100% - 130px)', overflowY: 'auto' }}>
                             {previewMessage ? (
                                 <div className="d-flex justify-content-center align-items-center h-100">
                                     <div className="text-center">
-                                        <h4 className='text-muted mb-4'>
+                                        <h5 className='text-muted mb-4'>
                                             Welcome to TradeIntel AI ChatBot
                                             <i className="fa-solid fa-wand-sparkles text-muted" style={{ marginLeft: "8px" }}></i>
-                                        </h4>
-                                        <h5 className='text-muted mb-4'>Start by clicking...</h5>
+                                        </h5>
+                                        <h6 className='text-muted mb-4'>Start by clicking...</h6>
                                         <div>
                                             <button
-                                                className='btn rounded-pill w-100 mb-3 py-2'
+                                                className='btn rounded-pill w-90 mb-3 py-2 '
                                                 onClick={(e) => handlePreviewOptionClick(e.currentTarget.textContent)}
                                             >
                                                 Quick guide: Zerodha Kite basics for efficient trading
                                             </button>
                                             <p className='my-3 text-muted'>or</p>
                                             <button
-                                                className='btn rounded-pill w-100 py-2'
+                                                className='btn rounded-pill w-80 py-2'
                                                 onClick={(e) => handlePreviewOptionClick(e.currentTarget.textContent)}
                                             >
                                                 5 steps to start investing in stocks efficiently
@@ -171,7 +170,7 @@ function AI() {
                             <div className="d-flex align-items-center">
                                 <button
                                     className="btn rounded-circle d-flex justify-content-center align-items-center mr-3 mb-4"
-                                    style={{ width: "50px", height: "50px" }}
+                                    style={{ width: "30px", height: "40px" }}
                                     title="Clear Context"
                                     onClick={handleChatClear}
                                 >
@@ -181,7 +180,7 @@ function AI() {
                                     <div className="input-group">
                                         <input
                                             type="text"
-                                            className="form-control form-control-lg border-0 rounded-pill-left mt-2"
+                                            className="form-control form-control-lg border-0 rounded-pill-left mt-2 fs-6"
                                             value={input}
                                             onChange={(e) => setInput(e.target.value)}
                                             placeholder="Ask me anything..."
@@ -191,7 +190,7 @@ function AI() {
                                         <div className="input-group-append">
                                             <button
                                                 className="btn rounded-circle d-flex justify-content-center align-items-center mr-3 mt-2"
-                                                style={{ width: "50px", height: "50px" }}
+                                                style={{ width: "30px", height: "40px" }}
                                                 title="Send Message"
                                             >
                                                 <i className="fa-solid fa-arrow-right"></i>

@@ -124,7 +124,8 @@ function News() {
                         href={article.url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="btn btn-outline-primary btn-sm"
+                        className="btn btn-outline-primary"
+                        style={{ padding: "0.25rem 0.5rem", fontSize: "0.75rem" }} // Adjusted padding, font size, and border radius
                       >
                         Read more
                       </Card.Link>

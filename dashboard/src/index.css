@@ -197,7 +197,7 @@ body {
   border: none;
   border-radius: 10px;
   padding: 6px 12px;
-  font-size: 12px;
+  font-size: 0.65rem;
   font-weight: bold;
   /* text-transform: uppercase; */
   transition: background-color 0.3s ease;
@@ -360,7 +360,7 @@ body {
 }
 
 .logo-text {
-  font-size: 1rem;
+  font-size: 0.9rem;
   font-weight: bold;
   white-space: nowrap;
 }

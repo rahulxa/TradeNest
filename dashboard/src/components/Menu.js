@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link } from "react-router-dom"
 import Logout from './Logout';
 import { useSelector } from 'react-redux';
@@ -8,7 +8,6 @@ function Menu() {
   const currMenu = useSelector((state) => state.navItems.currentItem)
   const username = userData ? userData.username : '';
   const initials = username.split(' ')[0];
-
   const menuClass = "menu";
   const activeMenuClass = "menu menu-selected";
 
@@ -21,17 +20,22 @@ function Menu() {
       <div className="menus" >
         <ul>
           <li>
+
+          </li>
+          <li>
             <Link
               to="/"
               className={currMenu === "summary" ? activeMenuClass : menuClass}
+              style={{ fontSize: "0.75rem" }}
             >
-              Dashboard
+              Dashboards
             </Link>
           </li>
           <li>
             <Link
               to="/holdings"
               className={currMenu === "holdings" ? activeMenuClass : menuClass}
+              style={{ fontSize: "0.75rem" }}
             >
               Holdings
             </Link>
@@ -40,6 +44,7 @@ function Menu() {
             <Link
               to="/AI"
               className={currMenu === "AI" ? activeMenuClass : menuClass}
+              style={{ fontSize: "0.75rem" }}
             >
               AI<i className="fa-solid fa-wand-sparkles" style={{ marginLeft: "4px" }}></i>
             </Link>
@@ -48,6 +53,7 @@ function Menu() {
             <Link
               to="/orders"
               className={currMenu === "orders" ? activeMenuClass : menuClass}
+              style={{ fontSize: "0.75rem" }}
             >
               Orders
             </Link>
@@ -56,6 +62,7 @@ function Menu() {
             <Link
               to="/news"
               className={currMenu === "news" ? activeMenuClass : menuClass}
+              style={{ fontSize: "0.75rem" }}
             >
               News
             </Link>

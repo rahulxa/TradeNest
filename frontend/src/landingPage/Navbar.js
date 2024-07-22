@@ -13,7 +13,7 @@ function Navbar() {
         </button>
         <div className="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
           <ul className="navbar-nav">
-            <li className="nav-item mx-3">
+            <li className="nav-item mx-3 ">
               <Link className="nav-link p-2 rounded" to="/signup">Login/Signup</Link>
             </li>
             <li className="nav-item mx-3">
