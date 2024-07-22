@@ -13,7 +13,7 @@ function Menu() {
   const activeMenuClass = "menu menu-selected";
 
   return (
-    <div className="menu-container mt-3" style={{ marginRight: "-200px" }}>
+    <div className="menu-container mt-1" style={{ marginRight: "-200px" }}>
       <div className="logo-section">
         <img src="logo.png" className="logo" alt="Kite logo" />
         <span className="logo-text">Kite</span>

@@ -61,10 +61,10 @@ function WatchList() {
 
       <div className="container mt-2">
         <div className="row">
-          <div className="col-4">
+          <div className="col-5">
             <strong>(Stock Name)</strong>
           </div>
-          <div className="col-2" style={{ marginLeft: "10px" }}>
+          <div className="col-2" >
             <strong>(LTP)</strong>
           </div>
           <div className="col-3" style={{ marginLeft: "5px" }}>

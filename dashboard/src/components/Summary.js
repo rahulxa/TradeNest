@@ -29,10 +29,10 @@ function Summary() {
       </div>
 
       <div className="card equity-card">
-        <h4><FaWallet className="icon" /> Equity</h4>
+        <h5><FaWallet className="icon" /> Equity</h5>
         <div className="card-content">
           <div className="main-info">
-            <h4 className='text-muted'>{formatCurrency(equity)}</h4>
+            <h4 className='text-muted fs-5'>{formatCurrency(equity)}</h4>
             <p className='text-muted'>Equity Value</p>
           </div>
           <div className="additional-info">
@@ -43,10 +43,10 @@ function Summary() {
       </div>
 
       <div className="card holdings-card">
-        <h4 ><FaChartLine className="icon" /> Holdings ({totalHoldings})</h4>
+        <h5 ><FaChartLine className="icon" /> Holdings ({totalHoldings})</h5>
         <div className="card-content">
           <div className="main-info">
-            <h4 className={finalProfitLoss > 0 ? "profit" : "loss"} >
+            <h4 className={`${finalProfitLoss > 0 ? "profit" : "loss"} fs-5`}>
               {formatCurrency(finalProfitLoss)}
               <small>
                 {finalProfitLoss > 0 ? <FaArrowUp className="arrow" /> : <FaArrowDown className="arrow" />}
@@ -64,18 +64,18 @@ function Summary() {
 
       <div className="quick-stats mt-3">
         <div className="stat-item">
-          <h5>Day's Change</h5>
+          <h5 className='fs-6'>Day's Change</h5>
           <p className={finalProfitLoss > 0 ? "profit" : "loss"}>
             {finalProfitLoss > 0 ? '+' : '-'}{formatCurrency(Math.abs(finalProfitLoss / 30))}
           </p>
         </div>
         <div className="stat-item">
-          <h5>Portfolio Diversity</h5>
+          <h5 className='fs-6'>Portfolio Diversity</h5>
           <p>{totalHoldings} stocks</p>
         </div>
         <div className="stat-item">
-          <h5>Yearly Returns</h5>
-          <p className={finalProfitLossPercentage > 0 ? "profit" : "loss"}>
+          <h5 className='fs-6'>Yearly Returns</h5>
+          <p className={`${finalProfitLossPercentage > 0 ? "profit" : "loss"} fs-6`}>
             {finalProfitLossPercentage > 0 ? '+' : '-'}{Math.abs(finalProfitLossPercentage * 12).toFixed(2)}%
           </p>
         </div>

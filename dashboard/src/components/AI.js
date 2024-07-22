@@ -106,7 +106,7 @@ function AI() {
 
 
     return (
-        <div className='container' style={{ maxWidth: "1100px", height: "600px" }}>
+        <div className='container' style={{ maxWidth: "850px", height: "550px" }}>
             <div className="row justify-content-center h-100">
                 <div className="col-12 h-100">
                     <div className="card border-0 shadow-sm h-100" style={{ fontFamily: "sans-serif", borderRadius: "20px", overflow: "hidden" }}>
