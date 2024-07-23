@@ -70,15 +70,15 @@ function News() {
   };
 
   return (
-    <Container fluid className="py-1 bg-light" style={{ marginTop: "-30px" }}>
-      <Row className="justify-content-center mb-4">
+    <Container fluid className="py-4 bg-light">
+      <Row className="justify-content-center mb-3 mt-0">
         <Col xs="auto">
-          <h2 className="text-center text-primary border-bottom pb-2 d-inline-block mt-0">
+          <h2 className="text-center text-primary border-bottom pb-2 mb-3" style={{ fontSize: '1.8rem', fontWeight: 'bold' }}>
             Latest Financial News
           </h2>
         </Col>
       </Row>
-      <Row style={{ marginTop: "-20px" }}>
+      <Row>
         <Col>
           {loading ? (
             <div className="text-center my-5">
@@ -89,43 +89,55 @@ function News() {
           ) : error ? (
             <Alert variant="danger">{error}</Alert>
           ) : (
-            <Row xs={1} md={2} lg={3} className="g-4">
+            <Row xs={1} md={2} lg={3} className="g-3 mt-0" style={{ marginLeft: "10px" }}>
               {news.map((article, index) => (
-                <Col key={index}>
+                <Col key={index} className="d-flex">
                   <Card
-                    className="h-100 border-0 shadow-sm"
+                    className="flex-grow-1 border-0 shadow-lg d-flex flex-column"
                     style={{
-                      transition: 'all 0.3s ease-in-out'
+                      transition: 'transform 0.3s ease, box-shadow 0.3s ease',
+                      borderRadius: '0.5rem',
+                      overflow: 'hidden',
+                      height: '450px', // Fixed height for all cards
+                      width: '100%' // Ensure full width within the column
                     }}
                     onMouseEnter={(e) => {
-                      e.currentTarget.style.transform = 'translateY(-5px)';
-                      e.currentTarget.style.boxShadow = '0 0.5rem 1rem rgba(0, 0, 0, 0.15)';
+                      e.currentTarget.style.transform = 'translateY(-10px)';
+                      e.currentTarget.style.boxShadow = '0 10px 20px rgba(0, 0, 0, 0.2)';
                     }}
                     onMouseLeave={(e) => {
                       e.currentTarget.style.transform = 'translateY(0)';
-                      e.currentTarget.style.boxShadow = '0 0.125rem 0.25rem rgba(0, 0, 0, 0.075)';
+                      e.currentTarget.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.1)';
                     }}
                   >
                     {article.image_url && (
-                      <Card.Img
-                        variant="top"
-                        src={article.image_url}
-                        alt={article.title}
-                        style={{ height: '200px', objectFit: 'cover' }}
-                      />
+                      <div style={{ height: '200px', overflow: 'hidden' }}>
+                        <Card.Img
+                          variant="top"
+                          src={article.image_url}
+                          alt={article.title}
+                          style={{ objectFit: 'cover', height: '100%', width: '100%' }}
+                        />
+                      </div>
                     )}
-                    <Card.Body>
-                      <Card.Title className="h5 mb-3">{article.title}</Card.Title>
-                      <Card.Text className="text-muted">{article.description}</Card.Text>
+                    <Card.Body className="d-flex flex-column" style={{ overflow: 'hidden' }}>
+                      <Card.Title className="h5 mb-3 text-dark" style={{ overflow: 'hidden', textOverflow: 'ellipsis', display: '-webkit-box', WebkitLineClamp: 4, WebkitBoxOrient: 'vertical' }}>
+                        {article.title}
+                      </Card.Title>
+                      <Card.Text className="text-muted" style={{ overflow: 'hidden', textOverflow: 'ellipsis', display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical' }}>
+                        {article.description}
+                      </Card.Text>
+                      <div className="mt-auto">
+                        <small className="text-muted">{formatDate(article.published_at)}</small>
+                      </div>
                     </Card.Body>
                     <Card.Footer className="bg-white border-0 d-flex justify-content-between align-items-center">
-                      <small className="text-muted">{formatDate(article.published_at)}</small>
                       <Card.Link
                         href={article.url}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="btn btn-outline-primary"
-                        style={{ padding: "0.25rem 0.5rem", fontSize: "0.75rem" }} // Adjusted padding, font size, and border radius
+                        style={{ padding: "0.25rem 0.75rem", fontSize: "0.75rem" }}
                       >
                         Read more
                       </Card.Link>

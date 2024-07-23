@@ -28,7 +28,7 @@ function Menu() {
               className={currMenu === "summary" ? activeMenuClass : menuClass}
               style={{ fontSize: "0.75rem" }}
             >
-              Dashboards
+              Dashboard
             </Link>
           </li>
           <li>

@@ -62,10 +62,10 @@ function WatchList() {
       <div className="container mt-2">
         <div className="row">
           <div className="col-5">
-            <strong>(Stock Name)</strong>
+            <strong>Stock Name</strong>
           </div>
           <div className="col-2" >
-            <strong>(LTP)</strong>
+            <strong>LTP</strong>
           </div>
           <div className="col-3" style={{ marginLeft: "5px" }}>
             <strong>Avg Cost</strong>
@@ -164,16 +164,6 @@ function WatchListActions({ uid, stockPrice, dayChange, avgCost, scrollToChart }
             >
               <button className='action' onClick={scrollToChart}>
                 <BarChartOutlined className='icon' />
-              </button>
-            </Tooltip>
-            <Tooltip
-              title="More"
-              placement='top'
-              arrow
-              TransitionComponent={Grow}
-            >
-              <button className='action'>
-                <MoreHoriz className='icon' />
               </button>
             </Tooltip>
           </span>

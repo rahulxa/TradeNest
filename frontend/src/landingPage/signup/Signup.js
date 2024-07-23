@@ -105,7 +105,7 @@ function Signup() {
             }}>
               <Box sx={{ p: 3 }}> {/* Reduced padding from 4 to 3 */}
                 <Typography component="h1" variant="h5" align="center" gutterBottom> {/* Changed variant from h4 to h5 */}
-                  {signup ? 'Create Account' : 'Welcome Back'}
+                  {signup ? 'Create Account' : 'Welcome Back!'}
                 </Typography>
                 <Typography variant="body2" align="center" color="textSecondary" paragraph> {/* Changed variant from body1 to body2 */}
                   {signup ? 'Join our community today!' : 'Sign in to your account'}
