@@ -34,7 +34,7 @@ const signupUser = asyncHandler(async (req, res) => {
     });
 
     if (existingUser) {
-        throw new ApiError(404, "User with this username or email already exists, if you already have an account please login to continue!")
+        throw new ApiError(409, "User with this username or email already exists, if you already have an account please login to continue!")
     }
 
     const user = await User.create({
@@ -64,7 +64,7 @@ const loginUser = asyncHandler(async (req, res) => {
 
     const user = await User.findOne({ username });
 
-    if (!user) {
+    if (!user) {    
         throw new ApiError(404, "User does not exists")
     }
 

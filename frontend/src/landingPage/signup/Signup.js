@@ -29,22 +29,28 @@ function Signup() {
   const dispatch = useDispatch();
   const [showPassword, setShowPassword] = useState(false);
   const [signup, setSignup] = useState(false);
-  const { register, handleSubmit, reset } = useForm();
+  const { register, handleSubmit, reset, setValue } = useForm();
   const [message, setMessage] = useState('');
-  const [userDetails, setUserDetails] = useState({});
   const [info, setInfo] = useState("");
 
   const registerUser = async (formData) => {
     try {
       const response = await axios.post("http://localhost:3002/api/v1/users/create-account", formData);
-      if (response.data.statusCode === 200) {
+      console.log("this is response", response);
+
+      if (response.status === 200) {
         setMessage('Account created Successfully! Please Login to continue');
-        setUserDetails(formData);
         reset();
         setSignup(false);
+        setValue('username', formData.username);
+        setValue('password', formData.password);
       }
     } catch (error) {
-      setMessage(error.response.data.message);
+      if (error.response && error.response.status === 409) {
+        setMessage('Username or email already taken. Please try a different one');
+      } else {
+        setMessage('An error occurred. Please try again.');
+      }
     }
   };
 
@@ -59,7 +65,6 @@ function Signup() {
         const encryptedToken = CryptoJS.AES.encrypt(accessToken, secretKey).toString();
 
         setMessage('');
-        setUserDetails("");
         dispatch(login({ userData: response.data }));
         window.location.href = `http://localhost:3001/?token=${encodeURIComponent(encryptedToken)}`;
         reset();
@@ -68,6 +73,13 @@ function Signup() {
     } catch (error) {
       setInfo("Wrong username or password!");
     }
+  };
+
+  const toggleSignup = () => {
+    setSignup(!signup);
+    setMessage('');
+    setInfo('');
+    reset();
   };
 
   const handleClickShowPassword = () => setShowPassword(!showPassword);
@@ -101,23 +113,23 @@ function Signup() {
               display: 'flex',
               flexDirection: 'column',
               justifyContent: 'center',
-              maxHeight: '600px', // Add this line to limit the maximum height
+              maxHeight: '600px',
             }}>
-              <Box sx={{ p: 3 }}> {/* Reduced padding from 4 to 3 */}
-                <Typography component="h1" variant="h5" align="center" gutterBottom> {/* Changed variant from h4 to h5 */}
+              <Box sx={{ p: 3 }}>
+                <Typography component="h1" variant="h5" align="center" gutterBottom>
                   {signup ? 'Create Account' : 'Welcome Back!'}
                 </Typography>
-                <Typography variant="body2" align="center" color="textSecondary" paragraph> {/* Changed variant from body1 to body2 */}
+                <Typography variant="body2" align="center" color="textSecondary" paragraph>
                   {signup ? 'Join our community today!' : 'Sign in to your account'}
                 </Typography>
                 {message && (
-                  <Typography variant="body2" color="success.main" align="center" sx={{ mt: 1 }}> {/* Reduced top margin */}
+                  <Typography variant="body2" color="success.main" align="center" sx={{ mt: 1 }}>
                     {message}
                   </Typography>
                 )}
-                <Box component="form" noValidate onSubmit={handleSubmit(signup ? registerUser : loginUser)} sx={{ mt: 2 }}> {/* Reduced top margin */}
+                <Box component="form" noValidate onSubmit={handleSubmit(signup ? registerUser : loginUser)} sx={{ mt: 2 }}>
                   <TextField
-                    margin="dense" // Changed from normal to dense
+                    margin="dense"
                     required
                     fullWidth
                     id="username"
@@ -125,7 +137,6 @@ function Signup() {
                     name="username"
                     autoComplete="username"
                     autoFocus
-                    defaultValue={userDetails.username || ''}
                     {...register('username', { required: true })}
                     InputProps={{
                       startAdornment: (
@@ -137,7 +148,7 @@ function Signup() {
                   />
                   {signup && (
                     <TextField
-                      margin="dense" // Changed from normal to dense
+                      margin="dense"
                       required
                       fullWidth
                       id="email"
@@ -155,7 +166,7 @@ function Signup() {
                     />
                   )}
                   <TextField
-                    margin="dense" // Changed from normal to dense
+                    margin="dense"
                     required
                     fullWidth
                     name="password"
@@ -163,7 +174,6 @@ function Signup() {
                     type={showPassword ? 'text' : 'password'}
                     id="password"
                     autoComplete="current-password"
-                    defaultValue={userDetails.password || ''}
                     {...register('password', { required: true })}
                     InputProps={{
                       startAdornment: (
@@ -188,11 +198,11 @@ function Signup() {
                     type="submit"
                     fullWidth
                     variant="contained"
-                    sx={{ mt: 2, mb: 1, borderRadius: '25px', height: '40px' }} // Reduced margins and height
+                    sx={{ mt: 2, mb: 1, borderRadius: '25px', height: '40px' }}
                   >
                     {signup ? 'Create Account' : 'Login'}
                   </Button>
-                  <Box sx={{ mt: 1, textAlign: 'center' }}> {/* Reduced top margin */}
+                  <Box sx={{ mt: 1, textAlign: 'center' }}>
                     <Typography variant="body2" color="textSecondary">
                       {signup ? 'Already have an account?' : (info || 'Don\'t have an account?')}
                     </Typography>
@@ -201,7 +211,7 @@ function Signup() {
                       size="small"
                       variant="outlined"
                       sx={{ mt: 1, borderRadius: '20px' }}
-                      onClick={() => setSignup(!signup)}
+                      onClick={toggleSignup}
                     >
                       {signup ? 'Login' : 'Create account now'}
                     </Button>
